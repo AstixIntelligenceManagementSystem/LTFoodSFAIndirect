@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#a75912</color>
+    <color name="colorPrimaryDark">#77400d</color>
+    <color name="colorAccent">#a75912</color>
+
+
+
+
+
+    <color name="my_color">#fff</color>
+    <color name="primaryColorDark">#25c</color>
+    <color name="primaryDarkColor">#FF77400D</color>
+    <color name="storelisttopcolor">#77400d</color>
+    <color name="radiocolor">#a75912</color>
+
+
+    <color name="transparent">#000000</color>
+    <color name="tab_highlight">#ec7609</color>
+
+    <color name="bg_gradient_start">#77400d</color>
+    <color name="bg_gradient_end">#77400d</color>
+    <color name="bg_button_login">#1D394C</color>
+
+
+    <color name="primary_text">#212121</color>
+    <color name="primary_color">#d27116</color>
+
+    <color
+        name="white">#FFFFFF</color>
+    <color
+        name="black">#000000</color>
+    <color
+        name="prt_color">#74C543</color>
+    <color
+        name="prt_color_border">#68B638</color>
+    <color
+        name="tablecolor">#87ABED</color>
+    <color
+        name="graycolor">#D7D7D7</color>
+
+
+    <color
+        name="green_submitted">#2E7D32</color>
+    <color
+        name="sky_color">#72C6F7</color>
+
+    <!--<color name="my_color">#000</color>-->
+
+    <color
+        name="symptom_color_selected">#77400d</color>
+
+    <color
+        name="reaction_color_selected">#77400d</color>
+    <color name="static_text_color">#77400d</color>
+    <color name="journal_entry_listitem_text_color">#77400d</color>
+    <color name="note_text_disabled">#333333</color>
+
+
+
+
+<!--<color name="radioBtn">#e77c1d</color>-->
+
+    <color name="radioBtnPcs">#e22121</color>
+    <color name="radioBtnKg">#0288D1</color>
+
+    <color name="blue">#965418</color>
+</resources>

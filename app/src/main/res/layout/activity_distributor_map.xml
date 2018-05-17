@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_distributor_map"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="project.astix.com.ltfoodsfaindirect.DistributorMapActivity">
+
+   <!-- <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#a25611"
+
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextAppearance="@style/Toolbar.TitleText" >
+
+        <ImageView
+            android:id="@+id/img_back_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:paddingRight="10dp"
+            android:src="@drawable/ic_back"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:visibility="visible"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:text="Map Distributor"/>
+
+        <ImageView
+            android:id="@+id/logoutIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingRight="10dp"
+            android:visibility="invisible"
+            android:src="@drawable/logout30"
+            android:textSize="15sp" />
+
+    </android.support.v7.widget.Toolbar>
+-->
+
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:background="@drawable/custom_header">
+
+                <ImageView
+                    android:id="@+id/img_back_Btn"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.20"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_back" />
+
+                <TextView   android:id="@+id/bardd"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.60"
+                    android:text="Map Distributor"
+                    android:textStyle="bold"
+
+                    android:textColor="#ffffff"
+                    android:typeface="normal"
+                    android:paddingLeft="10dp"
+                    android:gravity="center"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/imgVw_logout"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.20"
+                    android:visibility="invisible"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="5dp"
+                    android:src="@drawable/logout_new" />
+
+            </LinearLayout>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.07"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/spinner_for_filter"
+        android:visibility="visible"
+        android:background="@drawable/spinner_distribtr_bckgrnd"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.20"
+            android:padding="2dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.10"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.20"
+                    android:text="GST"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    />
+
+                <RadioGroup
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.70"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_weight="0.80"
+                        android:layout_height="match_parent"
+                        android:text="Yes"
+                        android:id="@+id/rb_gstYes"
+                        android:textSize="14sp"
+                        android:padding="5dp"/>
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_weight="0.80"
+                        android:layout_height="match_parent"
+                        android:text="No"
+                        android:id="@+id/rb_gstNo"
+                        android:textSize="14sp"
+
+                        android:padding="5dp"/>
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:text="Pending"
+                        android:textSize="14sp"
+                        android:id="@+id/rb_gstPending"
+                        android:padding="5dp"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.10"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:id="@+id/et_gstNo"
+                android:visibility="visible"
+                android:padding="2dp"
+                android:textSize="13sp"
+                android:hint="Enter Gst No."/>
+
+        </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/shadow_with_5dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ll_locationDetails"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.90"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/fragmentForm"
+
+                android:orientation="vertical"
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:id="@+id/ll_map"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_height="250dp"
+
+
+                    />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.10"
+        android:padding="4dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:background="@drawable/custom_button"
+            android:textSize="14sp"/>
+        </LinearLayout>
+
+</LinearLayout>

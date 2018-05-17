@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="project.astix.com.ltfoodsfaindirect">
+
+    <uses-sdk android:minSdkVersion="14" />
+
+    <!-- GCM Permissions - End here -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <permission
+        android:name="project.astix.com.ltfoodsfaindirect.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <!-- Permission to access data from network provider -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <!-- Permission for receiveing GCM message -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Permission to get the Gmail account(This is required only if you are developing application for lower than android version 4.0) -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_VIDEO" />
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE"></uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ltfood_logo"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <receiver
+            android:name=".BroadcastReceiverOnBootComplete"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".FeedbackCompetitorActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".LauncherActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".CheckDatabaseData"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".StoreSelection"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_store_selection"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".LastVisitDetails"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_last_visit_details"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".LastVisitDetailsSecondPart"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_last_visit_details"
+            android:screenOrientation="portrait"></activity>
+        <!--
+        <activity
+            android:name=".POSMaterialActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustNothing" >
+        </activity>
+        -->
+        <!--
+        <activity
+            android:name=".ProductOrderSearch"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustNothing" >
+        </activity>
+        -->
+
+        <activity
+            android:name=".ProductOrderFilterSearch"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".DistributorEntryActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".TargetVsAchievedActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".OrderReview"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"></activity>
+        <activity
+            android:name=".ReturnActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".SyncMaster"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".InvoiceSyncMaster"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"></activity>
+        <!--
+        <activity
+            android:name=".My_Summary"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_stores_summary"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        -->
+        <!--
+        <activity
+            android:name=".My_Summary_ByTab"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_stores_summary"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        -->
+        <activity
+            android:name=".SKUWiseSummaryReport_ByTab"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_stores_summary"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyThemeTabWithdarktext"></activity>
+        <activity
+            android:name=".SKUWiseSummaryReportMTD"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_stores_summary"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+        <activity
+            android:name=".StoreWiseSummaryReportMTD"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_stores_summary"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+        <activity
+            android:name=".StoreAndSKUWiseSummaryReportMTD"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_stores_summary"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+        <activity
+            android:name=".StoreWiseSummaryReport_ByTab"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_stores_summary"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyThemeTabWithdarktext"></activity>
+        <activity
+            android:name=".StoreAndSKUWiseSummaryReport_ByTab"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_stores_summary"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyThemeTabWithdarktext"></activity>
+        <activity
+            android:name=".DetailReport_Activity"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_stores_summary"
+            android:screenOrientation="portrait"></activity>
+        <!--
+        <activity
+            android:name=".Add_New_Store"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_add_store"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".Add_New_Store_NewFormat"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_add_store"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        -->
+        <!--
+        <activity
+            android:name=".Stock_Submit"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_add_store"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".New_Stock_Submit"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_return"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        -->
+        <activity
+            android:name=".InvoiceStoreSelection"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_return"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".InvoiceProductList"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_return"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <!--
+        <activity
+            android:name=".WebPageActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_return"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+        </activity>
+        -->
+
+
+        <!--
+        <service
+            android:name="com.astix.sfatju.Location_Getting_Service"
+            android:enabled="true" >
+        </service>
+
+        <activity
+            android:name="com.astix.sfatju.GetLock"
+            android:label="@string/title_activity_get_lock" >
+        </activity>
+        <activity
+            android:name="com.astix.sfatju.PicMgr"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/title_activity_pic_mgr"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        -->
+        <!--
+        <activity
+            android:name="com.astix.sfatju.MapSunilActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.astix.sfatju.JSONParser"
+            android:label="@string/app_name" >
+        </activity>
+
+        <service
+            android:name="com.astix.sfatju.GPSTrackerService"
+            android:enabled="true" />
+        <service
+            android:name="com.astix.sfatju.FusedTrackerService"
+            android:enabled="true" />
+        -->
+        <!-- Goolge API Key -->
+        <!--
+                <meta-data
+               android:name="com.google.android.maps.v2.API_KEY"
+               android:value="AIzaSyAzpyoQozRjzBR39LcKWhCn8M9Qwp-aNac" />
+        -->
+        <!-- android:value="AIzaSyB-0zXRgQOO6UXY7r5oQEuSp8d1YObPlu4" -->
+        <!-- Debugging key -->
+        <!-- android:value="AIzaSyC6q9cMRezVxHVVXODisV8H9hqjEecH5cM" -->
+        <!-- Releasing key -->
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!-- Home Activity -->
+
+        <activity
+            android:name="com.example.gcm.HomeActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/app_name"
+            android:noHistory="true"></activity>
+        <activity
+            android:name="com.example.gcm.NotificationActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Add_New_Store_DynamicSectionWise"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+        <!-- Register Broadcast receiver -->
+
+        <receiver
+            android:name="com.example.gcm.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Register Service -->
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <service
+            android:name=".AppLocationService"
+            android:enabled="true" />
+        <service android:name="com.example.gcm.GCMNotificationIntentService" />
+
+        <activity
+            android:name=".ViewAddedStore"
+            android:label="@string/title_activity_view_added_store"></activity>
+        <activity
+            android:name=".AddNewStore_DynamicSectionWise"
+            android:label="@string/title_activity_view_added_store"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".QuotationActivity"
+            android:label="@string/title_activity_quotation"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyThemeTab">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".Delivery_Details_New_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StorelistTheme"></activity>
+        <activity
+            android:name=".Delivery_Details_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/detailActivityTheme"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDhCnGgorCWBrt0p2vHXqAKeBvlcV4hiDY" />
+
+        <service
+            android:name=".GeocodeAddressIntentService"
+            android:exported="false" />
+
+        <activity android:name=".SalesValueTarget" />
+        <activity android:name=".IncentiveActivity" />
+        <activity android:name=".DetailReportSummaryActivity" />
+        <activity android:name=".AllButtonActivity" />
+        <activity android:name=".VideoPlayerActivityForStore"
+            android:theme="@style/detailActivityTheme" />
+        <activity android:name=".RegistrationActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait" ></activity>
+        <activity
+            android:name=".CollectionActivityNew"
+            android:screenOrientation="portrait"></activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="project.astix.com.ltfoodsfaindirect.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity android:name=".DialogDayEndSummaryActivity"
+            android:theme="@style/DayEndDialogTheme"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".AddedOutletSummaryReportActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ActualVisitStock"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".SyncRegistrationDetails"
+            android:configChanges="orientation|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"></activity>
+    </application>
+
+</manifest>

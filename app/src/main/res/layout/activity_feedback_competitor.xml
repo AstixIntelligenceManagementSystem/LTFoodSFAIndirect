@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_special_remarks"
+    android:layout_width="match_parent"
+    android:background="@android:color/transparent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:id="@+id/ll_header"
+    android:background="@drawable/custom_header_color">
+
+    <ImageView
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_back"/>
+
+
+    <TextView
+        android:id="@+id/bardd"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:text="Competitor"
+        android:textStyle="bold"
+        android:textColor="#ffffff"
+        android:typeface="normal"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:layout_weight="1.5"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="3dp"
+        android:visibility="invisible"
+        android:src="@drawable/ic_back"/>
+
+
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="3dp"
+        android:id="@+id/llnewhead"
+        android:layout_below="@+id/ll_header">
+
+        <TextView
+            android:id="@+id/head"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Competitors Fighting for Account"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:typeface="normal"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_weight="1.5"
+            android:visibility="gone"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llnewhead"
+        android:layout_above="@+id/btn_save"
+        android:background="@drawable/shadow_deep_orng"
+        android:id="@+id/linearLayout">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/ll_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/linearLayout"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical"
+                android:padding="3dp">
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:textSize="14sp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/custom_button"
+        android:textAllCaps="false" />
+
+</RelativeLayout>

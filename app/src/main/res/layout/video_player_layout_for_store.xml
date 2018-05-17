@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#000"
+   >
+
+    <VideoView
+        android:id="@+id/videoView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="10dp"
+        android:padding="10dp"
+        android:id="@+id/ll_parentOfThumnail"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="#fff"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:textColor="#c74e12"
+            android:text="Please click on image below to show company  video to retailer or click skip to proceed to order booking form without showing video"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="150dp"
+            android:background="@drawable/photo_frame_boundary"
+android:id="@+id/imageThumnail"
+           android:layout_gravity="center"
+            android:scaleType="fitXY"
+            android:layout_height="150dp" />
+        <Button
+            android:id="@+id/btnSkip"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SKIP VIDEO"
+            android:layout_marginTop="10dp"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:layout_alignParentBottom="true"
+            android:textColor="#c74e12"
+            android:background="#00000000"
+            />
+
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnNextDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SKIP"
+        android:layout_marginTop="2dp"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:layout_alignParentBottom="true"
+        android:textColor="#ffffff"
+        android:background="#20000000"
+        />
+
+</RelativeLayout>

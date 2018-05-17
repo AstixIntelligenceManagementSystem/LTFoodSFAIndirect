@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/mainImg"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/banner1"
+        android:layout_below="@+id/bardd"
+        />
+
+
+
+    <Button android:id="@+id/play_video"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/alert_text_background"
+        android:textColor="#000000"
+        android:text="View Video"
+        android:gravity="left|center_vertical"
+        android:drawableRight="@drawable/ic_right2"
+        android:textSize="14sp"/>
+
+    <Button
+        android:id="@+id/open_PDF"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/alert_text_background"
+        android:textColor="#000000"
+        android:gravity="left|center_vertical"
+        android:drawableRight="@drawable/ic_right2"
+        android:textSize="14sp"
+        android:visibility="visible"
+        android:text="Sales Detailer"
+
+        />
+
+
+
+</LinearLayout>
