@@ -219,6 +219,7 @@ public class CommonInfo
 	// Its for Development  Path on 194 server for SFA
 
 
+
 /*
 
    	    public static File imageF_savedInstance=null;
@@ -280,23 +281,14 @@ public class CommonInfo
 	    public static String ActiveRouteSM="0";
 
 
-
 */
 
 
 
 
 
+
 // Its for Test Release  Path on 194 server for SFA
-
-
-
-
-
-
-
-
-
 
 
 
@@ -326,8 +318,8 @@ public class CommonInfo
 
 	public static int AnyVisit = 0;
 
-	public static int DATABASE_VERSIONID = 60;      // put this field value based on value in table on the server
-	public static String AppVersionID = "1.12";   // put this field value based on value in table on the server
+	public static int DATABASE_VERSIONID = 62;      // put this field value based on value in table on the server
+	public static String AppVersionID = "1.13";   // put this field value based on value in table on the server
 	public static int Application_TypeID = 2; //1=Parag Store Mapping,2=Parag SFA Indirect,3=Parag SFA Direct
 
 	public static String OrderSyncPath="http://103.20.212.194/ReadXML_LTFoodsTestRelease/DefaultSFA.aspx";
@@ -357,6 +349,7 @@ public class CommonInfo
 	public static String activityFrom="AllButtonActivity";
 
 	public static String ActiveRouteSM="0";
+
 
 
 
