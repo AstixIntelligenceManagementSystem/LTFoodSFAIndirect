@@ -3667,11 +3667,12 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 	Double gram = Double.parseDouble(hmapProductOverAllVolume.get(PRODUCT_ID));
 	String kilogram ="" +( ((gram * 0.001)) * Double.parseDouble(mMoney));
 	Double DtotalOverallKGSales =  Double.parseDouble(kilogram);
+	hmapProductStandardRate.put(PRODUCT_ID, ""+DtotalOverallKGSales);
 	DtotalOverallKGSales= Double.parseDouble(new DecimalFormat("##.##").format(DtotalOverallKGSales));
 
 	//	((EditText) ll_prdct_detal.findViewWithTag("tvRate" + "_" + PRODUCT_ID)).setFocusable(false);
 	hmapProductIDAvgPricePerUnit.put(PRODUCT_ID,""+Double.parseDouble(mMoney));// );
-	hmapProductStandardRate.put(PRODUCT_ID, ""+mMoney);
+
 	String myrt=((EditText) ll_prdct_detal.findViewWithTag("tvRate"+"_"+PRODUCT_ID)).getText().toString().equals("") ? "0":((EditText) ll_prdct_detal.findViewWithTag("tvRate"+"_"+PRODUCT_ID)).getText().toString();
 	//String myrt=((EditText) ll_prdct_detal.findViewWithTag("tvRate"+"_"+PRODUCT_ID)).getText().toString();
 	((EditText) ll_prdct_detal.findViewWithTag("tvRate" + "_" + PRODUCT_ID)).removeTextChangedListener(getTextWatcher(((EditText) ll_prdct_detal.findViewWithTag("tvRate" + "_" + PRODUCT_ID))));

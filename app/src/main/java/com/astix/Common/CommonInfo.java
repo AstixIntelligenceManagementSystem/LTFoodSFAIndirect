@@ -222,6 +222,7 @@ public class CommonInfo
 
 /*
 
+
    	    public static File imageF_savedInstance=null;
 	    public static String imageName_savedInstance=null;
 	    public static String clickedTagPhoto_savedInstance=null;
@@ -280,7 +281,6 @@ public class CommonInfo
 
 	    public static String ActiveRouteSM="0";
 
-
 */
 
 
@@ -288,7 +288,9 @@ public class CommonInfo
 
 
 
+
 // Its for Test Release  Path on 194 server for SFA
+
 
 
 
@@ -349,6 +351,7 @@ public class CommonInfo
 	public static String activityFrom="AllButtonActivity";
 
 	public static String ActiveRouteSM="0";
+
 
 
 
