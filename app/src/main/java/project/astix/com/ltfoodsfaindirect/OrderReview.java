@@ -3070,10 +3070,21 @@ public void loadPurchaseProductDefault()
 		/*	text_after_tax_pcs.setText(ProductValuesToFill.split(Pattern.quote("^"))[12].toString());
 			txt_rate_after_tax_kg.setText(ProductValuesToFill.split(Pattern.quote("^"))[13].toString());*/
 
-			String after_tax_pcs=""+(Double.parseDouble(ProductValuesToFill.split(Pattern.quote("^"))[12].toString())-Double.parseDouble(ProductValuesToFill.split(Pattern.quote("^"))[10].toString()));
+
+			Double after_tax_pcs=(Double.parseDouble(ProductValuesToFill.split(Pattern.quote("^"))[12].toString())-Double.parseDouble(ProductValuesToFill.split(Pattern.quote("^"))[10].toString()));
+			Double after_tax_kg=(Double.parseDouble(ProductValuesToFill.split(Pattern.quote("^"))[13].toString())-Double.parseDouble(ProductValuesToFill.split(Pattern.quote("^"))[11].toString()));
+
+			//nitishdubey15
+			Double fnlAfter_tax_pcs=Double.parseDouble(new DecimalFormat("##.##").format(after_tax_pcs));
+			Double fnlAfter_tax_kg=Double.parseDouble(new DecimalFormat("##.##").format(after_tax_pcs));
+			text_after_tax_pcs.setText(""+fnlAfter_tax_pcs);
+			txt_rate_after_tax_kg.setText(""+fnlAfter_tax_kg);
+
+
+		/*	String after_tax_pcs=""+(Double.parseDouble(ProductValuesToFill.split(Pattern.quote("^"))[12].toString())-Double.parseDouble(ProductValuesToFill.split(Pattern.quote("^"))[10].toString()));
 			String after_tax_kg=""+(Double.parseDouble(ProductValuesToFill.split(Pattern.quote("^"))[13].toString())-Double.parseDouble(ProductValuesToFill.split(Pattern.quote("^"))[11].toString()));
 			text_after_tax_pcs.setText(after_tax_pcs);
-			txt_rate_after_tax_kg.setText(after_tax_kg);
+			txt_rate_after_tax_kg.setText(after_tax_kg);*/
 
 
 			hmapProductIdStock.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[1]);
