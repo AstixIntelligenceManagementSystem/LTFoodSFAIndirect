@@ -3680,16 +3680,19 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 	Double DtotalOverallKGSales =  Double.parseDouble(kilogram);
 	hmapProductStandardRate.put(PRODUCT_ID, ""+DtotalOverallKGSales);
 	DtotalOverallKGSales= Double.parseDouble(new DecimalFormat("##.##").format(DtotalOverallKGSales));
-
+//hmapProductVatTaxPerventage
 	//	((EditText) ll_prdct_detal.findViewWithTag("tvRate" + "_" + PRODUCT_ID)).setFocusable(false);
 	hmapProductIDAvgPricePerUnit.put(PRODUCT_ID,""+Double.parseDouble(mMoney));// );
 
 	String myrt=((EditText) ll_prdct_detal.findViewWithTag("tvRate"+"_"+PRODUCT_ID)).getText().toString().equals("") ? "0":((EditText) ll_prdct_detal.findViewWithTag("tvRate"+"_"+PRODUCT_ID)).getText().toString();
 	//String myrt=((EditText) ll_prdct_detal.findViewWithTag("tvRate"+"_"+PRODUCT_ID)).getText().toString();
 	((EditText) ll_prdct_detal.findViewWithTag("tvRate" + "_" + PRODUCT_ID)).removeTextChangedListener(getTextWatcher(((EditText) ll_prdct_detal.findViewWithTag("tvRate" + "_" + PRODUCT_ID))));
-	Double dbltxtgstpcs=(DtotalOverallKGSales*Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID)))/100;
+	Double dbltextbeforeaxpcs=(DtotalOverallKGSales/(1+(Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID))/100)));
+
+	//Double dbltxtgstpcs=(DtotalOverallKGSales*Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID)))/100;
+	Double dbltxtgstpcs=(DtotalOverallKGSales-dbltextbeforeaxpcs);
 	dbltxtgstpcs= Double.parseDouble(new DecimalFormat("##.##").format(dbltxtgstpcs));
-	Double dbltextbeforeaxpcs=(DtotalOverallKGSales-dbltxtgstpcs);
+	//Double dbltextbeforeaxpcs=(DtotalOverallKGSales-dbltxtgstpcs);
 	dbltextbeforeaxpcs= Double.parseDouble(new DecimalFormat("##.##").format(dbltextbeforeaxpcs));
 	hmapPrdctGSTPcs.put(PRODUCT_ID,"" + dbltxtgstpcs);
 	hmapPrdctRtAfterTaxPcs.put(PRODUCT_ID,"" + DtotalOverallKGSales);
@@ -3702,10 +3705,12 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 
 // ((EditText) ll_prdct_detal.findViewWithTag("etProductAvgPricePerUnit"+"_"+PRODUCT_ID)).getText().toString().equals("") ? 0:((EditText) ll_prdct_detal.findViewWithTag("etProductAvgPricePerUnit"+"_"+PRODUCT_ID)).getText().toString()
 	//String myvalnew=((EditText) ll_prdct_detal.findViewWithTag("etProductAvgPricePerUnit"+"_"+PRODUCT_ID)).getText().toString().equals("") ? "0":((EditText) ll_prdct_detal.findViewWithTag("etProductAvgPricePerUnit"+"_"+PRODUCT_ID)).getText().toString();
-	Double dbltxtgstkg=((Double.parseDouble(mMoney))*Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID)))/100;
+	Double dbltxtratebeforetaxkg=((Double.parseDouble(mMoney))/(1+Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID))/100));
+	//Double dbltxtgstkg=((Double.parseDouble(mMoney))*Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID)))/100;
+	Double dbltxtgstkg=Double.parseDouble(mMoney)-dbltxtratebeforetaxkg;
 	dbltxtgstkg= Double.parseDouble(new DecimalFormat("##.##").format(dbltxtgstkg));
 	((TextView) ll_prdct_detal.findViewWithTag("txtgstkg" + "_" + PRODUCT_ID)).setText("" + dbltxtgstkg);
-	Double dbltxtratebeforetaxkg=(Double.parseDouble(mMoney)-dbltxtgstkg);
+	//Double dbltxtratebeforetaxkg=(Double.parseDouble(mMoney)-dbltxtgstkg);
 	dbltxtratebeforetaxkg= Double.parseDouble(new DecimalFormat("##.##").format(dbltxtratebeforetaxkg));
 	hmapPrdctGSTKg.put(PRODUCT_ID,"" + dbltxtgstkg);
 	hmapPrdctRtAfterTaxKG.put(PRODUCT_ID,"" + mMoney);
@@ -3743,35 +3748,44 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 		Double gram = Double.parseDouble(hmapProductOverAllVolume.get(PRODUCT_ID));
 		String kilogram ="" +(Double.parseDouble(mMoney)/ ((gram * 0.001) ));
 		Double DtotalOverallKGSales =  Double.parseDouble(kilogram);
-		DtotalOverallKGSales= Double.parseDouble(new DecimalFormat("##.##").format(DtotalOverallKGSales));
-		//((EditText) viewRow.findViewWithTag("etProductAvgPricePerUnit"+"_"+PRODUCT_ID)).setText(""+DtotalOverallKGSales);
-		hmapProductIDAvgPricePerUnit.put(PRODUCT_ID, ""+DtotalOverallKGSales);
-		hmapProductStandardRate.put(PRODUCT_ID, ""+mMoney);
+
 
 //txt_gst_kg
 		//((EditText) ll_prdct_detal.findViewWithTag("tvRate"+"_"+PRODUCT_ID)).getText().toString().equals("") ? "0":((EditText) ll_prdct_detal.findViewWithTag("tvRate"+"_"+PRODUCT_ID)).getText().toString()
 		//	((EditText) ll_prdct_detal.findViewWithTag("etProductAvgPricePerUnit" + "_" + PRODUCT_ID)).setFocusable(false);
 		((EditText) ll_prdct_detal.findViewWithTag("etProductAvgPricePerUnit" + "_" + PRODUCT_ID)).removeTextChangedListener(getTextWatcher(((EditText) ll_prdct_detal.findViewWithTag("etProductAvgPricePerUnit" + "_" + PRODUCT_ID))));
 		String myrt=((EditText) ll_prdct_detal.findViewWithTag("etProductAvgPricePerUnit"+"_"+PRODUCT_ID)).getText().toString().equals("") ? "0":((EditText) ll_prdct_detal.findViewWithTag("etProductAvgPricePerUnit"+"_"+PRODUCT_ID)).getText().toString();
-		Double dbltxtgstkg=(DtotalOverallKGSales*Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID)))/100;
-		dbltxtgstkg= Double.parseDouble(new DecimalFormat("##.##").format(dbltxtgstkg));
-		((TextView) ll_prdct_detal.findViewWithTag("txtgstkg" + "_" + PRODUCT_ID)).setText("" + dbltxtgstkg);
-		Double dbltxtratebeforetaxkg=(DtotalOverallKGSales-dbltxtgstkg);
+
+		Double dbltxtratebeforetaxkg=DtotalOverallKGSales/(1+(Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID))/100));
+		Double dbltxtgstkg=DtotalOverallKGSales-dbltxtratebeforetaxkg;
+		//Double dbltxtratebeforetaxkg=(DtotalOverallKGSales-dbltxtgstkg);
 		dbltxtratebeforetaxkg= Double.parseDouble(new DecimalFormat("##.##").format(dbltxtratebeforetaxkg));
 		((TextView) ll_prdct_detal.findViewWithTag("txtrateaftertaxkg" + "_" + PRODUCT_ID)).setText("" + dbltxtratebeforetaxkg);
+
+		//Double dbltxtgstkg=(DtotalOverallKGSales*Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID)))/100;
+
+		dbltxtgstkg= Double.parseDouble(new DecimalFormat("##.##").format(dbltxtgstkg));
+		((TextView) ll_prdct_detal.findViewWithTag("txtgstkg" + "_" + PRODUCT_ID)).setText("" + dbltxtgstkg);
+
 		hmapPrdctGSTKg.put(PRODUCT_ID,"" + dbltxtgstkg);
 		hmapPrdctRtAfterTaxKG.put(PRODUCT_ID,"" + DtotalOverallKGSales);
 
 
+		DtotalOverallKGSales= Double.parseDouble(new DecimalFormat("##.##").format(DtotalOverallKGSales));
+		//((EditText) viewRow.findViewWithTag("etProductAvgPricePerUnit"+"_"+PRODUCT_ID)).setText(""+DtotalOverallKGSales);
+		hmapProductIDAvgPricePerUnit.put(PRODUCT_ID, ""+DtotalOverallKGSales);
+		hmapProductStandardRate.put(PRODUCT_ID, ""+mMoney);
 
 
 
-
-
-		Double dbltxtgstpcs=(Double.parseDouble(mMoney)*Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID)))/100;
+//txt_rate_after_tax_kg
+		Double dbltextbeforetaxpcs=Double.parseDouble(mMoney)/(1+(Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID))/100));
+		//Double dbltxtgstpcs=(Double.parseDouble(mMoney)*Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID)))/100;
+		Double dbltxtgstpcs=(Double.parseDouble(mMoney)-dbltextbeforetaxpcs);
 		dbltxtgstpcs= Double.parseDouble(new DecimalFormat("##.##").format(dbltxtgstpcs));
-		Double dbltextbeforetaxpcs=(Double.parseDouble(mMoney)-dbltxtgstpcs);
+		//Double dbltextbeforetaxpcs=(Double.parseDouble(mMoney)-dbltxtgstpcs);
 		dbltextbeforetaxpcs= Double.parseDouble(new DecimalFormat("##.##").format(dbltextbeforetaxpcs));
+
 		hmapPrdctGSTPcs.put(PRODUCT_ID,"" + dbltxtgstpcs);
 		hmapPrdctRtAfterTaxPcs.put(PRODUCT_ID,"" + mMoney);
 
@@ -7516,8 +7530,9 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 						//If No Percentage Discount or Flat Discount is Applicable Code Starts Here
 						ActualRateAfterDiscountBeforeTax=StandardRateBeforeTax;
 						DiscountAmount=0.00;
-						ActualTax=ActualRateAfterDiscountBeforeTax*(Double.parseDouble(hmapProductVatTaxPerventage.get(ProductID))/100);
-						//ActualRateAfterDiscountAfterTax=ActualRateAfterDiscountBeforeTax*(1+(Double.parseDouble(hmapProductVatTaxPerventage.get(ProductID))/100));
+
+						//ActualTax=ActualRateAfterDiscountBeforeTax*(Double.parseDouble(hmapProductVatTaxPerventage.get(ProductID))/100);
+						ActualRateAfterDiscountAfterTax=ActualRateAfterDiscountBeforeTax*(1+(Double.parseDouble(hmapProductVatTaxPerventage.get(ProductID))/100));
 						ActualRateAfterDiscountAfterTax=StandardRate*(1+(Double.parseDouble(hmapProductVatTaxPerventage.get(ProductID))/100));
 						Double DiscAmtOnPreQtyBasic=DiscountAmount*Double.parseDouble(hmapPrdctOdrQty.get(ProductID));
 
@@ -7527,20 +7542,24 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 						hmapPrdctIdPrdctDscnt.put(ProductID,""+DiscAmtOnPreQtyBasicToDisplay);
 
 						TotalProductLevelDiscount=TotalProductLevelDiscount+DiscAmtOnPreQtyBasic;
-						TotTaxAmount=TotTaxAmount+(ActualTax * Double.parseDouble(hmapPrdctOdrQty.get(ProductID)));
+						//TotTaxAmount=TotTaxAmount+(ActualTax * Double.parseDouble(hmapPrdctOdrQty.get(ProductID)));
 
-						Double TaxValue=ActualTax * Double.parseDouble(hmapPrdctOdrQty.get(ProductID));
+
+						//Double OrderValPrdQtyBasis=(ActualRateAfterDiscountAfterTax*Double.parseDouble(hmapPrdctOdrQty.get(ProductID)))+TaxValue;//In Case of Before Tax
+						//Double OrderValPrdQtyBasis=(ActualRateAfterDiscountAfterTax*Double.parseDouble(hmapPrdctOdrQty.get(ProductID)));//In Case of After Tax
+						Double OrderValPrdQtyBasis=(Double.parseDouble(hmapProductStandardRate.get(ProductID))*Double.parseDouble(hmapPrdctOdrQty.get(ProductID)));//In Case of After Tax
+						//hmapPrdctRtAfterTaxPcs
+						Double OrderValPrdQtyBasisToDisplay=OrderValPrdQtyBasis;
+						Double valBeforeTax=OrderValPrdQtyBasisToDisplay/(1+(Double.parseDouble(hmapProductVatTaxPerventage.get(ProductID))/100));
+						Double totalTax=OrderValPrdQtyBasisToDisplay-valBeforeTax;
+						TotTaxAmount=TotTaxAmount+totalTax;
+						Double TaxValue=totalTax;
 						TaxValue=Double.parseDouble(new DecimalFormat("##.##").format(TaxValue));
 						hmapProductTaxValue.put(ProductID, ""+TaxValue);
 						if(hmapMinDlvrQtyQPTaxAmount.containsKey(ProductID))
 						{
 							hmapMinDlvrQtyQPTaxAmount.put(ProductID, ""+TaxValue);
 						}
-						//Double OrderValPrdQtyBasis=(ActualRateAfterDiscountAfterTax*Double.parseDouble(hmapPrdctOdrQty.get(ProductID)))+TaxValue;//In Case of Before Tax
-						//Double OrderValPrdQtyBasis=(ActualRateAfterDiscountAfterTax*Double.parseDouble(hmapPrdctOdrQty.get(ProductID)));//In Case of After Tax
-						Double OrderValPrdQtyBasis=(Double.parseDouble(hmapProductStandardRate.get(ProductID))*Double.parseDouble(hmapPrdctOdrQty.get(ProductID)));//In Case of After Tax
-						//hmapPrdctRtAfterTaxPcs
-						Double OrderValPrdQtyBasisToDisplay=OrderValPrdQtyBasis;
 						OrderValPrdQtyBasisToDisplay=Double.parseDouble(new DecimalFormat("##.##").format(OrderValPrdQtyBasisToDisplay));
 						((TextView)(vRow).findViewById(R.id.tv_Orderval)).setText(""+OrderValPrdQtyBasisToDisplay);
 						hmapProductIdOrdrVal.put(ProductID, ""+OrderValPrdQtyBasis);
@@ -11090,7 +11109,7 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
         parms.dimAmount = (float) 0.5;
 
         final Button play_video = (Button) dialog.findViewById(R.id.play_video);
-        play_video.setOnClickListener(new View.OnClickListener() {
+        play_video.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 
