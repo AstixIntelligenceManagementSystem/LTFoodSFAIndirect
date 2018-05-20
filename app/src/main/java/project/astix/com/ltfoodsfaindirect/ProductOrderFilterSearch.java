@@ -3988,7 +3988,7 @@ CustomKeyboard mCustomKeyboardNum,mCustomKeyboardNumWithoutDecimal;
 
 			//nitishdubey15
 			Double fnlAfter_tax_pcs=Double.parseDouble(new DecimalFormat("##.##").format(after_tax_pcs));
-			Double fnlAfter_tax_kg=Double.parseDouble(new DecimalFormat("##.##").format(after_tax_pcs));
+			Double fnlAfter_tax_kg=Double.parseDouble(new DecimalFormat("##.##").format(after_tax_kg));
 			text_after_tax_pcs.setText(""+fnlAfter_tax_pcs);
 			txt_rate_after_tax_kg.setText(""+fnlAfter_tax_kg);
 
@@ -4852,7 +4852,7 @@ CustomKeyboard mCustomKeyboardNum,mCustomKeyboardNumWithoutDecimal;
 		Double DtotalOverallKGSales =  Double.parseDouble(kilogram);
 		hmapProductStandardRate.put(PRODUCT_ID, ""+DtotalOverallKGSales);
 		DtotalOverallKGSales= Double.parseDouble(new DecimalFormat("##.##").format(DtotalOverallKGSales));
-
+//hmapProductVatTaxPerventage
 	//	((EditText) ll_prdct_detal.findViewWithTag("tvRate" + "_" + PRODUCT_ID)).setFocusable(false);
 		hmapProductIDAvgPricePerUnit.put(PRODUCT_ID,""+Double.parseDouble(mMoney));// );
 
@@ -4939,7 +4939,7 @@ CustomKeyboard mCustomKeyboardNum,mCustomKeyboardNumWithoutDecimal;
 
 
 
-
+//txt_rate_after_tax_kg
 		Double dbltxtgstpcs=(Double.parseDouble(mMoney)*Double.parseDouble(hmapProductVatTaxPerventage.get(PRODUCT_ID)))/100;
 		dbltxtgstpcs= Double.parseDouble(new DecimalFormat("##.##").format(dbltxtgstpcs));
 		Double dbltextbeforetaxpcs=(Double.parseDouble(mMoney)-dbltxtgstpcs);

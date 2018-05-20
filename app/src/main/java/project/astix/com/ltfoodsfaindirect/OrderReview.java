@@ -3076,7 +3076,7 @@ public void loadPurchaseProductDefault()
 
 			//nitishdubey15
 			Double fnlAfter_tax_pcs=Double.parseDouble(new DecimalFormat("##.##").format(after_tax_pcs));
-			Double fnlAfter_tax_kg=Double.parseDouble(new DecimalFormat("##.##").format(after_tax_pcs));
+			Double fnlAfter_tax_kg=Double.parseDouble(new DecimalFormat("##.##").format(after_tax_kg));
 			text_after_tax_pcs.setText(""+fnlAfter_tax_pcs);
 			txt_rate_after_tax_kg.setText(""+fnlAfter_tax_kg);
 

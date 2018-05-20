@@ -313,7 +313,7 @@ public class DatabaseAssistant
 	private void exportTabletblTransac(final String tableName) throws IOException {
 		xmlBuilder.openTable(tableName);
 		//String sql = "select * from " + tableName;			
-		String sql = "select IMEIno,RouteID,StoreID,CatID,ProdID,TransDate,Stock,OrderQty,OrderVal,FreeQty,DisVal,SampleQuantity,ProductShortName,ProductPrice-TaxRate AS ProductPrice,TaxRate,TaxValue,OrderIDPDA,flgIsQuoteRateApplied from " + tableName + " where Sstat = 3 and  (OrderQty<>0 OR SampleQuantity<>0 OR Stock<>0 OR FreeQty<>0)";		// chk for flag - DB adapter
+		String sql = "select IMEIno,RouteID,StoreID,CatID,ProdID,TransDate,Stock,OrderQty,OrderVal,FreeQty,DisVal,SampleQuantity,ProductShortName,(ProductPrice-(ProductPrice*(TaxRate/100))) AS ProductPrice,TaxRate,TaxValue,OrderIDPDA,flgIsQuoteRateApplied from " + tableName + " where Sstat = 3 and  (OrderQty<>0 OR SampleQuantity<>0 OR Stock<>0 OR FreeQty<>0)";		// chk for flag - DB adapter
 		Cursor c = db.rawQuery(sql, new String[0]);
 		if (c.moveToFirst()) {
 			int cols = c.getColumnCount();
