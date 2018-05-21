@@ -97,14 +97,12 @@ public class SplashScreen extends AppCompatActivity
        // imei="866741034767675";
        // imei="866343034574597";
          // imei="866741034767667";
-     //  imei="351928089616384";  // Test Release,Dev
+      // imei="351928089616384";  // Test Release,Dev
       //  imei="354470089454505";  // Test Release,Dev
-      //  imei="359473079352536";  // Test Ramesh
+       // imei="359473079352536";  // Test Ramesh
        //imei="911433803802793";  // Dev by avinash sir use it
 
-       // imei="865166033749030";
-
-      //  imei="351893080684874";
+        //imei="865166033749030";
         CommonInfo.imei = imei;
         sPref=getSharedPreferences(CommonInfo.Preference, MODE_PRIVATE);
         Date date1 = new Date();
