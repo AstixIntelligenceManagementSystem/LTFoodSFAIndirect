@@ -2730,18 +2730,14 @@ public void loadPurchaseProductDefault()
 
 		//Double rateValBeforeTax=Double.parseDouble(new DecimalFormat("##.##").format(Double.valueOf(hmapProductStandardRateBeforeTax.get(productIdDynamic))));
 		Double rateValBeforeTax=Double.parseDouble(new DecimalFormat("##.##").format(Double.valueOf(hmapProductStandardRate.get(productIdDynamic))));
-		if(hmapProductStandardRate.get(productIdDynamic).equals("-99.0") || hmapProductStandardRate.get(productIdDynamic).equals("-99.00") || hmapProductStandardRate.get(productIdDynamic).equals("-99"))
+		if(rateValBeforeTax>0.0)
 		{
-			txtVwRate.setText("");
-			txtVwRate.setHint("Rate");
-		}
-		else if((""+rateValBeforeTax).equals("-99.0") || (""+rateValBeforeTax).equals("-99.00") || (""+rateValBeforeTax).equals("-99"))
-		{
-			txtVwRate.setText("");
-			txtVwRate.setHint("Rate");
+			txtVwRate.setText("" + rateValBeforeTax);
+
 		}
 		else {
-			txtVwRate.setText("" + rateValBeforeTax);
+			txtVwRate.setText("");
+			txtVwRate.setHint("Rate");
 		}
 
 		if(hmapProductflgPriceAva.get(productIdDynamic).equals("1")) {
@@ -2987,20 +2983,24 @@ public void loadPurchaseProductDefault()
 		}
 
 		//et_ProductAvgPricePerUnit.setOnFocusChangeListener(this);
-		if(hmapProductMRP.get(productIdDynamic).equals("-99.0") || hmapProductMRP.get(productIdDynamic).equals("-99.00") || hmapProductMRP.get(productIdDynamic).equals("-99"))
+		Double rateValBeforeTaxMRP=Double.parseDouble(new DecimalFormat("##.##").format(Double.valueOf(hmapProductMRP.get(productIdDynamic))));
+
+		if(rateValBeforeTaxMRP>0.0)
 		{
-			et_ProductMRP.setText("");
-		}
-		else if((""+rateValBeforeTax).equals("-99.0") || (""+rateValBeforeTax).equals("-99.00") || (""+rateValBeforeTax).equals("-99"))
-		{
-			et_ProductMRP.setText("");
+			et_ProductMRP.setText("" + rateValBeforeTaxMRP);
+
 		}
 		else {
-			et_ProductMRP.setText("" + rateValBeforeTax);
+			et_ProductMRP.setText("");
+			et_ProductMRP.setHint("MRP");
 		}
 
 
-		if(hmapProductIDAvgPricePerUnit.get(productIdDynamic).equals("0.0") || hmapProductIDAvgPricePerUnit.get(productIdDynamic).equals("0.00") || hmapProductIDAvgPricePerUnit.get(productIdDynamic).equals("-0") || hmapProductIDAvgPricePerUnit.get(productIdDynamic).equals("0"))
+		if(Double.parseDouble(hmapProductIDAvgPricePerUnit.get(productIdDynamic))>0.0)
+		{
+
+		}
+		else
 		{
 			et_ProductAvgPricePerUnit.setText("");
 			et_ProductAvgPricePerUnit.setHint("Per KG");
@@ -3020,15 +3020,18 @@ public void loadPurchaseProductDefault()
 			et_SampleQTY.setText(ProductValuesToFill.split(Pattern.quote("^"))[6]);
 
 			hmapProductStandardRate.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[7]);
-			if(hmapProductStandardRate.get(productIdDynamic).equals("-99.0") || hmapProductStandardRate.get(productIdDynamic).equals("-99.00") || hmapProductStandardRate.get(productIdDynamic).equals("-99"))
+
+			if(Double.parseDouble(hmapProductStandardRate.get(productIdDynamic))>0.0)
+			{
+				txtVwRate.setText(ProductValuesToFill.split(Pattern.quote("^"))[7]);
+			}
+			else
 			{
 				txtVwRate.setText("");
 				txtVwRate.setBackgroundResource(R.drawable.edit_text_bg);
 				txtVwRate.setHint("Rate");
 			}
-			else {
-				txtVwRate.setText(ProductValuesToFill.split(Pattern.quote("^"))[7]);
-			}
+
 			if(Integer.parseInt(ProductValuesToFill.split(Pattern.quote("^"))[6])==0)
 
 			{	et_SampleQTY.setText("");
@@ -3101,15 +3104,15 @@ public void loadPurchaseProductDefault()
 			hmapPrdctRtAfterTaxPcs.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[12]);
 			hmapPrdctRtAfterTaxKG.put(productIdDynamic, ProductValuesToFill.split(Pattern.quote("^"))[13]);
 
-			if(hmapProductIDAvgPricePerUnit.get(productIdDynamic).equals("0.0") || hmapProductIDAvgPricePerUnit.get(productIdDynamic).equals("0.00") || hmapProductIDAvgPricePerUnit.get(productIdDynamic).equals("-0") || hmapProductIDAvgPricePerUnit.get(productIdDynamic).equals("0"))
+			if(Double.parseDouble(hmapProductIDAvgPricePerUnit.get(productIdDynamic))>0.0)
+			{
+				et_ProductAvgPricePerUnit.setText(ProductValuesToFill.split(Pattern.quote("^"))[8]);
+			}
+			else
 			{
 				et_ProductAvgPricePerUnit.setText("");
 				et_ProductAvgPricePerUnit.setHint("Per KG");
 				txtVwRate.setBackgroundResource(R.drawable.edit_text_bg);
-			}
-			else
-			{
-				et_ProductAvgPricePerUnit.setText(ProductValuesToFill.split(Pattern.quote("^"))[8]);
 			}
 		}
 
@@ -4558,10 +4561,7 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 							EditText ediTextOrder = (EditText) ((View) et_ValueOnFocuslost.getParent().getParent()).findViewWithTag("etOrderQty" + "_" + ProductIdOnClickedEdit);
 							ediTextOrder.setText(String.valueOf(valuetQty));
 							hmapPrdctOdrQty.put(ProductIdOnClickedEdit,String.valueOf(valuetQty));
-							if(hmapProductStandardRate.get(ProductIdOnClickedEdit).equals("-99"))
-							{
-								hmapProductStandardRate.put(ProductIdOnClickedEdit,"0");
-							}
+
 							getOrderData(ProductIdOnClickedEdit);
 
 
@@ -4667,11 +4667,7 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 
 						if(Integer.parseInt(hmapPrdctOdrQty.get(ProductIdOnClickedEdit))>0)
 						{
-							if(hmapProductStandardRate.get(ProductIdOnClickedEdit).equals("-99"))
-							{
-								hmapProductStandardRate.put(ProductIdOnClickedEdit,"0");
 
-							}
 							getOrderData(ProductIdOnClickedEdit);
 							/*if((!hmapProductStandardRate.get(ProductIdOnClickedEdit).equals("") && !hmapProductStandardRate.get(ProductIdOnClickedEdit).equals("-99")) && !hmapProductStandardRate.get(ProductIdOnClickedEdit).equals("-99.00") && !hmapProductStandardRate.get(ProductIdOnClickedEdit).equals("-99.0"))
 							{
@@ -7327,13 +7323,9 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 						/*StandardRate=Double.parseDouble(hmapProductStandardRate.get(ProductID));///((1+(Double.parseDouble(hmapProductRetailerMarginPercentage.get(ProductID))/100)));
 						StandardRateBeforeTax=StandardRate/(1+(Double.parseDouble(hmapProductVatTaxPerventage.get(ProductID))/100));
 						StandardTax=StandardRateBeforeTax*(Double.parseDouble(hmapProductVatTaxPerventage.get(ProductID))/100);*/
-						if(hmapProductStandardRate.get(ProductID).equals("-99"))
-						{
-							StandardRate=0.0;
-						}
-						else {
+
 							StandardRate = Double.parseDouble(hmapProductStandardRate.get(ProductID));///((1+(Double.parseDouble(hmapProductRetailerMarginPercentage.get(ProductID))/100)));
-						}
+
 
 						//StandardRate=Double.parseDouble(hmapProductStandardRate.get(ProductID));///((1+(Double.parseDouble(hmapProductRetailerMarginPercentage.get(ProductID))/100)));
 						StandardRateBeforeTax=StandardRate;//StandardRate/(1+(Double.parseDouble(hmapProductVatTaxPerventage.get(ProductID))/100));
@@ -7341,13 +7333,9 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 					}
 					else
 					{
-						if(hmapProductStandardRate.get(ProductID).equals("-99"))
-						{
-							StandardRate=0.0;
-						}
-						else {
+
 							StandardRate = Double.parseDouble(hmapProductStandardRate.get(ProductID));///((1+(Double.parseDouble(hmapProductRetailerMarginPercentage.get(ProductID))/100)));
-						}
+
 
 						//	StandardRate=Double.parseDouble(hmapProductStandardRate.get(ProductID));
 						StandardRateBeforeTax=Double.parseDouble(hmapProductStandardRateBeforeTax.get(ProductID));
@@ -10858,10 +10846,7 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
                     EditText ediTextOrder = (EditText) ((View) ed_LastEditextFocusd.getParent().getParent()).findViewWithTag("etOrderQty" + "_" + ProductIdOnClickedEdit);
                     ediTextOrder.setText(String.valueOf(valuetQty));
                     hmapPrdctOdrQty.put(ProductIdOnClickedEdit,String.valueOf(valuetQty));
-                    if(hmapProductStandardRate.get(ProductIdOnClickedEdit).equals("-99"))
-                    {
-                        hmapProductStandardRate.put(ProductIdOnClickedEdit,"0");
-                    }
+
                     //getOrderData(ProductIdOnClickedEdit);
 
 

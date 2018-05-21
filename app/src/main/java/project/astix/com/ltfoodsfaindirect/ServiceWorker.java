@@ -6273,12 +6273,12 @@ String RouteType="0";
 		 		
 						String ProductID="0";
 						int BusinessSegmentId=0;
-						Double ProductMRP=-99.0;
+						Double ProductMRP=0.0;
 						Double ProductRLP=0.0;
 						Double ProductTaxAmount=0.0;
 						Double RetMarginPer=0.0;
 						Double VatTax=0.0;
-						Double StandardRate=-99.0;
+						Double StandardRate=0.0;
 						Double StandardRateBeforeTax=0.0;
 						Double StandardTax=0.0;
 						int flgPriceAva=0;
@@ -6323,7 +6323,7 @@ String RouteType="0";
 				                {
 									
 				                	ProductRLP=Double.parseDouble(xmlParser.getCharacterDataFromElement(line));
-				                	ProductRLP=Double.parseDouble(decimalFormat.format(ProductMRP));
+				                	ProductRLP=Double.parseDouble(decimalFormat.format(ProductRLP));
 				                }
 			            	 }
 						
@@ -6337,7 +6337,7 @@ String RouteType="0";
 				                {
 									
 				                	ProductTaxAmount=Double.parseDouble(xmlParser.getCharacterDataFromElement(line));
-				                	ProductTaxAmount=Double.parseDouble(decimalFormat.format(ProductMRP));
+				                	ProductTaxAmount=Double.parseDouble(decimalFormat.format(ProductTaxAmount));
 				                }
 			            	 }
 						
