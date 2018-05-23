@@ -179,6 +179,7 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
                 //fireBackDetPg.putExtra("rID", routeID);
                 startActivity(fireBackDetPg);
                 finish();
+                //aa
 
             }
         });

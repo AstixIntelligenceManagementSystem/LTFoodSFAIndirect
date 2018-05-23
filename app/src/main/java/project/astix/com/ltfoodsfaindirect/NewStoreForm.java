@@ -4929,10 +4929,12 @@ public void selectedOption(String optId, String optionVal, EditText editext,List
 			 img_thumbnail.setOnClickListener(new OnClickListener() {
 
 				 @Override
-				 public void onClick(View view) {
+				 public void onClick(View view)
+				 {
 					 Intent intent = new Intent();
 					 intent.setAction(Intent.ACTION_VIEW);
-					 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+					 if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+					 {
 						 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 						 String filePathName="";
 						 if(hmapImageClkdTempIdData.get(view.getTag().toString()).split(Pattern.quote("~"))[2].contains("file:")){
