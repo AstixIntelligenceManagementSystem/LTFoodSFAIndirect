@@ -23149,7 +23149,7 @@ public int checkCountIntblStoreSalesOrderPaymentDetails(String  StoreId,String O
 			String CompleteBillAddress="";
 			try {
 				
-				cursor= db.rawQuery("SELECT QuestID,AnswerType,AnswerValue,QuestionGroupID FROM tblOutletQuestAnsMstr WHERE  OutletID ='"+ OutletID + "' and QuestionGroupID in (1,3,4) ", null);
+				cursor= db.rawQuery("SELECT QuestID,AnswerType,AnswerValue,QuestionGroupID FROM tblOutletQuestAnsMstr WHERE  OutletID ='"+ OutletID + "' and QuestionGroupID in (6) ", null);
 				if (cursor.getCount() > 0)
 				{
 	               if (cursor.moveToFirst()) 
@@ -23183,6 +23183,17 @@ public int checkCountIntblStoreSalesOrderPaymentDetails(String  StoreId,String O
 	                			  CompleteBillAddress= CompleteBillAddress+", "+DDlStringCity;
 	                		  }
 	                	  }
+                          else if(Integer.parseInt(cursor.getString(3))==6)
+                          {
+                              if(CompleteBillAddress.equals(""))
+                              {
+                                  CompleteBillAddress= cursor.getString(2).toString().trim();
+                              }
+                              else
+                              {
+                                  CompleteBillAddress= CompleteBillAddress+", "+cursor.getString(2).toString().trim();
+                              }
+                          }
 	                	  
 							cursor.moveToNext();
 						}
@@ -23240,7 +23251,7 @@ public int checkCountIntblStoreSalesOrderPaymentDetails(String  StoreId,String O
 			String CompleteDileveryAddress="";
 			try {
 				
-				cursor= db.rawQuery("SELECT QuestID,AnswerType,AnswerValue,QuestionGroupID FROM tblOutletQuestAnsMstr WHERE  OutletID ='"+ OutletID + "' and QuestionGroupID in (5,7,8) ", null);
+				cursor= db.rawQuery("SELECT QuestID,AnswerType,AnswerValue,QuestionGroupID FROM tblOutletQuestAnsMstr WHERE  OutletID ='"+ OutletID + "' and QuestionGroupID in (6) ", null);
 				if (cursor.getCount() > 0)
 				{
 	               if (cursor.moveToFirst()) 
@@ -23265,15 +23276,26 @@ public int checkCountIntblStoreSalesOrderPaymentDetails(String  StoreId,String O
 	                	  }
 	                	  else if(Integer.parseInt(cursor.getString(3))==7)
 	                	  {
-	                		  if(CompleteDileveryAddress.equals(""))
-	                		  {
-	                			  CompleteDileveryAddress=DDlStringCity;
-	                		  }
-	                		  else
-	                		  {
-	                			  CompleteDileveryAddress= CompleteDileveryAddress+", "+DDlStringCity;
-	                		  }
-	                	  }
+                            if(CompleteDileveryAddress.equals(""))
+                            {
+                                CompleteDileveryAddress=DDlStringCity;
+                            }
+                            else
+                            {
+                                CompleteDileveryAddress= CompleteDileveryAddress+", "+DDlStringCity;
+                            }
+                        }
+                          else if(Integer.parseInt(cursor.getString(3))==6)
+                          {
+                              if(CompleteDileveryAddress.equals(""))
+                              {
+                                  CompleteDileveryAddress= cursor.getString(2).toString().trim();
+                              }
+                              else
+                              {
+                                  CompleteDileveryAddress= CompleteDileveryAddress+", "+cursor.getString(2).toString().trim();
+                              }
+                          }
 	                	  
 							cursor.moveToNext();
 						}
