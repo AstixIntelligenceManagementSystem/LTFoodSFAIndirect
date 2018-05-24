@@ -391,13 +391,13 @@ android:visibility="gone"
 				android:visibility="gone" />
 
 			<ImageView
+				android:id="@+id/imgDel"
 				android:layout_width="0dp"
+
 				android:layout_height="match_parent"
 
 				android:layout_weight="1"
-
 				android:gravity="center"
-				android:id="@+id/imgDel"
 
 				android:src="@drawable/delete"
 				android:text="0"

@@ -200,6 +200,7 @@ catch(Exception e)
 					String StoreContactNo="0000000000";
 					String StoreCatType="NA";
                      String ForDate=dateVAL;
+					String flgCaptureCompetitorPTR="0";
 	                Element element = (Element) tblUOMMstrNode.item(i);
 		
 	                if(!element.getElementsByTagName("StoreID").equals(null))
@@ -540,7 +541,16 @@ catch(Exception e)
 							StoreCatType=XMLParser.getCharacterDataFromElement(line);
 						}
 					}
-		                 
+					if(!element.getElementsByTagName("flgCaptureCompetitorPTR").equals(null))
+					{
+						NodeList flgCaptureCompetitorPTRNode = element.getElementsByTagName("flgCaptureCompetitorPTR");
+						Element     line = (Element) flgCaptureCompetitorPTRNode.item(0);
+						if(flgCaptureCompetitorPTRNode.getLength()>0)
+						{
+							flgCaptureCompetitorPTR=XMLParser.getCharacterDataFromElement(line);
+						}
+					}
+
 		                 
 		                 if(flgGSTCompliance.equals("1"))
 		                 {
@@ -567,7 +577,7 @@ catch(Exception e)
 					String StoreAddress="";
 					//if(!StoreSelection.hmapStoreIdSstat.containsKey(StoreID)) {
 					if(!StoreIDPDAFromServer.equals(StoreID)) {
-						dbengine.saveSOAPdataStoreList(StoreID, StoreName, StoreType, StoreLatitude, StoreLongitude, LastVisitDate, LastTransactionDate, dateVAL.toString().trim(), AutoIdStore, Sstat, IsClose, IsNextDat, StoreRouteID, StoreCatNodeId, StoreAddress, PaymentStage, flgHasQuote, flgAllowQuotation, flgSubmitFromQuotation, flgGSTCapture, flgGSTCompliance, GSTNumber, flgGSTRecordFromServer, RouteNodeType, collectionRequired,flgOrderType,OwnerName,StoreContactNo, StoreCatType);
+						dbengine.saveSOAPdataStoreList(StoreID, StoreName, StoreType, StoreLatitude, StoreLongitude, LastVisitDate, LastTransactionDate, dateVAL.toString().trim(), AutoIdStore, Sstat, IsClose, IsNextDat, StoreRouteID, StoreCatNodeId, StoreAddress, PaymentStage, flgHasQuote, flgAllowQuotation, flgSubmitFromQuotation, flgGSTCapture, flgGSTCompliance, GSTNumber, flgGSTRecordFromServer, RouteNodeType, collectionRequired,flgOrderType,OwnerName,StoreContactNo, StoreCatType,flgCaptureCompetitorPTR);
 					}
 						//}
 
@@ -929,6 +939,146 @@ catch(Exception e)
 
 
 				dbengine.savetblVideoStoreWise(StoreID,flagVideoShow,VideoURL,VideoDownloadPath,VedioName,flgNewVedioLaunched,VideoViewed,ChannelID ,ContentID, ContentType, Versionupdatedtime ,ViewDateTime,FullVideoPlayed);
+			}
+
+			//competitor Product master
+
+			NodeList tblCompetitorPrdctMstr = doc.getElementsByTagName("tblCompetitorPrdctMstr");
+			for (int i = 0; i < tblCompetitorPrdctMstr.getLength(); i++)
+			{
+
+				String CompetitionProductID="0";
+				String CompetitionProductName="0";
+				String CompetitorBrandID="0";
+				String LTFoodsSimilarBrand="0";
+				int CategoryID =0;
+				int Seq=0;
+				String Category="0";
+				int BusinessUnitId=0;
+				String BusinessUnit="0";
+
+
+				Element element = (Element) tblCompetitorPrdctMstr.item(i);
+
+				if(!element.getElementsByTagName("CompetitionProductID").equals(null))
+				{
+
+					NodeList CompetitionProductIDNode = element.getElementsByTagName("CompetitionProductID");
+					Element     line = (Element) CompetitionProductIDNode.item(0);
+
+					if(CompetitionProductIDNode.getLength()>0)
+					{
+
+						CompetitionProductID=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+				if(!element.getElementsByTagName("CompetitionProductName").equals(null))
+				{
+
+					NodeList CompetitionProductNameNode = element.getElementsByTagName("CompetitionProductName");
+					Element     line = (Element) CompetitionProductNameNode.item(0);
+
+					if(CompetitionProductNameNode.getLength()>0)
+					{
+
+						CompetitionProductName=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+
+				if(!element.getElementsByTagName("CompetitorBrandID").equals(null))
+				{
+
+					NodeList CompetitorBrandIDNode = element.getElementsByTagName("CompetitorBrandID");
+					Element     line = (Element) CompetitorBrandIDNode.item(0);
+
+					if(CompetitorBrandIDNode.getLength()>0)
+					{
+
+						CompetitorBrandID=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+
+				if(!element.getElementsByTagName("LTFoodsSimilarBrand").equals(null))
+				{
+
+					NodeList LTFoodsSimilarBrandNode = element.getElementsByTagName("LTFoodsSimilarBrand");
+					Element     line = (Element) LTFoodsSimilarBrandNode.item(0);
+
+					if(LTFoodsSimilarBrandNode.getLength()>0)
+					{
+
+						LTFoodsSimilarBrand=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+
+				if(!element.getElementsByTagName("CategoryID").equals(null))
+				{
+
+					NodeList CategoryIDNode = element.getElementsByTagName("CategoryID");
+					Element     line = (Element) CategoryIDNode.item(0);
+
+					if(CategoryIDNode.getLength()>0)
+					{
+
+						CategoryID=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
+					}
+				}
+
+				if(!element.getElementsByTagName("Seq").equals(null))
+				{
+
+					NodeList SeqNode = element.getElementsByTagName("Seq");
+					Element     line = (Element) SeqNode.item(0);
+
+					if(SeqNode.getLength()>0)
+					{
+
+						Seq=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
+					}
+				}
+
+				if(!element.getElementsByTagName("Category").equals(null))
+				{
+
+					NodeList CategoryNode = element.getElementsByTagName("Category");
+					Element     line = (Element) CategoryNode.item(0);
+
+					if(CategoryNode.getLength()>0)
+					{
+
+						Category=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+
+				if(!element.getElementsByTagName("BusinessUnitId").equals(null))
+				{
+
+					NodeList BusinessUnitIdNode = element.getElementsByTagName("BusinessUnitId");
+					Element     line = (Element) BusinessUnitIdNode.item(0);
+
+					if(BusinessUnitIdNode.getLength()>0)
+					{
+
+						BusinessUnitId=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
+					}
+				}
+				if(!element.getElementsByTagName("BusinessUnit").equals(null))
+				{
+
+					NodeList BusinessUnitNode = element.getElementsByTagName("BusinessUnit");
+					Element     line = (Element) BusinessUnitNode.item(0);
+
+					if(BusinessUnitNode.getLength()>0)
+					{
+
+						BusinessUnit=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+
+
+
+
+				dbengine.insertCmpttrPrdctMstr(CompetitionProductID,CompetitionProductName,CompetitorBrandID,LTFoodsSimilarBrand,CategoryID,Seq,Category,BusinessUnitId,BusinessUnit);
 			}
 	            
 	            

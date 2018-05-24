@@ -246,7 +246,7 @@ public TextView tvPreAmtOutstandingVALNew;
 
 	    
 	    public CoundownClass2 countDownTimer2;
-	    private long startTime = 45000;
+	    private long startTime = 30000;
 	    private final long interval = 200;
 	    
 	    private static final String TAG = "LocationActivity";
@@ -442,6 +442,8 @@ public TextView tvPreAmtOutstandingVALNew;
 		 AlertDialog ad;
 		 
 		 String[] products;
+
+	    boolean isCmpttrExists=false;
 		 public void showSettingsAlert()
 		 {
 			  AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
@@ -1485,6 +1487,16 @@ public void loadPurchaseProductDefault()
 			  });
 			  final Button btn_Submit=(Button) findViewById(R.id.btn_sbmt);
 			  btn_Submit.setTag("0_0");
+			if((dbengine.isDataExistCompetitor(storeID)) && (dbengine.isDataForCompetitorCmplsry(storeID)) && (flgOrderType!=0))
+
+			{
+				isCmpttrExists=true;
+				btn_Submit.setText(getString(R.string.lastvisitdetails_next));
+			}
+			else
+			{
+				isCmpttrExists=false;
+			}
 			  btn_Submit.setOnClickListener(new OnClickListener() {
 			   
 			   @Override
@@ -8193,150 +8205,109 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 	 {
 	     //Send Data for Sync
 		
-		 // Changes By Sunil 
-		   AlertDialog.Builder alertDialogSubmitConfirm = new AlertDialog.Builder(OrderReview.this);
-			alertDialogSubmitConfirm.setTitle("Information");
-			alertDialogSubmitConfirm.setMessage(getText(R.string.submitConfirmAlert));
-			alertDialogSubmitConfirm.setCancelable(false);
-			
-			alertDialogSubmitConfirm.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which)
-						{
-							 butClickForGPS=3;
-							 dbengine.open();
-							 if ((dbengine.PrevLocChk(storeID.trim())) )
-								{
-								 dbengine.close();
-								 try
-								    {
-									FullSyncDataNow task = new FullSyncDataNow(OrderReview.this);
-									 task.execute();
-								    }
-									catch (Exception e) {
-										// TODO Autouuid-generated catch block
-										e.printStackTrace();
-										//System.out.println("onGetStoresForDayCLICK: Exec(). EX: "+e);
-									}
-								}
-							 else
-							 {
-								/* dbengine.close();
-
-									// TODO Auto-generated method stub
-									boolean isGPSok = false;
-									isGPSok = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-									
-									 if(!isGPSok)
-							          {
-										showSettingsAlert();
-										isGPSok = false;
-										 return;
-									  }
+		 // Changes By Sunil
+		 if(isCmpttrExists)
+		 {
+			 int Outstat=1;
+			 TransactionTableDataDeleteAndSaving(Outstat);
+			 InvoiceTableDataDeleteAndSaving(Outstat);
+			 Intent storeOrderReviewIntent=new Intent(OrderReview.this,CompetitorPrdctPriceActivity.class);
+			 storeOrderReviewIntent.putExtra("storeID", storeID);
+			 storeOrderReviewIntent.putExtra("SN", SN);
+			 storeOrderReviewIntent.putExtra("bck", 1);
+			 storeOrderReviewIntent.putExtra("imei", imei);
+			 storeOrderReviewIntent.putExtra("userdate", date);
+			 storeOrderReviewIntent.putExtra("pickerDate", pickerDate);
 
 
-									
-							       isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-							       isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-								   location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-									
-								   pm = (PowerManager) getSystemService(POWER_SERVICE);
-								   wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
-							                | PowerManager.ACQUIRE_CAUSES_WAKEUP
-							                | PowerManager.ON_AFTER_RELEASE, "INFO");
-							        wl.acquire();
-							        
-							       pDialog2STANDBY=ProgressDialog.show(ProductList.this,getText(R.string.genTermPleaseWaitNew) ,getText(R.string.genTermRetrivingLocation), true);
-								   pDialog2STANDBY.setIndeterminate(true);
-									
-									pDialog2STANDBY.setCancelable(false);
-									pDialog2STANDBY.show();
-									
-									checkSTANDBYAysncTask chkSTANDBY = new checkSTANDBYAysncTask(
-											new standBYtask().execute()); // Thread keeping 1 minute time
-															// watch
-									
-									(new Thread(chkSTANDBY)).start();*/
-							      
-									
-								
-								 appLocationService=new AppLocationService();
-								 
-								/* pm = (PowerManager) getSystemService(POWER_SERVICE);
-								 *//*  wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
-							                | PowerManager.ACQUIRE_CAUSES_WAKEUP
-							                | PowerManager.ON_AFTER_RELEASE, "INFO");
-							        wl.acquire();*/
-							       
-							        
-							        pDialog2STANDBY=ProgressDialog.show(OrderReview.this,getText(R.string.genTermPleaseWaitNew) ,getText(R.string.genTermRetrivingLocation), true);
-									   pDialog2STANDBY.setIndeterminate(true);
-										
-										pDialog2STANDBY.setCancelable(false);
-										pDialog2STANDBY.show();
-										
-								if(isGooglePlayServicesAvailable()) {
-									 createLocationRequest();
-									 
-									 mGoogleApiClient = new GoogleApiClient.Builder(OrderReview.this)
-								     .addApi(LocationServices.API)
-								     .addConnectionCallbacks(OrderReview.this)
-								     .addOnConnectionFailedListener(OrderReview.this)
-								     .build();
-									 mGoogleApiClient.connect();
-							      }
-								//startService(new Intent(DynamicActivity.this, AppLocationService.class));
-								startService(new Intent(OrderReview.this, AppLocationService.class));
-								Location nwLocation=appLocationService.getLocation(locationManager,LocationManager.GPS_PROVIDER,location);
-								Location gpsLocation=appLocationService.getLocation(locationManager,LocationManager.NETWORK_PROVIDER,location);
-								 countDownTimer2 = new CoundownClass2(startTime, interval);
-						         countDownTimer2.start();
+			 //fireBackDetPg.putExtra("rID", routeID);
+			 startActivity(storeOrderReviewIntent);
+			 finish();
 
-								
-							   
-								 
-							 }
-							
-							// storeSubmit.setEnabled(false);
-							//storeSave4Later.setEnabled(false);
-							//storeSaveContinue4Later.setEnabled(false);
-							/* int Outstat=3;
-							TransactionTableDataDeleteAndSaving(Outstat);
-							InvoiceTableDataDeleteAndSaving(Outstat);
-						 
-						    long  syncTIMESTAMP = System.currentTimeMillis();
-							Date dateobj = new Date(syncTIMESTAMP);
-							SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-							String StampEndsTime = df.format(dateobj);
-							
-							
-							dbengine.open();
-							dbengine.UpdateStoreEndVisit(storeID, StampEndsTime);
-							dbengine.UpdateStoreProductAppliedSchemesBenifitsRecords(storeID.trim(),"3");
-							
-							dbengine.UpdateStoreFlag(storeID.trim(), 3);
-							//dbengine.deleteStoreRecordFromtblStoreSchemeFreeProQtyOtherDetailsOnceSubmitted(fStoreID);
-							dbengine.close();*/
-							
-							//new FullSyncDataNow().execute();
-							
-						}
-					});
-			
-			alertDialogSubmitConfirm.setNegativeButton("No", new DialogInterface.OnClickListener() {
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					// TODO Auto-generated method stub
-					dialog.dismiss();
-				}
-			});
-			
-			alertDialogSubmitConfirm.setIcon(R.drawable.info_ico);
-			
-			AlertDialog alert = alertDialogSubmitConfirm.create();
-			
-			alert.show();
-			
+		 }
+		 else
+		 {
+			 AlertDialog.Builder alertDialogSubmitConfirm = new AlertDialog.Builder(OrderReview.this);
+			 alertDialogSubmitConfirm.setTitle("Information");
+			 alertDialogSubmitConfirm.setMessage(getText(R.string.submitConfirmAlert));
+			 alertDialogSubmitConfirm.setCancelable(false);
+
+			 alertDialogSubmitConfirm.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
+				 public void onClick(DialogInterface dialog, int which)
+				 {
+					 butClickForGPS=3;
+					 dbengine.open();
+					 if ((dbengine.PrevLocChk(storeID.trim())) )
+					 {
+						 dbengine.close();
+						 try
+						 {
+							 FullSyncDataNow task = new FullSyncDataNow(OrderReview.this);
+							 task.execute();
+						 }
+						 catch (Exception e) {
+							 // TODO Autouuid-generated catch block
+							 e.printStackTrace();
+							 //System.out.println("onGetStoresForDayCLICK: Exec(). EX: "+e);
+						 }
+					 }
+					 else
+					 {
+
+						 appLocationService=new AppLocationService();
+
+
+
+						 pDialog2STANDBY=ProgressDialog.show(OrderReview.this,getText(R.string.genTermPleaseWaitNew) ,getText(R.string.genTermRetrivingLocation), true);
+						 pDialog2STANDBY.setIndeterminate(true);
+
+						 pDialog2STANDBY.setCancelable(false);
+						 pDialog2STANDBY.show();
+
+						 if(isGooglePlayServicesAvailable()) {
+							 createLocationRequest();
+
+							 mGoogleApiClient = new GoogleApiClient.Builder(OrderReview.this)
+									 .addApi(LocationServices.API)
+									 .addConnectionCallbacks(OrderReview.this)
+									 .addOnConnectionFailedListener(OrderReview.this)
+									 .build();
+							 mGoogleApiClient.connect();
+						 }
+						 //startService(new Intent(DynamicActivity.this, AppLocationService.class));
+						 startService(new Intent(OrderReview.this, AppLocationService.class));
+						 Location nwLocation=appLocationService.getLocation(locationManager,LocationManager.GPS_PROVIDER,location);
+						 Location gpsLocation=appLocationService.getLocation(locationManager,LocationManager.NETWORK_PROVIDER,location);
+						 countDownTimer2 = new CoundownClass2(startTime, interval);
+						 countDownTimer2.start();
+
+
+
+
+					 }
+
+
+
+				 }
+			 });
+
+			 alertDialogSubmitConfirm.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+				 @Override
+				 public void onClick(DialogInterface dialog, int which) {
+					 // TODO Auto-generated method stub
+					 dialog.dismiss();
+				 }
+			 });
+
+			 alertDialogSubmitConfirm.setIcon(R.drawable.info_ico);
+
+			 AlertDialog alert = alertDialogSubmitConfirm.create();
+
+			 alert.show();
+
+
+		 }
 
 		    
 		 

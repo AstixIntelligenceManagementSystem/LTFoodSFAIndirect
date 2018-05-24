@@ -39,7 +39,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.RECORD_VIDEO" />
-    <uses-permission android:name="android.permission.CLEAR_APP_CACHE"></uses-permission>
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -69,37 +69,37 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".FeedbackCompetitorActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".FeedbackCompetitorActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LauncherActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CheckDatabaseData"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".StoreSelection"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_store_selection"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LastVisitDetails"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_last_visit_details"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LastVisitDetailsSecondPart"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_last_visit_details"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <!--
         <activity
             android:name=".POSMaterialActivity"
@@ -123,38 +123,38 @@
             android:name=".ProductOrderFilterSearch"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".DistributorEntryActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".TargetVsAchievedActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".OrderReview"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustNothing"></activity>
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name=".ReturnActivity"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".SyncMaster"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".InvoiceSyncMaster"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <!--
         <activity
             android:name=".My_Summary"
@@ -179,43 +179,43 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_stores_summary"
             android:screenOrientation="portrait"
-            android:theme="@style/MyThemeTabWithdarktext"></activity>
+            android:theme="@style/MyThemeTabWithdarktext" />
         <activity
             android:name=".SKUWiseSummaryReportMTD"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_stores_summary"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".StoreWiseSummaryReportMTD"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_stores_summary"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".StoreAndSKUWiseSummaryReportMTD"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_stores_summary"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
         <activity
             android:name=".StoreWiseSummaryReport_ByTab"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_stores_summary"
             android:screenOrientation="portrait"
-            android:theme="@style/MyThemeTabWithdarktext"></activity>
+            android:theme="@style/MyThemeTabWithdarktext" />
         <activity
             android:name=".StoreAndSKUWiseSummaryReport_ByTab"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_stores_summary"
             android:screenOrientation="portrait"
-            android:theme="@style/MyThemeTabWithdarktext"></activity>
+            android:theme="@style/MyThemeTabWithdarktext" />
         <activity
             android:name=".DetailReport_Activity"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_stores_summary"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <!--
         <activity
             android:name=".Add_New_Store"
@@ -257,14 +257,14 @@
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_return"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".InvoiceProductList"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:label="@string/title_activity_return"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <!--
         <activity
             android:name=".WebPageActivity"
@@ -335,20 +335,20 @@
             android:name="com.example.gcm.HomeActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:noHistory="true"></activity>
+            android:noHistory="true" />
         <activity
             android:name="com.example.gcm.NotificationActivity"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Add_New_Store_DynamicSectionWise"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Light.NoTitleBar" />
         <!-- Register Broadcast receiver -->
 
         <receiver
@@ -375,11 +375,11 @@
 
         <activity
             android:name=".ViewAddedStore"
-            android:label="@string/title_activity_view_added_store"></activity>
+            android:label="@string/title_activity_view_added_store" />
         <activity
             android:name=".AddNewStore_DynamicSectionWise"
             android:label="@string/title_activity_view_added_store"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".QuotationActivity"
             android:label="@string/title_activity_quotation"
@@ -397,11 +397,11 @@
         <activity
             android:name=".Delivery_Details_New_Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/StorelistTheme"></activity>
+            android:theme="@style/StorelistTheme" />
         <activity
             android:name=".Delivery_Details_Activity"
             android:screenOrientation="portrait"
-            android:theme="@style/detailActivityTheme"></activity>
+            android:theme="@style/detailActivityTheme" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -415,14 +415,16 @@
         <activity android:name=".IncentiveActivity" />
         <activity android:name=".DetailReportSummaryActivity" />
         <activity android:name=".AllButtonActivity" />
-        <activity android:name=".VideoPlayerActivityForStore"
+        <activity
+            android:name=".VideoPlayerActivityForStore"
             android:theme="@style/detailActivityTheme" />
-        <activity android:name=".RegistrationActivity"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" ></activity>
+        <activity
+            android:name=".RegistrationActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".CollectionActivityNew"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -434,19 +436,22 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".DialogDayEndSummaryActivity"
-            android:theme="@style/DayEndDialogTheme"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".AddedOutletSummaryReportActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".ActualVisitStock"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".DialogDayEndSummaryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DayEndDialogTheme" />
+        <activity
+            android:name=".AddedOutletSummaryReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActualVisitStock"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SyncRegistrationDetails"
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".CompetitorPrdctPriceActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 

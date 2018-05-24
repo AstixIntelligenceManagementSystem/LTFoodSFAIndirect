@@ -38,6 +38,14 @@ public class DBAdapterKenya
 
 	private static final String TAG = "DBAdapterKenya";
 
+    private static final String DATABASE_TABLE_CompetitrPrdctPTRPTC = "tblCompetitrPrdctPTRPTC";
+    private static final String DATABASE_CREATE_TABLE_CompetitrPrdctPTRPTC = "create table tblCompetitrPrdctPTRPTC(" +
+            "StoreID text null,CompetitionProductID text null,CompetitionProductName text null,PTR text null,PTC text null,BusinessUnitId int null,BusinessUnit text null,Sstat int null);";
+
+    private static final String DATABASE_TABLE_CompetitrPrdctMstr = "tblCompetitrPrdctMstr";
+    private static final String DATABASE_CREATE_TABLE_CompetitrPrdctMstr = "create table tblCompetitrPrdctMstr(" +
+            "CompetitionProductID text null,CompetitionProductName text null,CompetitorBrandID text null,LTFoodsSimilarBrand text null," +
+            "CategoryID int null,Seq int null,Category text null,BusinessUnitId int null,BusinessUnit text null);";
 
 	//feedbck competitor
 	private static final String DATABASE_TABLE_FeedbackCompetitrMstr = "tblFeedbackCompetitrMstr";
@@ -663,7 +671,7 @@ private static final String DATABASE_TABLE_MAIN101 = "tblFirstOrderDetailsOnLast
 	//private static final String DATABASE_CREATE_TABLE_13 = "create table tblStoreList (StoreID text not null, StoreType string not null, StoreName string not null, StoreLatitude real not null, StoreLongitude real not null, LastVisitDate string not null, LastTransactionDate string not null, Sstat integer not null, ForDate string not null, ActualLatitude text null, ActualLongitude text null, VisitStartTS text null, VisitEndTS text null, ISNewStore int null, AutoIdStore int null, LocProvider text null, Accuracy text null, BateryLeftStatus text null,StoreRouteID text null);";
 	
 	
-	private static final String DATABASE_CREATE_TABLE_13 = "create table tblStoreList(StoreID text not null, StoreType string not null, StoreName string not null, StoreLatitude real not null, StoreLongitude real not null, LastVisitDate string not null, LastTransactionDate string not null, Sstat integer not null, ForDate string not null, ActualLatitude text null, ActualLongitude text null, VisitStartTS text null, VisitEndTS text null,AutoIdStore int null, LocProvider text null, Accuracy text null, BateryLeftStatus text null,StoreClose integer null,StoreNextDay integer null,chainID integer null,ISNewStore int null,StoreRouteID int null,RouteNodeType int null,StoreCatNodeId int null,IsNewStoreDataCompleteSaved int null,flgFromWhereSubmitStatus int null,StoreAddress text null,PaymentStage text null,flgHasQuote int null,flgAllowQuotation int null,flgSubmitFromQuotation int null,flgGSTCapture text null,flgGSTCompliance text null,GSTNumber text null,flgGSTRecordFromServer int null,DistanceNear int null,flgLocationServicesOnOff int null,flgGPSOnOff int null,flgNetworkOnOff int null,flgFusedOnOff int null,flgInternetOnOffWhileLocationTracking int null,flgRestart int null,flgStoreOrder int null,StoreCity text null,StorePinCode text not null,StoreState text null,CollectionReq text null,MapAddress text null,MapCity text null,MapPinCode text null,MapState text null,CityId text null,StateId text null,flgOrderType int null,OwnerName text null,StoreContactNo text null,StoreCatType text null);";
+	private static final String DATABASE_CREATE_TABLE_13 = "create table tblStoreList(StoreID text not null, StoreType string not null, StoreName string not null, StoreLatitude real not null, StoreLongitude real not null, LastVisitDate string not null, LastTransactionDate string not null, Sstat integer not null, ForDate string not null, ActualLatitude text null, ActualLongitude text null, VisitStartTS text null, VisitEndTS text null,AutoIdStore int null, LocProvider text null, Accuracy text null, BateryLeftStatus text null,StoreClose integer null,StoreNextDay integer null,chainID integer null,ISNewStore int null,StoreRouteID int null,RouteNodeType int null,StoreCatNodeId int null,IsNewStoreDataCompleteSaved int null,flgFromWhereSubmitStatus int null,StoreAddress text null,PaymentStage text null,flgHasQuote int null,flgAllowQuotation int null,flgSubmitFromQuotation int null,flgGSTCapture text null,flgGSTCompliance text null,GSTNumber text null,flgGSTRecordFromServer int null,DistanceNear int null,flgLocationServicesOnOff int null,flgGPSOnOff int null,flgNetworkOnOff int null,flgFusedOnOff int null,flgInternetOnOffWhileLocationTracking int null,flgRestart int null,flgStoreOrder int null,StoreCity text null,StorePinCode text not null,StoreState text null,CollectionReq text null,MapAddress text null,MapCity text null,MapPinCode text null,MapState text null,CityId text null,StateId text null,flgOrderType int null,OwnerName text null,StoreContactNo text null,StoreCatType text null,flgCaptureCompetitorPTR int null);";
 	
 	//private static final String DATABASE_CREATE_TABLE_2 = "create table tblProductList (ProductID text not null, ProductShortName text not null, ProductMRP real not null, ProductRLP real not null, ProductTaxAmount real not null, KGLiter string nulll);";//,DisplayUnit string nul 
 	
@@ -853,6 +861,8 @@ private static final String DATABASE_TABLE_tblProductListLastVisitStockOrOrderMs
 			
 			try
 			{
+                db.execSQL(DATABASE_CREATE_TABLE_CompetitrPrdctPTRPTC);
+                db.execSQL(DATABASE_CREATE_TABLE_CompetitrPrdctMstr);
 				db.execSQL(DATABASE_CREATE_TABLE_FeedbackCompetitrMstr);
 				db.execSQL(DATABASE_CREATE_TABLE_FeedbackCompetitr);
 				db.execSQL(DATABASE_CREATE_TABLEtblProductListLastVisitStockOrOrderMstr);
@@ -1087,6 +1097,10 @@ private static final String DATABASE_TABLE_tblProductListLastVisitStockOrOrderMs
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			try 
 			{
+                db.execSQL("DROP TABLE IF EXISTS tblCompetitrPrdctPTRPTC");
+
+                db.execSQL("DROP TABLE IF EXISTS tblCompetitrPrdctMstr");
+
 				db.execSQL("DROP TABLE IF EXISTS tblFeedbackCompetitrMstr");
 
 				db.execSQL("DROP TABLE IF EXISTS tblFeedbackCompetitr");
@@ -5824,6 +5838,8 @@ open();
 	 public void Delete_tblStore_for_refreshDataButNotNewStore()
 	  {
 	   db.execSQL("DELETE FROM tblStoreList where ISNewStore<>1");//
+          db.execSQL("DELETE FROM tblCompetitrPrdctMstr");
+
 	  }
 	 
 	 
@@ -13252,9 +13268,9 @@ public void deleteStoreTblsRecordsInCaseCancelOrderInOrderBooking(String StoreID
             ////// System.out.println("Updating Status for Store ID: " + sID);
 			int affected = db.update("tblStoreList", values, "StoreID=?",new String[] { sID });
 			//int affected2 = db.update("tblTransac", values, "StoreID=?",new String[] { sID });
-			
+			//nitishdubey
 			int affected4 = db.update("tblNewStoreListEntries", values,"StoreID=?", new String[] { sID });
-			
+             int affected92 = db.update("tblCompetitrPrdctPTRPTC", values, "StoreID=?",new String[] { sID });
 			//int affected4 = db.update("tblDistributionStoreProductWiseDetails", values, "StoreID=?",new String[] { sID });
 			//int affected5 = db.update("tblDistributionStoreProductMstr", values, "StoreID=?",new String[] { sID });
 			
@@ -13401,6 +13417,7 @@ public void deleteStoreTblsRecordsInCaseCancelOrderInOrderBooking(String StoreID
 
 
 			int affected = db.update("tblStoreList", values, "StoreID=?",new String[] { sID });
+             int affected92 = db.update("tblCompetitrPrdctPTRPTC", values, "StoreID=?",new String[] { sID });
 			 int affected1 = db.update("tblLatLongDetails", values, "StoreID=?",new String[] { sID });
 			
 			int affected26 = db.update("tblRateDistribution", values,"StoreId=?", new String[] { sID });
@@ -14204,7 +14221,7 @@ public void deleteStoreTblsRecordsInCaseCancelOrderInOrderBooking(String StoreID
 			int flgSubmitFromQuotation,String flgGSTCapture,String flgGSTCompliance,String GSTNumber,
 									  int flgGSTRecordFromServer,int RouteNodeType,String collectionRequired,int flgOrderType
 			                          ,String OwnerName,
-									  String StoreContactNo,String StoreCatType)
+									  String StoreContactNo,String StoreCatType,String flgCaptureCompetitorPTR)
 	{
 
 
@@ -14305,6 +14322,7 @@ public void deleteStoreTblsRecordsInCaseCancelOrderInOrderBooking(String StoreID
 		initialValues.put("OwnerName", OwnerName.trim());
 		initialValues.put("StoreContactNo", StoreContactNo.trim());
 		initialValues.put("StoreCatType", StoreCatType);
+        initialValues.put("flgCaptureCompetitorPTR", Integer.parseInt(flgCaptureCompetitorPTR));
 
 		return db.insert(DATABASE_TABLE_MAIN13, null, initialValues);
 	}
@@ -30095,6 +30113,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 		db.execSQL("DELETE FROM tblFeedbackCompetitr WHERE StoreID ='" + StoreID +"'");
 		close();
 	}
+
 	public long savetblFeedbackCompetitr(String StoreID,String CompetitorID,String CompetitorDesc,String CategoryID,String Sstat)
 	{
 		//create table tblFeedbackCompetitr(StoreID text null,CompetitorID text null,CompetitorDesc text null,CategoryID);";
@@ -30147,5 +30166,155 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         }
         return hmapStoreIDForDate;
     }
+
+    public boolean isDataExistCompetitor(String StoreID) {
+        open();
+        boolean flgCmpttrPrdctChck = false;
+        Cursor cur = null;
+        try {
+            cur = db.rawQuery("Select * from tblFeedbackCompetitr where StoreID ='" + StoreID + "'", null);
+            if (cur.getCount() > 0) {
+                flgCmpttrPrdctChck = true;
+            }
+        } catch (SQLiteException exptn) {
+            flgCmpttrPrdctChck = false;
+        } finally {
+            if (cur != null) {
+                cur.close();
+            }
+            close();
+            return flgCmpttrPrdctChck;
+        }
+    }
+    public boolean isDataForCompetitorCmplsry(String StoreID) {
+        open();
+        boolean flgCmpttrPrdctChck = false;
+        Cursor cur = null;
+        try {
+            //StoreID,ForDate from tblStoreList
+            cur = db.rawQuery("Select StoreID from tblStoreList where StoreID ='" + StoreID + "' AND flgCaptureCompetitorPTR=1", null);
+            if (cur.getCount() > 0) {
+                flgCmpttrPrdctChck = true;
+            }
+        } catch (SQLiteException exptn) {
+            flgCmpttrPrdctChck = false;
+        } finally {
+            if (cur != null) {
+                cur.close();
+            }
+            close();
+            return flgCmpttrPrdctChck;
+        }
+    }
+
+
+    public void insertCmpttrPrdctMstr(String CompetitionProductID,String CompetitionProductName,String CompetitorBrandID,String LTFoodsSimilarBrand,int CategoryID
+    ,int Seq,String Category,int BusinessUnitId,String BusinessUnit)
+    {
+        open();
+        ContentValues values=new ContentValues();
+        values.put("CompetitionProductID",CompetitionProductID);
+        values.put("CompetitionProductName",CompetitionProductName);
+        values.put("CompetitorBrandID",CompetitorBrandID);
+        values.put("LTFoodsSimilarBrand",LTFoodsSimilarBrand);
+        values.put("CategoryID",CategoryID);
+        values.put("Seq",Seq);
+        values.put("Category",Category);
+        values.put("BusinessUnitId",BusinessUnitId);
+        values.put("BusinessUnit",BusinessUnit);
+        db.insert(DATABASE_TABLE_CompetitrPrdctMstr,null,values);
+        close();
+    }
+
+    //tblFeedbackCompetitrMstr"CompetitorID text null,CompetitorDesc text null,CategoryID text null,CategoryDesc text null," +
+                   // "CatSeq int null,ProdSeq int null);";
+
+   /* tblCompetitrPrdctMstr"CompetitionProductID ,CompetitionProductName ,CompetitorBrandID ,LTFoodsSimilarBrand
+       "CategoryID int null,Seq int null,Category text null,BusinessUnitId int null,BusinessUnit text null);";
+   */
+   public LinkedHashMap<String,ArrayList<String>> getCmpttrChkdPrdct(String storeId)
+    {
+        //tblFeedbackCompetitr(StoreID text null,CompetitorID text null,CompetitorDesc text null,CategoryID text null,Sstat text null);";
+        open();
+        LinkedHashMap<String,ArrayList<String>> hmapCmpttrChkdPrdct=new LinkedHashMap<String,ArrayList<String>>();
+        ArrayList<String> listCmpttrChkdPrdct=new ArrayList<String>();
+        Cursor cursor=null;
+        try {
+            cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' Order By tblCompetitrPrdctMstr.BusinessUnitId",null);
+            if(cursor.getCount()>0)
+            {
+                if(cursor.moveToFirst())
+                {
+                    String crntBusinessUnitDesc="",prvsBusinessUnitDesc="";
+                    for(int i=0;i<cursor.getCount();i++)
+                    {
+                        crntBusinessUnitDesc=cursor.getString(0);
+                        if(i==0)
+                        {
+                            prvsBusinessUnitDesc=crntBusinessUnitDesc;
+                            listCmpttrChkdPrdct.add(cursor.getString(1));
+                        }
+                        else
+                        {
+                            if(prvsBusinessUnitDesc.equals(crntBusinessUnitDesc))
+                            {
+                                listCmpttrChkdPrdct.add(cursor.getString(1));
+                            }
+                            else
+                            {
+                                hmapCmpttrChkdPrdct.put(prvsBusinessUnitDesc,listCmpttrChkdPrdct);
+                                listCmpttrChkdPrdct=new ArrayList<String>();
+                                prvsBusinessUnitDesc=crntBusinessUnitDesc;
+                                listCmpttrChkdPrdct.add(cursor.getString(1));
+                            }
+                        }
+                        if(i==(cursor.getCount()-1))
+                        {
+                            hmapCmpttrChkdPrdct.put(prvsBusinessUnitDesc,listCmpttrChkdPrdct);
+                        }
+                        cursor.moveToNext();
+                    }
+                }
+            }
+        }
+        catch(SQLiteException exptn)
+        {
+
+        }
+        finally {
+            if(cursor!=null)
+            {
+                cursor.close();
+            }
+            close();
+            return hmapCmpttrChkdPrdct;
+        }
+    }
+        public void deleteLastCompetitrPrdctPTRPTC(String storeId)
+        {
+            open();
+            db.execSQL("Delete from tblCompetitrPrdctPTRPTC where StoreID='"+storeId+"'");
+            close();
+        }
+    public void insertCompetitrPrdctPTRPTC(String StoreID,String CompetitionProductID,String CompetitionProductName,String PTR,String PTC,String BusinessUnitId,String BusinessUnit,int Sstat)
+    {
+
+        open();
+
+        ContentValues values=new ContentValues();
+        values.put("StoreID",StoreID);
+        values.put("CompetitionProductID",CompetitionProductID);
+        values.put("CompetitionProductName",CompetitionProductName);
+        values.put("PTR",PTR);
+        values.put("PTC",PTC);
+        values.put("BusinessUnitId",BusinessUnitId);
+        values.put("BusinessUnit",BusinessUnit);
+        values.put("Sstat",Sstat);
+        db.insert(DATABASE_TABLE_CompetitrPrdctPTRPTC,null,values);
+        close();
+
+    }
+
+
 }
 

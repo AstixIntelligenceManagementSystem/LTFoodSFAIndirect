@@ -67,7 +67,7 @@ public class LocationRetreivingGlobal implements LocationListener,GoogleApiClien
     public LocationManager locationManager;
     public Location location;
 
-    private final long startTime = 15000;
+    private final long startTime = 30000;
     private final long interval = 200;
     public CoundownClass countDownTimer;
     public boolean isGPSEnabled = false;

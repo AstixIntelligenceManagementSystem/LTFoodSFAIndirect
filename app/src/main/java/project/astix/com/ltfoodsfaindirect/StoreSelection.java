@@ -100,7 +100,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class StoreSelection extends BaseActivity implements com.google.android.gms.location.LocationListener,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener
+public class StoreSelection extends BaseActivity implements LocationListener,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener
 {
 	public Date currDate;
 	public SimpleDateFormat currDateFormat;
@@ -174,7 +174,7 @@ public class StoreSelection extends BaseActivity implements com.google.android.g
 	ImageView img_side_popUp;
 	int closeList = 0;
 	int whatTask = 0;
-	String whereTo = "11";
+	String whereTo = "Regular";
 
 	ArrayList mSelectedItems = new ArrayList();
 	LinkedHashMap<String, String> hmapStore_details=new LinkedHashMap<String, String>();
@@ -577,30 +577,22 @@ public class StoreSelection extends BaseActivity implements com.google.android.g
 	
 	private class bgTasker extends AsyncTask<Void, Void, Void> {
 
-		// obj(s) for services/sync..blah..blah
+
 
 		@Override
 		protected Void doInBackground(Void... params) {
 
 			try {
-				//System.out.println("starting bgTasker Exec().....: ");
-				
-				
 
-				
 					dbengine.open();
 					String rID=dbengine.GetActiveRouteID();
-					dbengine.UpdateTblDayStartEndDetails(Integer.parseInt(rID), valDayEndOrChangeRoute);
-					//System.out.println("TblDayStartEndDetails Background: "+ rID);
-					//System.out.println("TblDayStartEndDetails Background valDayEndOrChangeRoute: "+ valDayEndOrChangeRoute);
+					//dbengine.UpdateTblDayStartEndDetails(Integer.parseInt(rID), valDayEndOrChangeRoute);
 					dbengine.close();
-				
-				//System.out.println("Induwati   whatTask :"+whatTask);
 				
 				if (whatTask == 2) 
 				{
 					whatTask = 0;
-					// stores with Sstat = 1 !
+
 					dbengine.open();
 					// dbengine.fnTruncateTblSelectedStoreIDinChangeRouteCase();
 					for (int nosSelected = 0; nosSelected <= mSelectedItems.size() - 1; nosSelected++) 
@@ -609,12 +601,11 @@ public class StoreSelection extends BaseActivity implements com.google.android.g
 						int valID = stNames.indexOf(valSN);
 						String stIDneeded = stIDs.get(valID);
 
-						// String[] stIDs;
-						// String[] stNames;
+
 
 						dbengine.UpdateStoreFlagAtDayEndOrChangeRoute(stIDneeded, 3);
 
-						//System.out.println("stIDneeded : " + stIDneeded);
+						dbengine.UpdateStoreReturnphotoFlag(stIDneeded.trim(), 3);
 						dbengine.insertTblSelectedStoreIDinChangeRouteCase(stIDneeded);
 						dbengine.updateflgFromWhereSubmitStatusAgainstStore(stIDneeded, 1);
 						if(dbengine.fnchkIfStoreHasInvoiceEntry(stIDneeded)==1)
@@ -813,71 +804,47 @@ public class StoreSelection extends BaseActivity implements com.google.android.g
 		      {
 					public void onClick(DialogInterface dialog, int which) 
 					    {
-						//System.out.println("Abhinav store Selection  Step 9");
-						// Location_Getting_Service.closeFlag = 1;
-						//enableGPSifNot();
 
-						// run bgTasker()!
-
-						// if(!scheduler.isTerminated()){
-						// scheduler.shutdownNow();
-						// }
 						dbengine.open();
-						//System.out.println("Day end before");
-						if (dbengine.GetLeftStoresChk() == true) {
-							//System.out.println("Abhinav store Selection  Step 10");
-							//System.out.println("Day end after");
-							// run bgTasker()!
 
-							// Location_Getting_Service.closeFlag = 1;
-							// scheduler.shutdownNow();
-
-							//enableGPSifNot();
-							// scheduler.shutdownNow();
-
+						if (dbengine.GetLeftStoresChk() == true)
+						{
 							dbengine.close();
 
 							whatTask = 3;
-							// -- Route Info Exec()
-							try {
 
+							try
+							{
 								new bgTasker().execute().get();
-							} catch (InterruptedException e) {
+							}
+							catch (InterruptedException e)
+							{
 								e.printStackTrace();
-								//System.out.println(e);
+
 							} catch (ExecutionException e) {
 								e.printStackTrace();
-								//System.out.println(e);
-							}
-							// --
-						} 
-						else {
-							//System.out.println("Abhinav store Selection  Step 11");
-							// show dialog for clear..clear + tranx to launcher
 
-							// -- Route Info Exec()
-							try {
+							}
+
+						} 
+						else
+							{
+
+
+							try
+							{
 								dbengine.close();
-								//System.out.println("Day end before whatTask");
 								whatTask = 1;
 								new bgTasker().execute().get();
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-								//System.out.println(e);
-							} catch (ExecutionException e) {
-								e.printStackTrace();
-								//System.out.println(e);
 							}
-							// --
+							catch (InterruptedException e)
+							{
+								e.printStackTrace();
+								} catch (ExecutionException e) {
+								e.printStackTrace();
 
-							/*dbengine.open();
-							String rID=dbengine.GetActiveRouteID();
-							//dbengine.updateActiveRoute(rID, 0);
-							dbengine.close();
-							 Intent revupOldFriend = new Intent(StoreSelection.this,LauncherActivity.class);
-							 revupOldFriend.putExtra("imei", imei);
-							  startActivity(revupOldFriend);
-							  finish();*/
+							}
+
 							 
 						}
 
@@ -1966,7 +1933,7 @@ public void DayEndWithoutalert()
 
 					}
 
-					whereTo = "11";
+					//whereTo = "11";
 
 					syncTIMESTAMP = System.currentTimeMillis();
 					Date dateobj = new Date(syncTIMESTAMP);
@@ -2338,7 +2305,7 @@ public void DayEndWithoutalert()
 
 							}
 
-							whereTo = "11";
+							//whereTo = "11";
 
 							syncTIMESTAMP = System.currentTimeMillis();
 							Date dateobj = new Date(syncTIMESTAMP);
@@ -3639,22 +3606,100 @@ if(hmapStore_details!=null && hmapStore_details.containsKey(storeCode[current]))
 		}
 	}
 
+	public static String[] checkNumberOfFiles(File dir)
+	{
+		int NoOfFiles=0;
+		String [] Totalfiles = null;
+
+		if (dir.isDirectory())
+		{
+			String[] children = dir.list();
+			NoOfFiles=children.length;
+			Totalfiles=new String[children.length];
+
+			for (int i=0; i<children.length; i++)
+			{
+				Totalfiles[i]=children[i];
+			}
+		}
+		return Totalfiles;
+	}
+	void uploadPendingData()
+	{
+
+		File del = new File(Environment.getExternalStorageDirectory(), CommonInfo.OrderXMLFolder);
+
+		// check number of files in folder
+		final String [] AllFilesNameNotSync= checkNumberOfFiles(del);
+
+		String xmlfileNames = dbengine.fnGetXMLFile("3");
+		// String xmlfileNamesStrMap=dbengineSo.fnGetXMLFile("3");
+
+		dbengine.open();
+		String[] SaveStoreList = dbengine.SaveStoreList();
+		dbengine.close();
+		if(xmlfileNames.length()>0 || SaveStoreList.length != 0)
+		{
+			if(isOnline())
+			{
+
+				dbengine.open();
+				StoreList2Procs = dbengine.ProcessStoreReq();
+				if (StoreList2Procs.length != 0)
+				{
+					midPart();
+					dayEndCustomAlert(1);
+					dbengine.close();
+
+				} else if (dbengine.GetLeftStoresChk() == true)
+				{
+					DayEnd();
+					dbengine.close();
+				}
+
+				else {
+					DayEndWithoutalert();
+				}
+			}
+			else
+			{
+				showAlertSingleButtonError(getResources().getString(R.string.NoDataConnectionFullMsg));
+			}
+		}
+		else
+		{
+           showAlertSingleButtonInfo(getResources().getString(R.string.NoPendingDataMsg));
+        }
+	}
+
 	 protected void open_pop_up() 
 	 {
 	        dialog = new Dialog(StoreSelection.this);
 	        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	        dialog.setContentView(R.layout.selection_header_custom);
-	        dialog.getWindow().setBackgroundDrawableResource(
-	                android.R.color.transparent);
+	        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 	        dialog.getWindow().getAttributes().windowAnimations = R.style.side_dialog_animation;
 	        WindowManager.LayoutParams parms = dialog.getWindow().getAttributes();
 	        parms.gravity = Gravity.TOP | Gravity.LEFT;
 	        parms.height=parms.MATCH_PARENT;
 	        parms.dimAmount = (float) 0.5;
 
+
+		 final Button uploadPendingData = (Button) dialog.findViewById(R.id.uploadPendingData);
+		 uploadPendingData.setOnClickListener(new OnClickListener()
+		 {
+			 @Override
+			 public void onClick(View v)
+			 {
+				 dialog.dismiss();
+				 uploadPendingData();
+
+			 }
+		 });
+
 		 //account census
 		 final Button butn_summary_report = (Button) dialog.findViewById(R.id.butn_summary_report);
-		 butn_summary_report.setOnClickListener(new View.OnClickListener() {
+		 butn_summary_report.setOnClickListener(new OnClickListener() {
 			 @Override
 			 public void onClick(View v) {
 				 Intent intent=new Intent(StoreSelection.this,AddedOutletSummaryReportActivity.class);
@@ -3686,11 +3731,8 @@ if(hmapStore_details!=null && hmapStore_details.containsKey(storeCode[current]))
 				 {
 					 try
 					 {
-
-						 GetInvoiceForDay task = new GetInvoiceForDay(StoreSelection.this);
+                         GetInvoiceForDay task = new GetInvoiceForDay(StoreSelection.this);
 						 task.execute();
-
-
 					 }
 					 catch (Exception e)
 					 {
@@ -3837,12 +3879,13 @@ if(hmapStore_details!=null && hmapStore_details.containsKey(storeCode[current]))
 	        but_day_end.setOnClickListener(new OnClickListener() {
 
 				@Override
-				public void onClick(View v) {
+				public void onClick(View v)
+				{
 					// TODO Auto-generated method stub
 					but_day_end.setBackgroundColor(Color.GREEN);
 					closeList = 0;
 					valDayEndOrChangeRoute=1;
-					//checkbuttonclick=2;
+
 				
 					if(isOnline())
 					{
@@ -3855,30 +3898,25 @@ if(hmapStore_details!=null && hmapStore_details.containsKey(storeCode[current]))
 		
 					 }
 					dbengine.open();
-					whereTo = "11";
-					//////System.out.println("Abhinav store Selection  Step 1");
-						//////System.out.println("StoreList2Procs(before): " + StoreList2Procs.length);
-					StoreList2Procs = dbengine.ProcessStoreReq();
-					//////System.out.println("StoreList2Procs(after): " + StoreList2Procs.length);
+					//whereTo = "11";
 
-					if (StoreList2Procs.length != 0) {
-						//whereTo = "22";
-						//////System.out.println("Abhinav store Selection  Step 2");
+					StoreList2Procs = dbengine.ProcessStoreReq();
+
+
+					if (StoreList2Procs.length != 0)
+					{
 						midPart();
 						dayEndCustomAlert(1);
-						//showPendingStorelist(1);
 						dbengine.close();
 
 					} else if (dbengine.GetLeftStoresChk() == true) 
 					{
-						//////System.out.println("Abhinav store Selection  Step 7");
-						//enableGPSifNot();
-						// showChangeRouteConfirm();
 						DayEnd();
 						dbengine.close();
 					}
 
-					else {
+					else
+					{
 						DayEndWithoutalert();
 					}
 
@@ -3907,41 +3945,23 @@ if(hmapStore_details!=null && hmapStore_details.containsKey(storeCode[current]))
 		
 					 }
 					closeList = 0;
-					whereTo = "11";
-					//checkbuttonclick=1;
-
-					// ////System.out.println("closeList: "+closeList);
-					// chk if flag 2/3 found
-					dbengine.open();
+					 dbengine.open();
 					 StoreList2Procs = dbengine.ProcessStoreReq();
 
-					// int picsCHK = dbengine.getExistingPicNosOnRemStore();
-					// String[] sIDs2Alert =
-					// dbengine.getStoreNameExistingPicNosOnRemStore();
+						if (StoreList2Procs.length != 0)
+						{
+                            midPart();
+						    dayEndCustomAlert(2);
 
-					if (StoreList2Procs.length != 0) {// && picsCHK <= 0
-
-						
-						midPart();
-						dayEndCustomAlert(2);
-						//showPendingStorelist(2);
-
-					} else if (dbengine.GetLeftStoresChk() == true) {// && picsCHK
-																		// <= 0
-					
-						//enableGPSifNot();
-
-						
-						showChangeRouteConfirmWhenNoStoreisLeftToSubmit();
-						//showChangeRouteConfirm();
-
+					    }
+					    else if (dbengine.GetLeftStoresChk() == true)
+					    {
+						  showChangeRouteConfirmWhenNoStoreisLeftToSubmit();
 						}
 					
-					else {
-						// show dialog for clear..clear + tranx to launcher
-						//showChangeRouteConfirmWhenNoStoreisLeftToSubmit();
+					else
+					{
 						DayEndWithoutalert();
-						//showChangeRouteConfirm();
 					}
 
 					dbengine.close();
@@ -3978,14 +3998,14 @@ if(hmapStore_details!=null && hmapStore_details.containsKey(storeCode[current]))
 			    				    {
 										CommonInfo.flgAllRoutesData=dbengine.getflgAllRoutesDataPullFromServer();
 			    						new GetStoresForDay().execute();
-			    						//////System.out.println("SRVC-OK: "+ new GetStoresForDay().execute().get());
+
 			    					} 
 									catch(Exception e)
 									{
 										
 									}
 									
-									//onCreate(new Bundle());
+
 								}
 							  });
 						

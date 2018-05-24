@@ -2,10 +2,10 @@
 
     <string name="app_name">GTFieldOperations</string>
     <!-- <string name="app_name">GTFieldOperations Stagging</string>-->
- <!-- <string name="app_name">GTFieldOperations Test</string>-->
-   <!--  <string name="app_name">GTFieldOperations Dev</string>-->
-,
- <!--  <string name="app_name">GTFieldOperations Test Release</string>-->
+    <!-- <string name="app_name">GTFieldOperations Test</string>-->
+    <!--  <string name="app_name">GTFieldOperations Dev</string>-->
+    ,
+    <!--  <string name="app_name">GTFieldOperations Test Release</string>-->
 
     <string name="AlertDialogHeaderErrorMsg">Error</string>
 
@@ -523,7 +523,7 @@
 
     </string-array>
 
- <string name="NoRouteAvailable">No routes available for your device.</string>
+    <string name="NoRouteAvailable">No routes available for your device.</string>
 
     <string name="txtAddStore">Add Store</string>
     <string name="OrderTypeActualVisitHeader">Store Check</string>

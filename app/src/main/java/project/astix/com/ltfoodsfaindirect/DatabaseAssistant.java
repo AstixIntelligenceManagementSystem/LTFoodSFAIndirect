@@ -134,6 +134,8 @@ public class DatabaseAssistant
 			exportVideoTable("tblContentStoreWise");
 			exportTable("tblFeedbackCompetitr");
 
+				exportTable("tblCompetitrPrdctPTRPTC");
+
 			//String routeID=GetActiveRouteIDSunil();
 
 		String xmlString = xmlBuilder.end();

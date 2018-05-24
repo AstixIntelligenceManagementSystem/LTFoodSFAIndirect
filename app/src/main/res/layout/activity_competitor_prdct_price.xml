@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+    <RelativeLayout
+        android:layout_height="48dp"
+        android:layout_width="fill_parent"
+        android:background="@drawable/custom_header"
+        android:paddingLeft="0dp"
+
+
+
+        android:id="@+id/rtv_hdr">
+
+        <ImageView
+            android:id="@+id/btn_bck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_back"
+
+            />
+
+        <TextView
+            android:id="@+id/order_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:layout_toRightOf="@+id/backbutton"
+            android:paddingLeft="10dp"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal|left"
+            android:shadowRadius="7"
+            android:shadowDy="4"
+            android:shadowDx="4"
+            android:textStyle="bold"
+            android:shadowColor="#80FFFFFF"
+            android:textSize="18sp"
+            android:text="Competitor Product"/>
+
+
+
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_competitorHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rtv_hdr"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:gravity="left"
+            android:layout_marginLeft="2dp"
+            android:text="Category Name"
+            android:textColor="#000"
+            android:layout_weight="2"
+            android:background="@drawable/edit_text_bg_gst_disable"
+            android:id="@+id/tvCtgryName"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textSize="14sp"
+            android:gravity="left"
+            android:layout_marginLeft="2dp"
+            android:text="Product Name"
+            android:textColor="#000"
+            android:layout_weight="2"
+            android:background="@drawable/edit_text_bg_gst_disable"
+            android:id="@+id/tvProdctName"
+            />
+
+        <TextView
+            android:id="@+id/ed_priceToRtlr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="PTR"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="8dp"
+            android:textColor="#000"
+
+            android:background="@drawable/txtview_prd_bg"
+            />
+        <TextView
+            android:id="@+id/ed_priceToConsumer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:text="PTC"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="8dp"
+            android:textColor="#000"
+            android:background="@drawable/txtview_prd_bg"
+            />
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_competitorHeader"
+        android:layout_above="@+id/ll_btns">
+        <LinearLayout
+            android:id="@+id/ll_CompetitorPrdct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/ll_btns"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btnSaveData"/>
+    </LinearLayout>
+</RelativeLayout>

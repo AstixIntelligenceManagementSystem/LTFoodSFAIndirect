@@ -31,8 +31,20 @@
          android:gravity="left|center_vertical"
          android:drawableRight="@drawable/ic_right2"
            android:textSize="14sp"
-            android:text="Day End"
+            android:text="@string/DayEnd"
          android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/uploadPendingData"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/alert_text_background"
+        android:textColor="#000000"
+        android:gravity="left|center_vertical"
+        android:drawableRight="@drawable/ic_right2"
+        android:textSize="14sp"
+        android:text="Upload Pending Data"
+        android:visibility="visible"/>
          
         
         
