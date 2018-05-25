@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
+    android:background="@drawable/card_background"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="11sp"
+        android:gravity="left"
+        android:layout_marginLeft="2dp"
+        android:text="Category Name"
+        android:textColor="#000"
+
+        android:layout_weight="2"
+        android:background="@drawable/edit_text_bg_gst_disable"
+        android:id="@+id/tvCtgryName"
+        />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="11sp"
+        android:gravity="left"
+        android:layout_marginLeft="2dp"
+        android:text="Product Name"
+        android:textColor="#000"
+        android:layout_weight="2"
+        android:background="@drawable/edit_text_bg_gst_disable"
+        android:id="@+id/tvProdctName"
+        />
+
+    <EditText
+        android:id="@+id/ed_priceToRtlr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="8dp"
+        android:inputType="numberDecimal"
+
+        android:background="@drawable/ed_cmpttrprd_bg"
+        />
+    <EditText
+        android:id="@+id/ed_priceToConsumer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/ed_cmpttrprd_bg"
+        />
+
+</LinearLayout>
