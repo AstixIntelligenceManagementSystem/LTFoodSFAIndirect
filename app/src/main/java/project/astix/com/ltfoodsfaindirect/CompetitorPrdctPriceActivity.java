@@ -99,11 +99,18 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
     LinkedHashMap<String,ArrayList<String>> hmapCmpttrChkdPrdct;
     LinkedHashMap<String,String> hmapCmpttrPrdctPTR=new LinkedHashMap<String,String>();
     LinkedHashMap<String,String> hmapCmpttrPrdctPTC=new LinkedHashMap<String,String>();
+
+    String surveyDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_competitor_prdct_price);
 
+        long syncTIMESTAMP = System.currentTimeMillis();
+        Date dateobj = new Date(syncTIMESTAMP);
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy",Locale.ENGLISH);
+         surveyDate= df.format(dateobj);
         ll_CompetitorPrdct= (LinearLayout) findViewById(R.id.ll_CompetitorPrdct);
         locationManager=(LocationManager) this.getSystemService(LOCATION_SERVICE);
         btn_submit= (Button) findViewById(R.id.btn_submit);
@@ -213,7 +220,27 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
 
                     if(!TextUtils.isEmpty(prdctPTC) && !TextUtils.isEmpty(prdctPTR))
                     {
+                        if(Double.parseDouble(prdctPTR)<=Double.parseDouble(prdctPTC))
+                    {
+
                         isflgPriceFilled=2;
+                    }
+                    else
+                        {
+                            isflgPriceFilled=1;
+                            EditText ed_CmpttrPrdct= (EditText) ll_CompetitorPrdct.findViewWithTag(cmpttrPrdctId+"_PTC");
+                            if(ed_CmpttrPrdct!=null)
+                            {
+                                ed_CmpttrPrdct.requestFocus();
+                                ed_CmpttrPrdct.setText("");
+                                startStopEditing(false,ed_CmpttrPrdct);
+
+                            }
+                            showAlertForEveryOne("PTC cannot be less than PTR for "+cmpttrPrdct);
+                            break;
+                        }
+
+
 
                     }
                     else if(TextUtils.isEmpty(prdctPTR) && (!TextUtils.isEmpty(prdctPTC)))
@@ -241,6 +268,7 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
                         break;
 
                     }
+
 
                     //ed_priceToRtlr.setTag(cmpttrPrdctId+"_PTR");
 
@@ -456,7 +484,7 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
                     if(!TextUtils.isEmpty(prdctPTC) && !TextUtils.isEmpty(prdctPTR))
                     {
 
-                        dbengine.insertCompetitrPrdctPTRPTC(storeID,cmpttrPrdctId,cmpttrPrdct,prdctPTR,prdctPTC,businessUnitId,businessUnit,1);
+                        dbengine.insertCompetitrPrdctPTRPTC(storeID,cmpttrPrdctId,cmpttrPrdct,prdctPTR,prdctPTC,businessUnitId,businessUnit,1,surveyDate);
                     }
                     //ed_priceToRtlr.setTag(cmpttrPrdctId+"_PTR");
 

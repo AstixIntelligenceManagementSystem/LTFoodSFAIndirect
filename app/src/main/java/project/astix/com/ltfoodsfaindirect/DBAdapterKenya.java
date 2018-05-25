@@ -40,7 +40,7 @@ public class DBAdapterKenya
 
     private static final String DATABASE_TABLE_CompetitrPrdctPTRPTC = "tblCompetitrPrdctPTRPTC";
     private static final String DATABASE_CREATE_TABLE_CompetitrPrdctPTRPTC = "create table tblCompetitrPrdctPTRPTC(" +
-            "StoreID text null,CompetitionProductID text null,CompetitionProductName text null,PTR text null,PTC text null,BusinessUnitId int null,BusinessUnit text null,Sstat int null);";
+            "StoreID text null,CompetitionProductID text null,CompetitionProductName text null,PTR text null,PTC text null,BusinessUnitId int null,BusinessUnit text null,SurveyDate text null,Sstat int null);";
 
     private static final String DATABASE_TABLE_CompetitrPrdctMstr = "tblCompetitrPrdctMstr";
     private static final String DATABASE_CREATE_TABLE_CompetitrPrdctMstr = "create table tblCompetitrPrdctMstr(" +
@@ -30240,7 +30240,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         ArrayList<String> listCmpttrChkdPrdct=new ArrayList<String>();
         Cursor cursor=null;
         try {
-            cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' Order By tblCompetitrPrdctMstr.BusinessUnitId",null);
+            cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
             if(cursor.getCount()>0)
             {
                 if(cursor.moveToFirst())
@@ -30296,7 +30296,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
             db.execSQL("Delete from tblCompetitrPrdctPTRPTC where StoreID='"+storeId+"'");
             close();
         }
-    public void insertCompetitrPrdctPTRPTC(String StoreID,String CompetitionProductID,String CompetitionProductName,String PTR,String PTC,String BusinessUnitId,String BusinessUnit,int Sstat)
+    public void insertCompetitrPrdctPTRPTC(String StoreID,String CompetitionProductID,String CompetitionProductName,String PTR,String PTC,String BusinessUnitId,String BusinessUnit,int Sstat,String surveyDate)
     {
 
         open();
@@ -30309,6 +30309,8 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         values.put("PTC",PTC);
         values.put("BusinessUnitId",BusinessUnitId);
         values.put("BusinessUnit",BusinessUnit);
+        values.put("SurveyDate",surveyDate);
+
         values.put("Sstat",Sstat);
         db.insert(DATABASE_TABLE_CompetitrPrdctPTRPTC,null,values);
         close();
