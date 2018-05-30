@@ -3439,8 +3439,16 @@ CustomKeyboard mCustomKeyboardNum,mCustomKeyboardNumWithoutDecimal;
 			getSchemeSlabDetails();
 			dbengine.open();
 			hmapFetchPDASavedData=dbengine.fetchActualVisitData(storeID);
+
 			dbengine.close();
 
+			if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.size()>0)
+			{
+				if(flgOrderType==1)
+				{
+					hmapProductIdStock.putAll(hmapFetchPDASavedData);
+				}
+			}
 
 			hmapMinDlvrQty=dbengine.getMinDlvryQntty(storeID);
 			hmapMinDlvrQtyQPBT=dbengine.getMinDlvryQnttyQPBT(storeID);

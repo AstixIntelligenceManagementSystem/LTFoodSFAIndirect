@@ -9173,7 +9173,13 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 			  dbengine.open();
 			  hmapFetchPDASavedData=dbengine.fetchActualVisitData(storeID);
 			  dbengine.close();
-
+			  if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.size()>0)
+			  {
+				  if(flgOrderType==1)
+				  {
+					  hmapProductIdStock.putAll(hmapFetchPDASavedData);
+				  }
+			  }
 			  hmapMinDlvrQty=dbengine.getMinDlvryQntty(storeID);
 		   hmapMinDlvrQtyQPBT=dbengine.getMinDlvryQnttyQPBT(storeID);
 		   hmapMinDlvrQtyQPTaxAmount=dbengine.getMinDlvryQnttyQPTaxAmount(storeID);

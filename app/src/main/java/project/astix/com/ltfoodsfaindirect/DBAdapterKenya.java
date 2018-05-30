@@ -30240,7 +30240,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         ArrayList<String> listCmpttrChkdPrdct=new ArrayList<String>();
         Cursor cursor=null;
         try {
-            cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
+            cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category||'^'||tblFeedbackCompetitr.CompetitorDesc as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
             if(cursor.getCount()>0)
             {
                 if(cursor.moveToFirst())
@@ -30316,7 +30316,41 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         close();
 
     }
+// prdctPTR=hmapCmpttrPrdctPTR.get(cmpttrPrdctId+"_PTR");
+    public LinkedHashMap<String,String> getSavedPTRPTC(String StoreID)
+    {
+        open();
+        LinkedHashMap<String,String> hmapSavedPTRPTC=new LinkedHashMap<String,String>();
+        Cursor cursor=null;
+        try {
+            cursor=db.rawQuery("Select CompetitionProductID,PTR,PTC from tblCompetitrPrdctPTRPTC where StoreID='"+StoreID+"'",null);
+            if(cursor.getCount()>0)
+            {
+                if(cursor.moveToFirst())
+                {
+                    for(int i=0;i<cursor.getCount();i++)
+                    {
+                        hmapSavedPTRPTC.put(cursor.getString(0)+"_PTR",cursor.getString(1));
+                        hmapSavedPTRPTC.put(cursor.getString(0)+"_PTC",cursor.getString(2));
+                        cursor.moveToNext();
+                    }
+                }
+            }
+        }catch(SQLiteException exptn)
+        {
 
+        }
+        finally
+        {
+            if(cursor!=null)
+            {
+                cursor.close();
+            }
+            close();
+            return hmapSavedPTRPTC;
+        }
+
+    }
 
 }
 

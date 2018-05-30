@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -16,6 +17,7 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,6 +27,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -99,8 +102,32 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
     LinkedHashMap<String,ArrayList<String>> hmapCmpttrChkdPrdct;
     LinkedHashMap<String,String> hmapCmpttrPrdctPTR=new LinkedHashMap<String,String>();
     LinkedHashMap<String,String> hmapCmpttrPrdctPTC=new LinkedHashMap<String,String>();
-
+    LinkedHashMap<String,String> hmapSavedPTRPTC;
     String surveyDate;
+
+
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode==KeyEvent.KEYCODE_BACK)
+        {
+            return true;
+
+        }
+        if(keyCode==KeyEvent.KEYCODE_HOME)
+        {
+
+        }
+        if(keyCode==KeyEvent.KEYCODE_MENU)
+        {
+            return true;
+        }
+        if(keyCode== KeyEvent.KEYCODE_SEARCH)
+        {
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -298,38 +325,77 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
 
             String businessUnitId=entry.getKey().toString().split(Pattern.quote("^"))[0];
             String businessUnit=entry.getKey().toString().split(Pattern.quote("^"))[1];
-            TextView txtBusinessDesc=getTextView(businessUnit,businessUnitId);
-            LinearLayout ll_BusinessSegment=getLinearLayout();
+            TextView txtBusinessDesc=getTextView(businessUnit,businessUnitId,true);
+            LinearLayout ll_BusinessSegment=getLinearLayout(2);
 
             ll_BusinessSegment.addView(txtBusinessDesc);
             ArrayList<String> listCmpttrPrdct=entry.getValue();
             if(listCmpttrPrdct!=null && listCmpttrPrdct.size()>0)
             {
+                String prvsCmpttrBrandDesc="";
+                LinearLayout ll_CmpnyName=null;
                 int index=1;
+
+
                 for(String cmpttrPrdctDesc:listCmpttrPrdct)
                 {
                     String cmpttrPrdctId=cmpttrPrdctDesc.split(Pattern.quote("^"))[0];
                     String cmpttrPrdct=cmpttrPrdctDesc.split(Pattern.quote("^"))[1];
                     String cmpttrCategory=cmpttrPrdctDesc.split(Pattern.quote("^"))[2];
+                    String cmpttrBrandDesc=cmpttrPrdctDesc.split(Pattern.quote("^"))[3];
+
+
+                    if(index==1)
+                    {
+                        prvsCmpttrBrandDesc=cmpttrBrandDesc;
+                        TextView txtCmpnyDesc=getTextView(cmpttrBrandDesc,businessUnitId,false);
+                        ll_CmpnyName=getLinearLayout(1);
+                        ll_CmpnyName.addView(txtCmpnyDesc);
+
+                    }
+                    else
+                    {
+                        if(prvsCmpttrBrandDesc.equals(cmpttrBrandDesc))
+                        {
+
+                        }
+                        else
+                        {
+                            ll_BusinessSegment.addView(ll_CmpnyName);
+
+                            prvsCmpttrBrandDesc=cmpttrBrandDesc;
+                            TextView txtCmpnyDesc=getTextView(cmpttrBrandDesc,businessUnitId,false);
+                             ll_CmpnyName=getLinearLayout(index%2);
+                            ll_CmpnyName.addView(txtCmpnyDesc);
+
+
+                        }
+
+                    }
+
                     final View viewCompttrProduct=inflater.inflate(R.layout.list_product_competitor,null);
                     TextView tvCtgryName= (TextView) viewCompttrProduct.findViewById(R.id.tvCtgryName);
+                   // TextView tvCmpnyName= (TextView) viewCompttrProduct.findViewById(R.id.tvCmpnyName);
                     TextView tvProdctName= (TextView) viewCompttrProduct.findViewById(R.id.tvProdctName);
                     tvCtgryName.setText(cmpttrCategory);
                     tvProdctName.setText(cmpttrPrdct);
+                  //  tvCmpnyName.setText(cmpttrBrandDesc);
                     final EditText ed_priceToRtlr= (EditText) viewCompttrProduct.findViewById(R.id.ed_priceToRtlr);
                     ed_priceToRtlr.setTag(cmpttrPrdctId+"_PTR");
                     final EditText ed_priceToConsumer= (EditText) viewCompttrProduct.findViewById(R.id.ed_priceToConsumer);
                     ed_priceToConsumer.setTag(cmpttrPrdctId+"_PTC");
+
              if(index%2==0)
              {
                  viewCompttrProduct.setBackgroundResource(R.drawable.card_background_even);
              }
-				    else
+			 else
              {
 
                  viewCompttrProduct.setBackgroundResource(R.drawable.card_background_odd);
 
              }
+
                     ed_priceToRtlr.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -437,10 +503,23 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
                             }
                         }
                     });
-                    ll_BusinessSegment.addView(viewCompttrProduct);
+                    if(hmapSavedPTRPTC!=null && hmapSavedPTRPTC.size()>0)
+                    {
+                        if(hmapSavedPTRPTC.containsKey(cmpttrPrdctId+"_PTR"))
+                        {
+                            ed_priceToRtlr.setText(hmapSavedPTRPTC.get(cmpttrPrdctId+"_PTR"));
+                            ed_priceToConsumer.setText(hmapSavedPTRPTC.get(cmpttrPrdctId+"_PTC"));
+                        }
+                    }
+                    ll_CmpnyName.addView(viewCompttrProduct);
 
-
+                    if(index==listCmpttrPrdct.size())
+                    {
+                        ll_BusinessSegment.addView(ll_CmpnyName);
+                    }
                     index++;
+
+
                 }
                 ll_CompetitorPrdct.addView(ll_BusinessSegment);
 
@@ -514,7 +593,8 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
 
         hmapCmpttrChkdPrdct=dbengine.getCmpttrChkdPrdct(storeID);
 
-
+        strGlobalOrderID=dbengine.fngetOrderIDAganistStore(storeID);
+        hmapSavedPTRPTC=dbengine.getSavedPTRPTC(storeID);
     }
 
 
@@ -1063,26 +1143,55 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
     }
 
 
-    public LinearLayout getLinearLayout()
+    public LinearLayout getLinearLayout( int flgPaddingApplicable)
     {
         LinearLayout lay = new LinearLayout(CompetitorPrdctPriceActivity.this);
 
-        lay.setLayoutParams(new LinearLayout.LayoutParams(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams llParams=new LinearLayout.LayoutParams(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
         lay.setOrientation(LinearLayout.VERTICAL);
-        lay.setBackgroundResource(R.drawable.card_background_gray);
+        llParams.setMargins(0,0,0,5);
+        if(flgPaddingApplicable==2)
+        {
+            lay.setBackgroundResource(R.drawable.card_background_gray);
+            lay.setPadding(16,5,16,5);
+
+
+        }
+        else if(flgPaddingApplicable==1)
+        {
+            lay.setBackgroundResource(R.drawable.card_background_even);
+            lay.setPadding(0,5,0,5);
+
+        }
+        else
+        {
+            lay.setBackgroundResource(R.drawable.card_background_odd);
+            lay.setPadding(0,5,0,5);
+        }
+        lay.setLayoutParams(llParams);
         lay.removeAllViews();
         return lay;
     }
-    public TextView getTextView(String catgryDes, String tagVal)
+    public TextView getTextView(String catgryDes, String tagVal,boolean isHeader)
     {
 
 
         TextView txtVw_ques=new TextView(CompetitorPrdctPriceActivity.this);
-        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT, 1f);
+        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, 1f);
         txtVw_ques.setLayoutParams(layoutParams1);
         txtVw_ques.setTag(tagVal);
-        txtVw_ques.setGravity(Gravity.CENTER);
+
         txtVw_ques.setPadding(0,3,0,3);
+        if(isHeader)
+        {
+            txtVw_ques.setGravity(Gravity.CENTER);
+            txtVw_ques.setTypeface(null, Typeface.BOLD);
+        }
+        else
+        {
+            txtVw_ques.setGravity(Gravity.LEFT);
+        }
         txtVw_ques.setTextColor(getResources().getColor(R.color.primaryColorDark));
         txtVw_ques.setText(catgryDes);
 

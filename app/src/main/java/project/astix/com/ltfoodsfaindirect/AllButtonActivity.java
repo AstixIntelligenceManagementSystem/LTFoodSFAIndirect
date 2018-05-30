@@ -3649,6 +3649,7 @@ catch (Exception e){
                 try
                 {
                     //but_GetStore.setEnabled(true);
+                    dbengine.deletetblStoreList();
                     showAlertException("Error.....","Error while Retrieving Data!\n Please Retry");
                 }
                 catch(Exception e)
