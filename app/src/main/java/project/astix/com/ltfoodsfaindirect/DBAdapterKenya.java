@@ -29987,7 +29987,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 		String prevSection="NA";
 		try
 		{
-			Cursor cur=db.rawQuery("Select distinct CategoryID,CompetitorID from tblFeedbackCompetitrMstr order by CatSeq", null);
+			Cursor cur=db.rawQuery("Select distinct CategoryID,CompetitorID from tblFeedbackCompetitrMstr order by CategoryID", null);
 			if(cur.getCount()>0)
 			{
 				if(cur.moveToFirst())
@@ -30240,7 +30240,8 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         ArrayList<String> listCmpttrChkdPrdct=new ArrayList<String>();
         Cursor cursor=null;
         try {
-            cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category||'^'||tblFeedbackCompetitr.CompetitorDesc as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
+           // cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category||'^'||tblFeedbackCompetitr.CompetitorDesc as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
+            cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category||'^'||tblFeedbackCompetitr.CompetitorDesc as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' AND tblFeedbackCompetitr.CompetitorID<>'5' Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
             if(cursor.getCount()>0)
             {
                 if(cursor.moveToFirst())

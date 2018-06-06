@@ -303,11 +303,144 @@
 			</RelativeLayout>
 
 			<LinearLayout
-				android:id="@+id/ll_gstDetails"
+				android:id="@+id/ll_prdctDetails"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_below="@id/rl_LastVisitDetails"
 
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="10dp"
+				android:layout_marginTop="10dp"
+				android:orientation="vertical">
+
+				<TextView
+					android:id="@+id/prdctdetails"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="10dp"
+					android:layout_marginTop="0dp"
+					android:padding="2dp"
+					android:text="GST Details:-"
+					android:textSize="13dp"
+
+					android:textStyle="bold" />
+
+				<LinearLayout
+					android:id="@+id/ll_prdctforGst"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:layout_marginTop="0dp"
+					android:background="@drawable/shadow_with_5dp"
+					android:orientation="vertical"
+					android:padding="8dp">
+
+					<TextView
+						android:id="@+id/prdctgst_compliance_txt"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:padding="2dp"
+						android:text="GST Compliance"
+						android:textColor="#000000" />"
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center_horizontal"
+						android:orientation="horizontal">
+
+						<RadioButton
+							android:id="@+id/rbprdct_gst_yes"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:checked="false"
+							android:text="Yes"
+
+							android:textColor="#000000" />
+
+
+						<RadioButton
+							android:id="@+id/rbprdct_gst_no"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:checked="false"
+							android:text="Not Required"
+
+							android:textColor="#000000" />
+
+						<RadioButton
+							android:id="@+id/rbprdct_pending"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:checked="false"
+							android:text="Pending"
+							android:textColor="#000000" />
+
+					</LinearLayout>
+
+
+					<LinearLayout
+						android:id="@+id/ll_gstprdctDependent"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="1dp"
+						android:orientation="horizontal"
+						android:visibility="gone">
+
+
+						<TextView
+							android:id="@+id/text_gstprdctYes"
+							android:layout_width="0dp"
+							android:layout_height="wrap_content"
+							android:layout_weight="0.60"
+							android:paddingBottom="2dp"
+							android:paddingLeft="2dp"
+							android:paddingTop="2dp"
+							android:text="GST No. :"
+							android:textColor="#1565C0" />
+
+						<EditText
+							android:id="@+id/edit_gstprdctYes"
+							android:layout_width="0dp"
+							android:layout_height="wrap_content"
+							android:layout_weight="0.90"
+							android:background="@drawable/edittxt_border"
+							android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+							android:enabled="false"
+							android:maxLength="15"
+							android:padding="4dp"
+							android:textColor="#000000"
+
+							android:textSize="12sp" />
+
+						<Button
+							android:id="@+id/gst_prdctDetails_but"
+							android:layout_width="0dp"
+							android:layout_height="30dp"
+							android:layout_marginLeft="20dp"
+							android:layout_marginRight="20dp"
+							android:layout_weight="0.50"
+							android:background="@drawable/custom_button_new"
+							android:paddingBottom="5dp"
+							android:paddingTop="5dp"
+							android:text="Edit"
+							android:textColor="#ffffff"
+							android:textSize="12dp"
+							android:textStyle="bold"
+							android:visibility="gone" />
+
+					</LinearLayout>
+
+				</LinearLayout>
+
+
+			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/ll_gstDetails"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_below="@id/rl_LastVisitDetails"
+				android:visibility="gone"
 				android:layout_marginLeft="10dp"
 				android:layout_marginRight="10dp"
 				android:layout_marginTop="10dp"
@@ -444,7 +577,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
-				android:layout_below="@id/ll_gstDetails"
+				android:layout_below="@id/ll_prdctDetails"
 				android:layout_marginLeft="15dp"
 				android:layout_marginTop="5dp"
 				android:text="Outstanding Details :"

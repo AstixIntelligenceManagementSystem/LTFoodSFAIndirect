@@ -113,9 +113,10 @@ public class FeedbackCompetitorActivity extends BaseActivity
                     public void onClick(DialogInterface dialog, int which)
                     {
                         dbengine.deletetblFeedbackCompetitrData(StoreID);
+                        dbengine.open();
                         if(hmapSavedCompetitrData != null && hmapSavedCompetitrData.size()>0)
                         {
-                            dbengine.open();
+
                             for(Map.Entry<String,String> entry:hmapSavedCompetitrData.entrySet())
                             {
                                 String prdctID=entry.getKey();
@@ -123,11 +124,22 @@ public class FeedbackCompetitorActivity extends BaseActivity
                                 String prdctDesc=entry.getValue().split(Pattern.quote("^"))[1];
 
                                 //key=compID, value=compName
-                                dbengine.savetblFeedbackCompetitr(StoreID,prdctID,prdctDesc,catID,"1");//1 here is Sstat
+                                if(prdctID.equals("13"))
+                                {
+
+                                }
+                                else
+                                {
+                                    dbengine.savetblFeedbackCompetitr(StoreID,prdctID,prdctDesc,catID,"1");//1 here is Sstat
+                                }
+
                                 System.out.println("SAVING.."+StoreID+"--"+prdctID+"--"+prdctDesc+"--"+catID);
                             }
-                            dbengine.close();
+
                         }
+
+                        dbengine.savetblFeedbackCompetitr(StoreID,"13","Other Banded Rice","1","1");//1 here is Sstat
+                        dbengine.close();
                         dialog.dismiss();
                         VideoPageOpenOrProductOrderPageOpen();
 

@@ -541,9 +541,10 @@ catch(Exception e)
 							StoreCatType=XMLParser.getCharacterDataFromElement(line);
 						}
 					}
-					if(!element.getElementsByTagName("flgCompSurvey").equals(null))
+					//flgCompSurvey
+					if(!element.getElementsByTagName("flgCaptureCompetitorPTR").equals(null))
 					{
-						NodeList flgCaptureCompetitorPTRNode = element.getElementsByTagName("flgCompSurvey");
+						NodeList flgCaptureCompetitorPTRNode = element.getElementsByTagName("flgCaptureCompetitorPTR");
 						Element     line = (Element) flgCaptureCompetitorPTRNode.item(0);
 						if(flgCaptureCompetitorPTRNode.getLength()>0)
 						{
