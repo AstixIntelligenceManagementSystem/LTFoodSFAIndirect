@@ -22,6 +22,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
 import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
+import android.media.ThumbnailUtils;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -443,15 +444,11 @@ public class RegistrationActivity extends AppCompatActivity implements DatePicke
                         System.out.println("File +++"+pictureFile);
                         imageName=pictureFile.getName();
                         normalizeImageForUri(RegistrationActivity.this,Uri.fromFile(pictureFile));
-                        Bitmap bmp = decodeSampledBitmapFromFile(file.getAbsolutePath(), 80, 80);
 
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        uriSavedImage = Uri.fromFile(pictureFile);
-                        bmp.compress(Bitmap.CompressFormat.JPEG, 70, stream);
-                        byte[] byteArray = stream.toByteArray();
 
                         // Convert ByteArray to Bitmap::\
                         //
+                        uriSavedImage = Uri.fromFile(pictureFile);
                         long syncTIMESTAMP = System.currentTimeMillis();
                         Date dateobj = new Date(syncTIMESTAMP);
                         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
@@ -459,11 +456,25 @@ public class RegistrationActivity extends AppCompatActivity implements DatePicke
                         //	String valueOfKey=imagButtonTag+"~"+tempId+"~"+file.getAbsolutePath()+"~"+clkdTime+"~"+"2";
                         String valueOfKey=clickedTagPhoto+"~"+"1"+"~"+uriSavedImage.toString()+"~"+clkdTime+"~"+"1";
                         //   helperDb.insertImageInfo(tempId,imagButtonTag, imageName, file.getAbsolutePath(), 2);
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0,
-                                byteArray.length);
+
                         globalImageName=   imageName;
                         globalImagePath=      uriSavedImage.toString() ;
                         //
+                        Bitmap bitmap=null;
+                        try{
+                            String PATH = Environment.getExternalStorageDirectory() + "/" + CommonInfo.ImagesFolder + "/";
+                            File file2 = new File(PATH + imageName);
+                            if (file2.exists()) {
+
+                                final int THUMBSIZE = 170;
+                                bitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(PATH + imageName),
+                                        THUMBSIZE, THUMBSIZE);
+                            }
+
+                        }
+                        catch (Exception e){
+
+                        }
                         setSavedImageToScrollView(bitmap, imageName,valueOfKey,clickedTagPhoto);
                     }
 
@@ -984,14 +995,6 @@ View.OnClickListener captrureListener = new View.OnClickListener() {
                 File file = imageF;
                 System.out.println("File +++" + imageF);
 
-                Bitmap bmp = decodeSampledBitmapFromFile(file.getAbsolutePath(), 80, 80);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-
-                bmp.compress(Bitmap.CompressFormat.JPEG, 70, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                // Convert ByteArray to Bitmap::\
-                //
                 long syncTIMESTAMP = System.currentTimeMillis();
                 Date dateobj = new Date(syncTIMESTAMP);
                 SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
@@ -999,20 +1002,28 @@ View.OnClickListener captrureListener = new View.OnClickListener() {
                 //	String valueOfKey=imagButtonTag+"~"+tempId+"~"+file.getAbsolutePath()+"~"+clkdTime+"~"+"2";
                 String valueOfKey = clickedTagPhoto + "~" + "1" + "~" + uriSavedImage.toString() + "~" + clkdTime + "~" + "1";
                 //   helperDb.insertImageInfo(tempId,imagButtonTag, imageName, file.getAbsolutePath(), 2);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
                 globalImageName=   imageName;
                 globalImagePath=      uriStringPath ;
                 //
+                Bitmap bitmap=null;
+                try{
+                    String PATH = Environment.getExternalStorageDirectory() + "/" + CommonInfo.ImagesFolder + "/";
+                    File file2 = new File(PATH + imageName);
+                    if (file2.exists()) {
+
+                        final int THUMBSIZE = 170;
+                        bitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(PATH + imageName),
+                                THUMBSIZE, THUMBSIZE);
+                    }
+
+                }
+                catch (Exception e){
+
+                }
                 setSavedImageToScrollView(bitmap, imageName, valueOfKey,clickedTagPhoto);
             } else if (filePathPhoto != null) {
-                Bitmap bmp = decodeSampledBitmapFromFile(filePathPhoto, 80, 80);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-                bmp.compress(Bitmap.CompressFormat.JPEG, 70, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                // Convert ByteArray to Bitmap::\
-                //
                 long syncTIMESTAMP = System.currentTimeMillis();
                 Date dateobj = new Date(syncTIMESTAMP);
                 SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",Locale.ENGLISH);
@@ -1020,10 +1031,26 @@ View.OnClickListener captrureListener = new View.OnClickListener() {
                 //	String valueOfKey=imagButtonTag+"~"+tempId+"~"+file.getAbsolutePath()+"~"+clkdTime+"~"+"2";
                 String valueOfKey = clickedTagPhoto + "~" + "1"+ "~" + uriStringPath + "~" + clkdTime + "~" + "1";
                 //   helperDb.insertImageInfo(tempId,imagButtonTag, imageName, file.getAbsolutePath(), 2);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
               globalImageName=   imageName;
                 globalImagePath=      uriStringPath ;
                 //
+                Bitmap bitmap=null;
+                try{
+                    String PATH = Environment.getExternalStorageDirectory() + "/" + CommonInfo.ImagesFolder + "/";
+                    File file2 = new File(PATH + imageName);
+                    if (file2.exists()) {
+
+                        final int THUMBSIZE = 170;
+                        bitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(PATH + imageName),
+                                THUMBSIZE, THUMBSIZE);
+                    }
+
+                }
+                catch (Exception e){
+
+                }
+
                 setSavedImageToScrollView(bitmap, imageName, valueOfKey, clickedTagPhoto);
             } else {
                 Toast.makeText(RegistrationActivity.this, "Please click another photo,this photo is too heavy to load", Toast.LENGTH_SHORT).show();
@@ -1048,6 +1075,41 @@ View.OnClickListener captrureListener = new View.OnClickListener() {
     {
         //clickedTagPhoto
         // Bitmap bmRotated = rotateBitmap(bitmap,ExifInterface.ORIENTATION_FLIP_VERTICAL );
+        //Check Old file and delete it
+
+        try{
+            if(ll_ImageToSet!=null){
+                if(ll_ImageToSet.getChildCount()>0){
+                    ImageView oldImage= (ImageView) ll_ImageToSet.findViewById(R.id.img_thumbnail);
+
+
+
+
+                    String file_dj_path = oldImage.getTag().toString().split(Pattern.quote("!"))[1].split(Pattern.quote("~"))[2];
+                    if(file_dj_path.contains("file:")){
+                        file_dj_path=    file_dj_path .replace("file:","");
+                    }
+                    File fdelete = new File(file_dj_path);
+
+                    if (fdelete.exists()) {
+                        if (fdelete.delete()) {
+                            globalImageName= "";
+                            globalImagePath=  "" ;
+                            callBroadCast();
+                        } else {
+
+                        }
+                    }
+                    ll_ImageToSet.removeView(viewStoreLocDetail);
+
+                }
+            }
+        }
+        catch (Exception e){
+
+        }
+
+        //end of deleting old images
         LayoutInflater inflater=(LayoutInflater) RegistrationActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         viewStoreLocDetail=inflater.inflate(R.layout.store_loc_display,null);
 
@@ -1099,7 +1161,10 @@ View.OnClickListener captrureListener = new View.OnClickListener() {
             public void onClick(View v) {
 
 
-                String file_dj_path = Environment.getExternalStorageDirectory() + "/" + CommonInfo.ImagesFolder + "/" +img_thumbnail.getTag().toString().split(Pattern.quote("!"))[1].split(Pattern.quote("~"))[2];
+                String file_dj_path = img_thumbnail.getTag().toString().split(Pattern.quote("!"))[1].split(Pattern.quote("~"))[2];
+              if(file_dj_path.contains("file:")){
+                  file_dj_path=    file_dj_path .replace("file:","");
+              }
                 File fdelete = new File(file_dj_path);
                 if (fdelete.exists()) {
                     if (fdelete.delete()) {
