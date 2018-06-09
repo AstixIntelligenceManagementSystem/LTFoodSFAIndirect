@@ -1780,7 +1780,8 @@ public class SyncMaster extends Activity
 			    if(StoreSelection.flgChangeRouteOrDayEnd==1)
 				{
 				 pDialogGetStores.setMessage("Ending your day visit ...");
-				}else if(StoreSelection.flgChangeRouteOrDayEnd==2)
+				}
+				else if(StoreSelection.flgChangeRouteOrDayEnd==2)
 				{
 				 pDialogGetStores.setMessage("Changing the route....");
 				}
@@ -1792,6 +1793,10 @@ public class SyncMaster extends Activity
 				{
 					pDialogGetStores.setMessage("Submitting Added Store Information...");
 				}
+			   else if(AllButtonActivity.flgChangeRouteOrDayEnd==1)
+			   {
+				  pDialogGetStores.setMessage("Ending your day visit ...");
+			   }
 				else
 				{
 				pDialogGetStores.setMessage("Submitting Order Details...");

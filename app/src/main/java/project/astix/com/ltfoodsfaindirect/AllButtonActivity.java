@@ -92,6 +92,7 @@ import java.util.regex.Pattern;
 
 public class AllButtonActivity extends BaseActivity implements LocationListener,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener{
 
+
     public ProgressDialog pDialogGetStores;
     public boolean serviceException=false;
     public String passDate;
@@ -104,7 +105,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
     public String selStoreName = "";
     public String fullFileName1;
 
-String ButtonClick="";
+    String ButtonClick="";
 
     public int valDayEndOrChangeRoute=1; // 1=Clicked on Day End Button, 2=Clicked on Change Route Button
     String whereTo = "11";
@@ -291,7 +292,7 @@ String ButtonClick="";
     protected void onResume()
     {
         super.onResume();
-
+        flgChangeRouteOrDayEnd=0;
         if(isDayEndClicked)
         {
             dayEndFunctionalityAfterDialogSummary();
@@ -578,7 +579,15 @@ catch (Exception e){
         {
 
 
-            showAlertSingleButtonInfo(getResources().getString(R.string.NoPendingDataMsg));
+            if(isOnline())
+            {
+                DayEndWithoutalert();
+            }
+            else
+            {
+                showAlertSingleButtonError(getResources().getString(R.string.NoDataConnectionFullMsg));
+            }
+
 
         }
     }
@@ -940,7 +949,7 @@ catch (Exception e){
             }
             dbengine.close();
 
-            flgChangeRouteOrDayEnd=valDayEndOrChangeRoute;
+            flgChangeRouteOrDayEnd=1;
 
             Intent syncIntent = new Intent(AllButtonActivity.this, SyncMaster.class);
             //syncIntent.putExtra("xmlPathForSync",Environment.getExternalStorageDirectory() + "/TJUKIndirectSFAxml/" + newfullFileName + ".xml");

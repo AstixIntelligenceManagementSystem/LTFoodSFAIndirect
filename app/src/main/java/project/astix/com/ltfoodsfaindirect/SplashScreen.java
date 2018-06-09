@@ -92,7 +92,7 @@ public class SplashScreen extends AppCompatActivity
         imei = tManager.getDeviceId();
 
 
-      // imei="866741034767667";  // live user
+     // imei="866741034767667";  // live user
 
        // imei="866741034767675";
        // imei="866343034574597";
@@ -100,7 +100,7 @@ public class SplashScreen extends AppCompatActivity
       //imei="351928089616384";  // Test Release,Dev
       //  imei="354470089454505";  // Test Release,Dev
       //  imei="359473079352536";  // Test Ramesh
-      //imei="911433803802793";  // Dev by avinash sir use it
+     // imei="911433803802793";  // Dev by avinash sir use it
 
        // imei="865166033749030";
 

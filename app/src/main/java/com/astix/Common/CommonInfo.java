@@ -10,8 +10,9 @@ public class CommonInfo
 
 	// Its for Live Path on 194 Server
 
+/*
 
-	  /*  public static File imageF_savedInstance=null;
+	    public static File imageF_savedInstance=null;
 	    public static String imageName_savedInstance=null;
 	    public static String clickedTagPhoto_savedInstance=null;
 	    public static Uri uriSavedImage_savedInstance=null;
@@ -35,8 +36,8 @@ public class CommonInfo
 
 		public static int AnyVisit = 0;
 
-		public static int DATABASE_VERSIONID = 66;      // put this field value based on value in table on the server
-		public static String AppVersionID = "1.12";   // put this field value based on value in table on the server
+		public static int DATABASE_VERSIONID = 68;      // put this field value based on value in table on the server
+		public static String AppVersionID = "1.13";   // put this field value based on value in table on the server
 		public static int Application_TypeID = 2; //1=Parag Store Mapping,2=Parag SFA Indirect,3=Parag SFA Direct
 
 		public static String OrderSyncPath="http://103.20.212.194/ReadXML_LTFoodsLive/DefaultSFA.aspx";
@@ -67,9 +68,10 @@ public class CommonInfo
         public static String activityFrom="AllButtonActivity";
         public static String ActiveRouteSM="0";
 
-
-
 */
+
+
+
 
 
 
@@ -218,8 +220,9 @@ public class CommonInfo
 
 
 
+/*
 
-   	    public static File imageF_savedInstance=null;
+	    public static File imageF_savedInstance=null;
 	    public static String imageName_savedInstance=null;
 	    public static String clickedTagPhoto_savedInstance=null;
 	    public static Uri uriSavedImage_savedInstance=null;
@@ -277,6 +280,7 @@ public class CommonInfo
 
 	    public static String ActiveRouteSM="0";
 
+*/
 
 
 
@@ -292,7 +296,8 @@ public class CommonInfo
 // Its for Test Release  Path on 194 server for SFA
 
 
-/*
+
+
 
 
 	public static File imageF_savedInstance=null;
@@ -352,7 +357,8 @@ public class CommonInfo
 
 	public static String ActiveRouteSM="0";
 
-*/
+
+
 
 
 
