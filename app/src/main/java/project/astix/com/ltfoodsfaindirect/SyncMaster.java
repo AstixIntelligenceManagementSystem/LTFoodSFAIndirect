@@ -564,8 +564,7 @@ public class SyncMaster extends Activity
 		AlertDialog.Builder alertDialogSyncOK = new AlertDialog.Builder(SyncMaster.this);
 		alertDialogSyncOK.setTitle("Information");
 		alertDialogSyncOK.setCancelable(false);
-		/*alertDialogSyncOK
-				.setMessage("Sync was successful!");*/
+		/*alertDialogSyncOK.setMessage("Sync was successful!");*/
 		//alertDialogSyncOK.setMessage(getText(R.string.syncAlertOKMsg));
 		if(StoreSelection.flgChangeRouteOrDayEnd==3)
 		{
@@ -673,7 +672,7 @@ public class SyncMaster extends Activity
 
 
 								db.open();
-								if(StoreSelection.flgChangeRouteOrDayEnd==1 || StoreSelection.flgChangeRouteOrDayEnd==2)
+								if(StoreSelection.flgChangeRouteOrDayEnd==1 || StoreSelection.flgChangeRouteOrDayEnd==2 || AllButtonActivity.flgChangeRouteOrDayEnd==1)
 								{
 									db.reTruncateRouteTbl();
 									//db.reTruncateRouteMstrTbl();
@@ -998,6 +997,14 @@ public class SyncMaster extends Activity
 				else if(StoreSelection.flgChangeRouteOrDayEnd==4)
 				{
 					pDialogGetStores.setMessage("Submitting Added Store Information...");
+				}
+				else if(StoreSelection.flgChangeRouteOrDayEnd==5)
+				{
+					pDialogGetStores.setMessage("Uploading Pending Data...");
+				}
+				else if(AllButtonActivity.flgChangeRouteOrDayEnd==1)
+				{
+					pDialogGetStores.setMessage("Ending your day visit ...");
 				}
 				else
 				{
@@ -1792,6 +1799,10 @@ public class SyncMaster extends Activity
 				else if(StoreSelection.flgChangeRouteOrDayEnd==4)
 				{
 					pDialogGetStores.setMessage("Submitting Added Store Information...");
+				}
+				else if(StoreSelection.flgChangeRouteOrDayEnd==5)
+				{
+					pDialogGetStores.setMessage("Uploading Pending Data...");
 				}
 			   else if(AllButtonActivity.flgChangeRouteOrDayEnd==1)
 			   {

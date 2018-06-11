@@ -39,16 +39,15 @@
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:background="@drawable/alert_text_background"
-        android:textColor="#000000"
-        android:gravity="left|center_vertical"
         android:drawableRight="@drawable/ic_right2"
-        android:textSize="14sp"
+        android:gravity="left|center_vertical"
         android:text="Upload Pending Data"
-        android:visibility="visible"/>
-         
-        
-        
-        <Button android:id="@+id/butn_refresh_data"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:visibility="visible" />
+
+
+    <Button android:id="@+id/butn_refresh_data"
           android:layout_width="220dp"
      android:layout_height="wrap_content"
         android:background="@drawable/alert_text_background"

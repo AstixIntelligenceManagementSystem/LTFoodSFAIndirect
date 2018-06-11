@@ -295,6 +295,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
         flgChangeRouteOrDayEnd=0;
         if(isDayEndClicked)
         {
+            flgChangeRouteOrDayEnd=1;
             dayEndFunctionalityAfterDialogSummary();
         }
     }
@@ -949,7 +950,7 @@ catch (Exception e){
             }
             dbengine.close();
 
-            flgChangeRouteOrDayEnd=1;
+
 
             Intent syncIntent = new Intent(AllButtonActivity.this, SyncMaster.class);
             //syncIntent.putExtra("xmlPathForSync",Environment.getExternalStorageDirectory() + "/TJUKIndirectSFAxml/" + newfullFileName + ".xml");
@@ -3952,6 +3953,7 @@ catch (Exception e){
         }
     }*/
    public void AllDayendCode(){
+       flgChangeRouteOrDayEnd=1;
        if(isOnline())
        {
 

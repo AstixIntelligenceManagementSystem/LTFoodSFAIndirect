@@ -5704,9 +5704,15 @@ open();
 		
 		//db.execSQL("DELETE FROM tblAvailableVersionMstr");
 	//	db.execSQL("DELETE FROM tblNotificationMstr");
-		
-		
-		db.execSQL("DELETE FROM tblStoreList"); 
+
+        db.execSQL("DELETE FROM  tblActualVisitStock");
+        db.execSQL("DELETE FROM  tblFeedbackCompetitr");
+        db.execSQL("DELETE FROM  tblCompetitrPrdctPTRPTC");
+        db.execSQL("DELETE FROM  tblCompetitrPrdctMstr");
+
+
+
+        db.execSQL("DELETE FROM tblStoreList");
 		db.execSQL("DELETE FROM tblProductList");
 		db.execSQL("DELETE FROM tblProductSegementMap");
 		db.execSQL("DELETE FROM tblCatagoryMstr");

@@ -12,9 +12,11 @@
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:background="#0070AF"
-        android:layout_alignParentTop="true"
         android:textColor="#ffffff"
-       android:text="@string/genTermSelectStoresPendingToCompleteDayEnd"/>
+       android:text="@string/genTermSelectStoresPendingToCompleteDayEnd"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <ScrollView 
         android:layout_width="match_parent"
