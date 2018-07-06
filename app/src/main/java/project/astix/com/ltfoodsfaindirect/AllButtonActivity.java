@@ -123,7 +123,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
     public String selStoreName = "";
     public String fullFileName1;
 
-    String ButtonClick="";
+String ButtonClick="";
 
     public int valDayEndOrChangeRoute=1; // 1=Clicked on Day End Button, 2=Clicked on Change Route Button
     String whereTo = "11";
@@ -947,7 +947,6 @@ catch (Exception e){
             DASFA.close();
 
             dbengine.savetbl_XMLfiles(newfullFileName, "3","0");
-
             dbengine.open();
             dbengine.UpdateAllStoreIDNewlyAddedStoreImages(5);
             for (int nosSelected = 0; nosSelected <= mSelectedItems.size() - 1; nosSelected++)
@@ -969,8 +968,6 @@ catch (Exception e){
 
             }
             dbengine.close();
-
-
 
             flgChangeRouteOrDayEnd=valDayEndOrChangeRoute;
 

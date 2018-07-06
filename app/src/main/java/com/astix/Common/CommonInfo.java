@@ -11,10 +11,7 @@ public class CommonInfo
 	// Its for Live Path on 194 Server
 
 
-
-/*
-
-	  public static File imageF_savedInstance=null;
+	  /*  public static File imageF_savedInstance=null;
 	    public static String imageName_savedInstance=null;
 	    public static String clickedTagPhoto_savedInstance=null;
 	    public static Uri uriSavedImage_savedInstance=null;
@@ -26,7 +23,6 @@ public class CommonInfo
 	    public static String prcID="NULL";
 	    public static String newQuottionID="NULL";
 	    public static String globalValueOfPaymentStage="0"+"_"+"0"+"_"+"0";
-
 
 
 
@@ -74,7 +70,6 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 
 */
-
 
 
 
@@ -142,7 +137,7 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 	    public static String activityFrom="AllButtonActivity";
 
 	    public static String ActiveRouteSM="0";
-
+*/
 
 
 
@@ -219,6 +214,8 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 
 	// Its for Development  Path on 194 server for SFA
+
+
 
 
 
@@ -300,7 +297,6 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 /*
 
 
-
 	public static File imageF_savedInstance=null;
 	public static String imageName_savedInstance=null;
 	public static String clickedTagPhoto_savedInstance=null;
@@ -358,9 +354,14 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 	public static String ActiveRouteSM="0";
 
-
-
 */
+
+
+
+
+
+
+
 
 
 
