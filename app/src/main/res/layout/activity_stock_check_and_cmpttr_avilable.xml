@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="project.astix.com.ltfoodsfaindirect.StockCheckAndCmpttrAvilable">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:background="@drawable/custom_header_color"
+        android:orientation="horizontal"
+        android:id="@+id/header"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/img_back_Btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.30"
+            android:visibility="visible"
+            android:src="@drawable/back_button_image" />
+        <ImageView
+            android:id="@+id/img_side_popUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="0dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_action" />
+
+        <TextView
+            android:id="@+id/bardd"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="Availability Checkup"
+            android:textColor="#ffff"
+            android:textSize="16sp"
+
+            android:textStyle="bold"
+            android:typeface="normal" />
+
+        <ImageView
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.30"
+            android:visibility="invisible" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:padding="16dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="LT foods stock available"/>
+        <RadioGroup
+            android:id="@+id/rg_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rb_stckAvlbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Available"/>
+            <RadioButton
+                android:id="@+id/rb_stckNotAvlbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Not Available"/>
+        </RadioGroup>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:text="Other brands available"/>
+        <RadioGroup
+            android:id="@+id/rg_compttr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/rb_cmpttrAvlbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Available"/>
+            <RadioButton
+                android:id="@+id/rb_cmpttrNotAvlbl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Not Available"/>
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/btn_Next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:background="@drawable/custom_button"
+            android:text="Next"/>
+    </LinearLayout>
+</RelativeLayout>

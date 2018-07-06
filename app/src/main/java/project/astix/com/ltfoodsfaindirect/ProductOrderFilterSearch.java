@@ -117,6 +117,8 @@ GoogleApiClient.OnConnectionFailedListener,CategoryCommunicator{
 //nitika
 CustomKeyboard mCustomKeyboardNum,mCustomKeyboardNumWithoutDecimal;
 
+	int isStockAvlbl=0;
+	int isCmpttrAvlbl=0;
 	ImageView	menu;
     // variable
 	public TableLayout tbl1_dyntable_For_ExecutionDetails;
@@ -2638,7 +2640,7 @@ CustomKeyboard mCustomKeyboardNum,mCustomKeyboardNumWithoutDecimal;
 			}
 		});
 		//getDataPcsOrKGFromDatabase();
-
+		getStockCompttrAvilable();
 
 		try {
 			new GetData().execute();
@@ -7243,27 +7245,70 @@ else {
 				if(flgOrderType==1)
 				{
 
-					Intent fireBackDetPg=new Intent(ProductOrderFilterSearch.this,FeedbackCompetitorActivity.class);
-					fireBackDetPg.putExtra("storeID", storeID);
-					fireBackDetPg.putExtra("SN", SN);
-					fireBackDetPg.putExtra("bck", 1);
-					fireBackDetPg.putExtra("imei", imei);
-					fireBackDetPg.putExtra("userdate", date);
-					fireBackDetPg.putExtra("pickerDate", pickerDate);
-					//fireBackDetPg.putExtra("rID", routeID);
-					startActivity(fireBackDetPg);
-					finish();
-					/* Intent nxtP4 = new Intent(ProductOrderFilterSearch.this,ActualVisitStock.class);
-					 //Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
-					 nxtP4.putExtra("storeID", storeID);
-					 nxtP4.putExtra("SN", SN);
-					 nxtP4.putExtra("imei", imei);
-					 nxtP4.putExtra("userdate", date);
-					 nxtP4.putExtra("pickerDate", pickerDate);
-					 nxtP4.putExtra("flgOrderType", flgOrderType);
+					if((isStockAvlbl==1) && (dbengine.getStockRetailerAllowed(storeID)==1))
+					{
+						Intent nxtP4 = new Intent(ProductOrderFilterSearch.this,PicClkdAfterStock.class);
+						nxtP4.putExtra("storeID", storeID);
+						nxtP4.putExtra("SN", SN);
+						nxtP4.putExtra("imei", imei);
+						nxtP4.putExtra("userdate", date);
+						nxtP4.putExtra("pickerDate", pickerDate);
+						nxtP4.putExtra("flgOrderType", 1);
+						nxtP4.putExtra("isStockAvlbl", isStockAvlbl);
+						nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+						startActivity(nxtP4);
+						finish();
+					}
+					else if(isCmpttrAvlbl==1)
+					{
+						Intent nxtP4 = new Intent(ProductOrderFilterSearch.this,FeedbackCompetitorActivity.class);
+						//Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
+						nxtP4.putExtra("storeID", storeID);
+						nxtP4.putExtra("SN", SN);
+						nxtP4.putExtra("imei", imei);
+						nxtP4.putExtra("userdate", date);
+						nxtP4.putExtra("pickerDate", pickerDate);
+						nxtP4.putExtra("flgOrderType", 1);
+						nxtP4.putExtra("isStockAvlbl", isStockAvlbl);
+						nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+						startActivity(nxtP4);
+						finish();
+					}
+					else if((isStockAvlbl==1) && (dbengine.getStockRetailerAllowed(storeID)==0))
+					{
+						Intent nxtP4 = new Intent(ProductOrderFilterSearch.this,PicClkBfrStock.class);
+						nxtP4.putExtra("storeID", storeID);
+						nxtP4.putExtra("SN", SN);
+						nxtP4.putExtra("imei", imei);
+						nxtP4.putExtra("userdate", date);
+						nxtP4.putExtra("pickerDate", pickerDate);
+						nxtP4.putExtra("flgOrderType", 1);
+						nxtP4.putExtra("isStockAvlbl", isStockAvlbl);
+						nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+						startActivity(nxtP4);
+						finish();
+					}
 
-					 startActivity(nxtP4);
-					 finish();*/
+					else
+					{
+						Intent ready4GetLoc = new Intent(ProductOrderFilterSearch.this,StockCheckAndCmpttrAvilable.class);
+						//enableGPSifNot();
+
+
+						ready4GetLoc.putExtra("storeID", storeID);
+						ready4GetLoc.putExtra("selStoreName", SN);
+						ready4GetLoc.putExtra("imei", imei);
+						ready4GetLoc.putExtra("userDate", date);
+						ready4GetLoc.putExtra("pickerDate", pickerDate);
+
+
+
+
+						startActivity(ready4GetLoc);
+						finish();
+					}
+
+
 
 				}
 				else
@@ -9654,4 +9699,15 @@ else {
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.show();
 	}
+
+	public void getStockCompttrAvilable()
+	{
+		ArrayList<Integer> listStkCmpttr=dbengine.getLTfoodStockCmpttr(storeID);
+		if((listStkCmpttr!=null) && (listStkCmpttr.size()>0))
+		{
+			isStockAvlbl=listStkCmpttr.get(0);
+			isCmpttrAvlbl=listStkCmpttr.get(1);
+		}
+	}
+
 }

@@ -67,7 +67,24 @@
              android:textSize="16sp"
              android:padding="5dp"
           	 android:id="@+id/txt_total_earned"/>
-         
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/txt_total_earned"
+        android:id="@+id/ll_BankDetails"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:background="@drawable/incentive_tbl_bckgrnd"
+        >
+
+
+
+
+    </LinearLayout>
        <LinearLayout
             android:id="@+id/ll_txt_display_msg"
             android:layout_width="match_parent"

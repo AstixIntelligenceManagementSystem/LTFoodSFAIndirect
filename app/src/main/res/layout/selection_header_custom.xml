@@ -12,6 +12,15 @@
             android:background="@drawable/banner1"
             android:layout_below="@+id/bardd"
             />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
     <Button
         android:id="@+id/butHome"
         android:layout_width="220dp"
@@ -82,6 +91,16 @@
          android:drawableRight="@drawable/ic_right2"
            android:textSize="14sp"
         android:text="Report" />
+    <Button
+        android:id="@+id/btnIncentive"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/alert_text_background"
+        android:drawableRight="@drawable/ic_right2"
+        android:gravity="left|center_vertical"
+        android:text="Incentive"
+        android:textColor="#000000"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/btnExecution"
@@ -148,8 +167,10 @@
         android:background="@drawable/alert_text_background"
         android:textColor="#000000"
         android:gravity="left|center_vertical"
-        android:drawableRight="@drawable/ic_right2"
+
         android:textSize="14sp"
         android:text="" />
 
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -588,7 +588,7 @@ public class SyncMaster extends Activity
 						CommonInfo.AnyVisit=1;
 						dialog.dismiss();
 
-						int flag=0;
+						/*int flag=0;
 						String[] imageToBeDeletedFromSdCard=db.deletFromSDcCardPhotoValidationBasedSstat("4");
 			    		if(!imageToBeDeletedFromSdCard[0].equals("No Data"))
 			    		{
@@ -613,7 +613,7 @@ public class SyncMaster extends Activity
 							            }
 							        }
 				    			}
-			    		}
+			    		}*/
 
 
 
@@ -650,6 +650,32 @@ public class SyncMaster extends Activity
 						}
 						else if(whereTo.contentEquals("11"))
 						{
+							int flag=0;
+							String[] imageToBeDeletedFromSdCard=db.deletFromSDcCardPhotoValidationBasedSstat("4");
+							if(!imageToBeDeletedFromSdCard[0].equals("No Data"))
+							{
+								for(int i=0;i<imageToBeDeletedFromSdCard.length;i++)
+								{
+									flag=1;
+
+									//String file_dj_path = Environment.getExternalStorageDirectory() + "/RSPLSFAImages/"+imageToBeDeletedFromSdCard[i].toString().trim();
+									String file_dj_path = Environment.getExternalStorageDirectory() + "/" + CommonInfo.ImagesFolder + "/" +imageToBeDeletedFromSdCard[i].toString().trim();
+
+									File fdelete = new File(file_dj_path);
+									if (fdelete.exists())
+									{
+										if (fdelete.delete())
+										{
+											Log.e("-->", "file Deleted :" + file_dj_path);
+											callBroadCast();
+										}
+										else
+										{
+											Log.e("-->", "file not Deleted :" + file_dj_path);
+										}
+									}
+								}
+							}
 							int chkSct=0;
 							/*db.open();
 							chkSct=db.getExistingPicNosOnRemStoreOnChangeRoute();
@@ -659,8 +685,8 @@ public class SyncMaster extends Activity
 								whereTo = "";
 								//sysncStart();
 
-								File dirORIGimg = new File(Environment.getExternalStorageDirectory(),DATASUBDIRECTORY);
-								deleteFolderFiles(dirORIGimg);
+								/*File dirORIGimg = new File(Environment.getExternalStorageDirectory(),DATASUBDIRECTORY);
+								deleteFolderFiles(dirORIGimg);*/
 
 
 							}
@@ -668,8 +694,8 @@ public class SyncMaster extends Activity
 							{
 								whereTo = "";
 
-								File dirORIGimg = new File(Environment.getExternalStorageDirectory(),DATASUBDIRECTORY);
-								deleteFolderFiles(dirORIGimg);
+								/*File dirORIGimg = new File(Environment.getExternalStorageDirectory(),DATASUBDIRECTORY);
+								deleteFolderFiles(dirORIGimg);*/
 
 
 								db.open();
@@ -1651,6 +1677,165 @@ public class SyncMaster extends Activity
 					IMGsyOK=1;
 
 				}
+				try
+				{
+
+					try
+					{
+
+						db.open();
+						NoOfOutletID = db.getAllStoreIDSectionPic();
+						db.close();
+
+					} catch (Exception e)
+					{
+						// TODO Auto-generated catch block
+						db.close();
+						e.printStackTrace();
+					}
+
+					for(int chkCountstore=0; chkCountstore < NoOfOutletID.length;chkCountstore++)
+					{
+						db.open();
+						int NoOfImages = db.getExistingSectionPic(NoOfOutletID[chkCountstore].toString());
+						String[] NoOfImgsPath = db.getImgsPathForSectionPic(NoOfOutletID[chkCountstore].toString());
+						db.close();
+
+						fp2s = new String[2];
+
+						for(int syCOUNT = 0; syCOUNT < NoOfImages; syCOUNT++)
+						{
+							fp2s[0] = NoOfImgsPath[syCOUNT];
+							fp2s[1] = NoOfOutletID[chkCountstore];
+
+							// New Way
+
+							fnameIMG = fp2s[0];
+							UploadingImageName=fp2s[0];
+
+
+							String stID = fp2s[1];
+							String currentImageFileName=fnameIMG;
+
+							boolean isImageExist=false;
+							for (int i = 0; i < listFile.length; i++)
+							{
+								FilePathStrings = listFile[i].getAbsolutePath();
+								if(listFile[i].getName().equals(fnameIMG))
+								{
+									fnameIMG=listFile[i].getAbsolutePath();
+									isImageExist=true;
+									break;
+								}
+							}
+							if(isImageExist)
+							{
+								/*	 Bitmap bmp = BitmapFactory.decodeFile(fnameIMG);
+						             ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+						             String image_str=  BitMapToString(bmp);
+						             ArrayList<NameValuePair> nameValuePairs = new  ArrayList<NameValuePair>();
+*/
+								ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+								String image_str= compressImage(fnameIMG);// BitMapToString(bmp);
+								ArrayList<NameValuePair> nameValuePairs = new  ArrayList<NameValuePair>();
+
+
+
+								try
+								{
+									stream.flush();
+								}
+								catch (IOException e1)
+								{
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								try
+								{
+									stream.close();
+								}
+								catch (IOException e1)
+								{
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+
+								long syncTIMESTAMP = System.currentTimeMillis();
+								Date datefromat = new Date(syncTIMESTAMP);
+								SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss.SSS",Locale.ENGLISH);
+								String onlyDate=df.format(datefromat);
+
+
+								nameValuePairs.add(new BasicNameValuePair("image", image_str));
+								nameValuePairs.add(new BasicNameValuePair("FileName",currentImageFileName));
+								nameValuePairs.add(new BasicNameValuePair("comment","NA"));
+								nameValuePairs.add(new BasicNameValuePair("storeID",stID));
+								nameValuePairs.add(new BasicNameValuePair("date",onlyDate));
+								nameValuePairs.add(new BasicNameValuePair("routeID",routeID));
+
+								try
+								{
+
+									HttpParams httpParams = new BasicHttpParams();
+									HttpConnectionParams.setSoTimeout(httpParams, 0);
+									HttpClient httpclient = new DefaultHttpClient(httpParams);
+									HttpPost httppost = new HttpPost(CommonInfo.ImageSyncPath.trim());
+
+
+									httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+									HttpResponse response = httpclient.execute(httppost);
+									String the_string_response = convertResponseToString(response);
+
+									System.out.println("Sunil Doing Testing Response after sending Image" + the_string_response);
+
+									//  if(serverResponseCode == 200)
+									if(the_string_response.equals("Abhinav"))
+									{
+
+										System.out.println("Sunil Doing Testing Response after sending Image inside if" + the_string_response);
+										db.updateImageSectionPic(UploadingImageName.toString().trim());
+										// String file_dj_path = Environment.getExternalStorageDirectory() + "/RSPLSFAImages/"+UploadingImageName.toString().trim();
+									/*	String file_dj_path = Environment.getExternalStorageDirectory() + "/" + CommonInfo.ImagesFolder + "/" +UploadingImageName.toString().trim();
+
+										File fdelete = new File(file_dj_path);
+										if (fdelete.exists())
+										{
+											if (fdelete.delete())
+											{
+												Log.e("-->", "file Deleted :" + file_dj_path);
+												callBroadCast();
+											}
+											else
+											{
+												Log.e("-->", "file not Deleted :" + file_dj_path);
+											}
+										}*/
+						            	/* File file = new File(UploadingImageName.toString().trim());
+							         	    file.delete();  */
+									}
+
+								}catch(Exception e)
+								{
+									IMGsyOK = 1;
+
+								}
+							}
+
+
+						}
+
+
+					}
+
+				}
+				catch(Exception e)
+				{
+					IMGsyOK = 1;
+
+				}
+
 
 
 				return null;
@@ -1688,10 +1873,10 @@ public class SyncMaster extends Activity
 					}
 					else
 					{
-						db.open();
+					/*	db.open();
 
 			    		db.updateImageRecordsSyncd();
-			    		db.close();
+			    		db.close();*/
 
 						//showSyncSuccess();
 
@@ -2431,5 +2616,30 @@ public class SyncMaster extends Activity
 		return inSampleSize;
 
 	}
+
+	public void deleteAllImages()
+    {
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+        {
+
+        }
+        else
+        {
+            // Locate the image folder in your SD Card
+            fileintial = new File(Environment.getExternalStorageDirectory()
+                    + File.separator + CommonInfo.ImagesFolder);
+            // Create a new folder if no folder named SDImageTutorial exist
+            fileintial.mkdirs();
+        }
+
+
+        if (fileintial.isDirectory())
+        {
+            listFile = fileintial.listFiles();
+        }
+        for (File tmpf : listFile){
+            tmpf.delete();
+        }
+    }
 }
 

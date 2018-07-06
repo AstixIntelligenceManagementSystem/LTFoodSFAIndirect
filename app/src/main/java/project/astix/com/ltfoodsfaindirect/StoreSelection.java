@@ -2052,6 +2052,7 @@ public void DayEndWithoutalert()
 
 
 								Intent ready4GetLoc = new Intent(StoreSelection.this,LastVisitDetails.class);
+							//	Intent ready4GetLoc = new Intent(StoreSelection.this,StockCheckAndCmpttrAvilable.class);
 
 								//enableGPSifNot();
 
@@ -2130,7 +2131,7 @@ public void DayEndWithoutalert()
 
 
 									Intent ready4GetLoc = new Intent(StoreSelection.this,LastVisitDetails.class);
-
+								//	Intent ready4GetLoc = new Intent(StoreSelection.this,StockCheckAndCmpttrAvilable.class);
 									//enableGPSifNot();
 
 
@@ -3696,7 +3697,20 @@ if(hmapStore_details!=null && hmapStore_details.containsKey(storeCode[current]))
 
 			 }
 		 });
-
+//incentive
+		 final Button btnIncentive = (Button) dialog.findViewById(R.id.btnIncentive);
+		 btnIncentive.setOnClickListener(new OnClickListener() {
+			 @Override
+			 public void onClick(View v) {
+				 Intent intent=new Intent(StoreSelection.this,IncentiveActivity.class);
+				 intent.putExtra("imei", imei);
+				 intent.putExtra("IntentFrom", "StoreSelection");
+				 intent.putExtra("userDate", userDate);
+				 intent.putExtra("pickerDate", fDate);
+				 startActivity(intent);
+				 finish();
+			 }
+		 });
 		 //account census
 		 final Button butn_summary_report = (Button) dialog.findViewById(R.id.butn_summary_report);
 		 butn_summary_report.setOnClickListener(new OnClickListener() {

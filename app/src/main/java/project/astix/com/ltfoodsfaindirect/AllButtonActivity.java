@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -18,6 +20,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -57,11 +61,22 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -92,6 +107,10 @@ import java.util.regex.Pattern;
 
 public class AllButtonActivity extends BaseActivity implements LocationListener,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener{
 
+    InputStream inputStream;
+    public  File fileintialFolder;
+    private File[] listFileFolder;
+    ProgressDialog pDialogGetStoresImage;
     public ProgressDialog pDialogGetStores;
     public boolean serviceException=false;
     public String passDate;
@@ -104,7 +123,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
     public String selStoreName = "";
     public String fullFileName1;
 
-String ButtonClick="";
+    String ButtonClick="";
 
     public int valDayEndOrChangeRoute=1; // 1=Clicked on Day End Button, 2=Clicked on Change Route Button
     String whereTo = "11";
@@ -291,9 +310,10 @@ String ButtonClick="";
     protected void onResume()
     {
         super.onResume();
-
+        flgChangeRouteOrDayEnd=0;
         if(isDayEndClicked)
         {
+            flgChangeRouteOrDayEnd=1;
             dayEndFunctionalityAfterDialogSummary();
         }
     }
@@ -578,7 +598,15 @@ catch (Exception e){
         {
 
 
-            showAlertSingleButtonInfo(getResources().getString(R.string.NoPendingDataMsg));
+            if(isOnline())
+            {
+                DayEndWithoutalert();
+            }
+            else
+            {
+                showAlertSingleButtonError(getResources().getString(R.string.NoDataConnectionFullMsg));
+            }
+
 
         }
     }
@@ -919,7 +947,9 @@ catch (Exception e){
             DASFA.close();
 
             dbengine.savetbl_XMLfiles(newfullFileName, "3","0");
+
             dbengine.open();
+            dbengine.UpdateAllStoreIDNewlyAddedStoreImages(5);
             for (int nosSelected = 0; nosSelected <= mSelectedItems.size() - 1; nosSelected++)
             {
                 String valSN = (String) mSelectedItems.get(nosSelected);
@@ -940,15 +970,19 @@ catch (Exception e){
             }
             dbengine.close();
 
+
+
             flgChangeRouteOrDayEnd=valDayEndOrChangeRoute;
 
-            Intent syncIntent = new Intent(AllButtonActivity.this, SyncMaster.class);
-            //syncIntent.putExtra("xmlPathForSync",Environment.getExternalStorageDirectory() + "/TJUKIndirectSFAxml/" + newfullFileName + ".xml");
-            syncIntent.putExtra("xmlPathForSync", Environment.getExternalStorageDirectory() + "/" + CommonInfo.OrderXMLFolder + "/" + newfullFileName + ".xml");
-            syncIntent.putExtra("OrigZipFileName", newfullFileName);
-            syncIntent.putExtra("whereTo", whereTo);
-            startActivity(syncIntent);
-            finish();
+            if(isOnline())
+            {
+                UploadImageFromFolder(0);
+
+            }
+            else
+            {
+                showNoConnAlert();
+            }
         }
         catch (IOException e)
         {
@@ -2401,7 +2435,7 @@ catch (Exception e){
         startService(new Intent(AllButtonActivity.this, AppLocationService.class));
         Location nwLocation = appLocationService.getLocation(locationManager, LocationManager.GPS_PROVIDER, location);
         Location gpsLocation = appLocationService.getLocation(locationManager, LocationManager.NETWORK_PROVIDER, location);
-        countDownTimer = new AllButtonActivity.CoundownClass(startTime, interval);
+        countDownTimer = new CoundownClass(startTime, interval);
         countDownTimer.start();
 
     }
@@ -3943,6 +3977,7 @@ catch (Exception e){
         }
     }*/
    public void AllDayendCode(){
+       flgChangeRouteOrDayEnd=1;
        if(isOnline())
        {
 
@@ -3994,4 +4029,460 @@ catch (Exception e){
 
 
    }
+
+
+
+    public void	UploadImageFromFolder(int flagForWheresendAfterSyncComplete){
+
+        File   fileintial = new File(Environment.getExternalStorageDirectory()
+                + File.separator + CommonInfo.ImagesFolder);
+
+        String[] imageToBeDeletedFromSdCard=dbengine.deletFromSDCardStoreSctnImage(4);
+        if(!imageToBeDeletedFromSdCard[0].equals("No Data"))
+        {
+            for(int i=0;i<imageToBeDeletedFromSdCard.length;i++)
+            {
+
+                //String file_dj_path = Environment.getExternalStorageDirectory() + "/RSPLSFAImages/"+imageToBeDeletedFromSdCard[i].toString().trim();
+                String file_dj_path = Environment.getExternalStorageDirectory() + "/" + CommonInfo.ImagesFolder + "/" +imageToBeDeletedFromSdCard[i].toString().trim();
+
+                File fdelete = new File(file_dj_path);
+                if (fdelete.exists())
+                {
+                    if (fdelete.delete())
+                    {
+                        Log.e("-->", "file Deleted :" + file_dj_path);
+                        callBroadCast();
+                    }
+                    else
+                    {
+                        Log.e("-->", "file not Deleted :" + file_dj_path);
+                    }
+                }
+            }
+        }
+
+        SyncImageDataFromFolder syncImageFromFolder=new SyncImageDataFromFolder(AllButtonActivity.this,flagForWheresendAfterSyncComplete);
+        syncImageFromFolder.execute();
+
+
+
+
+
+    }
+
+
+    private class SyncImageDataFromFolder extends AsyncTask<Void, Void, Void>
+    {
+        String[] fp2s;
+        String[] NoOfOutletID;
+        int flagForWheresendAfterSyncComplete;
+
+        public SyncImageDataFromFolder(AllButtonActivity activity,int flagForWheresendAfterSyncComplete)
+        {
+            pDialogGetStoresImage = new ProgressDialog(activity);
+            this.flagForWheresendAfterSyncComplete=flagForWheresendAfterSyncComplete;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+
+
+            pDialogGetStoresImage.setTitle(getText(R.string.genTermPleaseWaitNew));
+
+            pDialogGetStoresImage.setMessage("Submitting Pending Images...");
+
+            pDialogGetStoresImage.setIndeterminate(false);
+            pDialogGetStoresImage.setCancelable(false);
+            pDialogGetStoresImage.setCanceledOnTouchOutside(false);
+            pDialogGetStoresImage.show();
+
+
+            if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+            {
+
+            }
+            else
+            {
+                // Locate the image folder in your SD Card
+                fileintialFolder = new File(Environment.getExternalStorageDirectory()
+                        + File.separator + CommonInfo.ImagesFolder);
+                // Create a new folder if no folder named SDImageTutorial exist
+                fileintialFolder.mkdirs();
+            }
+
+
+            if (fileintialFolder.isDirectory())
+            {
+                listFileFolder = fileintialFolder.listFiles();
+            }
+
+
+
+
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... params)
+        {
+
+
+            // Sync POS Images
+
+            try
+            {
+
+                if(listFileFolder!=null && listFileFolder.length>0)
+                {
+                    for(int chkCountstore=0; chkCountstore < listFileFolder.length;chkCountstore++)
+                    {
+
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                        String image_str= compressImage(listFileFolder[chkCountstore].getAbsolutePath());// BitMapToString(bmp);
+
+
+                        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+                        String UploadingImageName=listFileFolder[chkCountstore].getName();
+
+                        try
+                        {
+                            stream.flush();
+                        }
+                        catch (IOException e1)
+                        {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                        try
+                        {
+                            stream.close();
+                        }
+                        catch (IOException e1)
+                        {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+
+                        long syncTIMESTAMP = System.currentTimeMillis();
+                        Date datefromat = new Date(syncTIMESTAMP);
+                        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss.SSS",Locale.ENGLISH);
+                        String onlyDate=df.format(datefromat);
+
+
+                        nameValuePairs.add(new BasicNameValuePair("image", image_str));
+                        nameValuePairs.add(new BasicNameValuePair("FileName",UploadingImageName));
+                        nameValuePairs.add(new BasicNameValuePair("comment","NA"));
+                        nameValuePairs.add(new BasicNameValuePair("storeID","0"));
+                        nameValuePairs.add(new BasicNameValuePair("date",onlyDate));
+                        nameValuePairs.add(new BasicNameValuePair("routeID","0"));
+
+                        try
+                        {
+
+                            HttpParams httpParams = new BasicHttpParams();
+                            HttpConnectionParams.setSoTimeout(httpParams, 0);
+                            HttpClient httpclient = new DefaultHttpClient(httpParams);
+                            HttpPost httppost = new HttpPost(CommonInfo.ImageSyncPath.trim());
+
+
+                            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                            HttpResponse response = httpclient.execute(httppost);
+                            String the_string_response = convertResponseToString(response);
+
+                            System.out.println("Sunil Doing Testing Response after sending Image" + the_string_response);
+
+                            //  if(serverResponseCode == 200)
+                            if(the_string_response.equals("Abhinav"))
+                            {
+
+
+                                String file_dj_path = Environment.getExternalStorageDirectory() + "/"+CommonInfo.ImagesFolder+"/"+ UploadingImageName.trim();
+                                File fdelete = new File(file_dj_path);
+                                if (fdelete.exists())
+                                {
+                                    if (fdelete.delete())
+                                    {
+                                        Log.e("-->", "file Deleted :" + file_dj_path);
+                                        callBroadCast();
+                                    }
+                                    else
+                                    {
+                                        Log.e("-->", "file not Deleted :" + file_dj_path);
+                                    }
+                                }
+
+
+                            }
+
+                        }catch(Exception e)
+                        {
+
+
+                        }
+
+
+
+
+
+                    }
+                }
+
+
+            }
+            catch(Exception e)
+            {
+
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onCancelled()
+        {
+            Log.i("SvcMgr", "Service Execution Cancelled");
+        }
+
+        @Override
+        protected void onPostExecute(Void result)
+        {
+            super.onPostExecute(result);
+            if(pDialogGetStoresImage.isShowing() && pDialogGetStoresImage!=null)
+            {
+                pDialogGetStoresImage.dismiss();
+            }
+
+            //  version checkup
+
+
+            Intent syncIntent = new Intent(AllButtonActivity.this, SyncMaster.class);
+            syncIntent.putExtra("xmlPathForSync", Environment.getExternalStorageDirectory() + "/" + CommonInfo.OrderXMLFolder + "/" + newfullFileName + ".xml");
+            syncIntent.putExtra("OrigZipFileName", newfullFileName);
+            syncIntent.putExtra("whereTo", whereTo);
+            startActivity(syncIntent);
+            finish();
+        }
+    }
+    public String compressImage(String imageUri) {
+        String filePath = imageUri;//getRealPathFromURI(imageUri);
+        Bitmap scaledBitmap=null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+//      by setting this field as true, the actual bitmap pixels are not loaded in the memory. Just the bounds are loaded. If
+//      you try the use the bitmap here, you will get null.
+        options.inJustDecodeBounds = true;
+        Bitmap bmp = BitmapFactory.decodeFile(filePath, options);
+
+        int actualHeight = options.outHeight;
+        int actualWidth = options.outWidth;
+
+//      max Height and width values of the compressed image is taken as 816x612
+
+        float maxHeight = 1024.0f;
+        float maxWidth = 768.0f;
+        float imgRatio = actualWidth / actualHeight;
+        float maxRatio = maxWidth / maxHeight;
+
+//      width and height values are set maintaining the aspect ratio of the image
+
+        if (actualHeight > maxHeight || actualWidth > maxWidth) {
+            if (imgRatio < maxRatio) {
+                imgRatio = maxHeight / actualHeight;
+                actualWidth = (int) (imgRatio * actualWidth);
+                actualHeight = (int) maxHeight;
+            } else if (imgRatio > maxRatio) {
+                imgRatio = maxWidth / actualWidth;
+                actualHeight = (int) (imgRatio * actualHeight);
+                actualWidth = (int) maxWidth;
+            } else {
+                actualHeight = (int) maxHeight;
+                actualWidth = (int) maxWidth;
+
+            }
+        }
+
+//      setting inSampleSize value allows to load a scaled down version of the original image
+
+        options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
+
+//      inJustDecodeBounds set to false to load the actual bitmap
+        options.inJustDecodeBounds = false;
+
+//      this options allow android to claim the bitmap memory if it runs low on memory
+        options.inPurgeable = true;
+        options.inInputShareable = true;
+        options.inTempStorage = new byte[768*1024];
+
+        //bmp
+		/*try {
+//          load the bitmap from its path
+
+
+		} catch (OutOfMemoryError exception) {
+			exception.printStackTrace();
+
+		}
+*/
+
+
+		/*if(actualWidth > 768 || h1 > 1024)
+		{
+			bitmap=Bitmap.createScaledBitmap(bitmap,1024,768,true);
+		}
+		else
+		{
+
+			bitmap=Bitmap.createScaledBitmap(bitmap,w1,h1,true);
+		}*/
+        //Bitmap bitmap=Bitmap.createScaledBitmap(bmp,actualWidth,actualHeight,true);
+        // 	bmp =BitmapFactory.decodeFile(filePath, options);//Bitmap.createScaledBitmap(bmp,actualWidth,actualHeight,true);;//
+
+        try {
+//          load the bitmap from its path
+            bmp = BitmapFactory.decodeFile(filePath, options);
+
+            //bmp=Bitmap.createScaledBitmap(bmp,actualWidth,actualHeight,true);
+            //scaledBitmap=Bitmap.createBitmap(actualWidth, actualHeight,Bitmap.Config.ARGB_8888);
+            //	bmp=Bitmap.createScaledBitmap(bmp,actualWidth,actualHeight,true);
+        } catch (OutOfMemoryError exception) {
+            exception.printStackTrace();
+
+        }
+
+        //Bitmap scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight,Bitmap.Config.ARGB_8888);
+        //bmp=Bitmap.createScaledBitmap(bmp,actualWidth,actualHeight,true);
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        //scaledBitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
+        bmp.compress(Bitmap.CompressFormat.JPEG,100, baos);
+
+        byte [] arr=baos.toByteArray();
+        String result= Base64.encodeToString(arr, Base64.DEFAULT);
+        return result;
+
+		/*try {
+//          load the bitmap from its path
+			bmp = BitmapFactory.decodeFile(filePath, options);
+		} catch (OutOfMemoryError exception) {
+			exception.printStackTrace();
+
+		}
+		try {
+			scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight,Bitmap.Config.ARGB_8888);
+		} catch (OutOfMemoryError exception) {
+			exception.printStackTrace();
+		}*/
+
+		/*float ratioX = actualWidth / (float) options.outWidth;
+		float ratioY = actualHeight / (float) options.outHeight;
+		float middleX = actualWidth / 2.0f;
+		float middleY = actualHeight / 2.0f;*/
+
+
+        //return filename;
+
+    }
+    public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            final int heightRatio = Math.round((float) height/ (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;      }
+        final float totalPixels = width * height;
+        final float totalReqPixelsCap = reqWidth * reqHeight * 2;
+        while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
+            inSampleSize++;
+        }
+
+        return inSampleSize;
+    }
+
+    public String convertResponseToString(HttpResponse response) throws IllegalStateException, IOException
+    {
+
+        String res = "";
+        StringBuffer buffer = new StringBuffer();
+        inputStream = response.getEntity().getContent();
+        int contentLength = (int) response.getEntity().getContentLength(); //getting content length?..
+        //System.out.println("contentLength : " + contentLength);
+        //Toast.makeText(MainActivity.this, "contentLength : " + contentLength, Toast.LENGTH_LONG).show();
+        if (contentLength < 0)
+        {
+        }
+        else
+        {
+            byte[] data = new byte[512];
+            int len = 0;
+            try
+            {
+                while (-1 != (len = inputStream.read(data)) )
+                {
+                    buffer.append(new String(data, 0, len)); //converting to string and appending  to stringbuffer?..
+                }
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            try
+            {
+                inputStream.close(); // closing the stream?..
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+            res = buffer.toString();     // converting stringbuffer to string?..
+
+            //System.out.println("Result : " + res);
+            //Toast.makeText(MainActivity.this, "Result : " + res, Toast.LENGTH_LONG).show();
+            ////System.out.println("Response => " +  EntityUtils.toString(response.getEntity()));
+        }
+        return res;
+    }
+    public void callBroadCast() {
+        if (Build.VERSION.SDK_INT >= 14) {
+            Log.e("-->", " >= 14");
+            MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+
+                public void onScanCompleted(String path, Uri uri) {
+
+                }
+            });
+        } else {
+            Log.e("-->", " < 14");
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
+                    Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+        }
+
+
+
+    }
+
+    public void showNoConnAlert()
+    {
+        AlertDialog.Builder alertDialogNoConn = new AlertDialog.Builder(AllButtonActivity.this);
+        alertDialogNoConn.setTitle(R.string.AlertDialogHeaderMsg);
+        alertDialogNoConn.setMessage(R.string.NoDataConnectionFullMsg);
+        alertDialogNoConn.setNeutralButton(R.string.AlertDialogOkButton,
+                new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        dialog.dismiss();
+                        // finish();
+                    }
+                });
+        alertDialogNoConn.setIcon(R.drawable.error_ico);
+        AlertDialog alert = alertDialogNoConn.create();
+        alert.show();
+
+    }
 }

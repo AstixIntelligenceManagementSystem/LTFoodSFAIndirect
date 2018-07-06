@@ -102,6 +102,8 @@ GoogleApiClient.OnConnectionFailedListener{
 //nitika
 public TextView tvPreAmtOutstandingVALNew;
 
+	int isStockAvlbl=0;
+	int isCmpttrAvlbl=0;
 	CustomKeyboard mCustomKeyboardNum,mCustomKeyboardNumWithoutDecimal;
     Dialog dialog;
 	ImageView	menu;
@@ -581,7 +583,9 @@ public TextView tvPreAmtOutstandingVALNew;
 			  }
 			menu=(ImageView)findViewById(R.id.menu);
 			getDataFromIntent();
+			getStockCompttrAvilable();
 			initializeFields();
+			;
 			videoPlayFunctionality();
 			PDF_Doc_PlayFunctionality();
 
@@ -1487,7 +1491,7 @@ public void loadPurchaseProductDefault()
 			  });
 			  final Button btn_Submit=(Button) findViewById(R.id.btn_sbmt);
 			  btn_Submit.setTag("0_0");
-			if((dbengine.isDataExistCompetitor(storeID)) && (dbengine.isDataForCompetitorCmplsry(storeID)) && (flgOrderType!=0))
+			if((dbengine.isDataExistCompetitor(storeID)) && (dbengine.isDataForCompetitorCmplsry(storeID)) && (flgOrderType!=0) && (dbengine.getCmpttrRetailerAllowed(storeID)==1) &&(isCmpttrAvlbl==1))
 
 			{
 				isCmpttrExists=true;
@@ -1497,6 +1501,10 @@ public void loadPurchaseProductDefault()
 			{
 				isCmpttrExists=false;
 			}
+			  if(flgOrderType==1)
+			  {
+				  btn_Submit.setText(getString(R.string.lastvisitdetails_next));
+			  }
 			  btn_Submit.setOnClickListener(new OnClickListener() {
 			   
 			   @Override
@@ -1793,10 +1801,10 @@ public void loadPurchaseProductDefault()
 			   }
 			  });
 			 // spinner_category.setOnItemSelectedListener(this);
-			  
-			  
-			 
-			  
+
+
+
+
 			  
 
 			getDataPcsOrKGFromDatabase();
@@ -8220,10 +8228,31 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
 			 storeOrderReviewIntent.putExtra("pickerDate", pickerDate);
 
 
+
 			 //fireBackDetPg.putExtra("rID", routeID);
 			 startActivity(storeOrderReviewIntent);
 			 finish();
 
+		 }
+		 else if(flgOrderType==1)
+		 {
+
+			 int Outstat=1;
+			 TransactionTableDataDeleteAndSaving(Outstat);
+			 InvoiceTableDataDeleteAndSaving(Outstat);
+			 Intent storeOrderReviewIntent=new Intent(OrderReview.this,DisplayItemPics.class);
+			 storeOrderReviewIntent.putExtra("storeID", storeID);
+			 storeOrderReviewIntent.putExtra("SN", SN);
+			 storeOrderReviewIntent.putExtra("bck", 1);
+			 storeOrderReviewIntent.putExtra("imei", imei);
+			 storeOrderReviewIntent.putExtra("userdate", date);
+			 storeOrderReviewIntent.putExtra("pickerDate", pickerDate);
+
+
+
+			 //fireBackDetPg.putExtra("rID", routeID);
+			 startActivity(storeOrderReviewIntent);
+			 finish();
 		 }
 		 else
 		 {
@@ -11198,4 +11227,14 @@ public void 	Rate_Pcs_to_Kg_Conversion(String rate_in_pcs,String PRODUCT_ID){
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
+
+	public void getStockCompttrAvilable()
+	{
+		ArrayList<Integer> listStkCmpttr=dbengine.getLTfoodStockCmpttr(storeID);
+		if((listStkCmpttr!=null) && (listStkCmpttr.size()>0))
+		{
+			isStockAvlbl=listStkCmpttr.get(0);
+			isCmpttrAvlbl=listStkCmpttr.get(1);
+		}
+	}
 }

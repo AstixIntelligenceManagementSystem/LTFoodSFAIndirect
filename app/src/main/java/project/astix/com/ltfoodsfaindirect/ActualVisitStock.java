@@ -58,6 +58,8 @@ Button btnNext;
     public String date;
     public String pickerDate;
     public String selStoreName;
+    int isStockAvlbl=0;
+    int isCmpttrAvlbl=0;
     List<String> categoryNames;
     int progressBarStatus=0;
     public  Dialog dialog=null;
@@ -168,7 +170,7 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
         img_back_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent fireBackDetPg=new Intent(ActualVisitStock.this,LastVisitDetails.class);
+               /* Intent fireBackDetPg=new Intent(ActualVisitStock.this,LastVisitDetails.class);
                 fireBackDetPg.putExtra("storeID", storeID);
                 fireBackDetPg.putExtra("SN", selStoreName);
                 fireBackDetPg.putExtra("bck", 1);
@@ -178,98 +180,125 @@ LinkedHashMap<String,String> hmapProductStockFromPurchaseTable=new LinkedHashMap
                 fireBackDetPg.putExtra("flgOrderType", 1);
                 //fireBackDetPg.putExtra("rID", routeID);
                 startActivity(fireBackDetPg);
-                finish();
+                finish();*/
                 //aa
+                Intent nxtP4 = new Intent(ActualVisitStock.this,PicClkBfrStock.class);
+                nxtP4.putExtra("storeID", storeID);
+                nxtP4.putExtra("SN", selStoreName);
+                nxtP4.putExtra("imei", imei);
+                nxtP4.putExtra("userdate", date);
+                nxtP4.putExtra("pickerDate", pickerDate);
+                nxtP4.putExtra("flgOrderType", 1);
+                nxtP4.putExtra("isStockAvlbl", isStockAvlbl);
+                nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+
+                startActivity(nxtP4);
+                finish();
 
             }
         });
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dbengine.deleteActualVisitData(storeID);
-                if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.size()>0)
+                if(isStockFilledProperly())
                 {
-                    for (Map.Entry<String,String> entry:hmapFetchPDASavedData.entrySet()){
+                    dbengine.deleteActualVisitData(storeID);
 
-                        dbengine.saveTblActualVisitStock(storeID,entry.getKey(),entry.getValue(),1);
+                    if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.size()>0)
+                    {
+                        for (Map.Entry<String,String> entry:hmapFetchPDASavedData.entrySet()){
+
+                            dbengine.saveTblActualVisitStock(storeID,entry.getKey(),entry.getValue(),1);
 
 
+                        }
                     }
-                }
-                passIntentToProductOrderFilter();
-      //---------------********Video page open code
-    /*            dbengine.open();
-               String VideoData=      dbengine.getVideoNameByStoreID(storeID,"2");
-                dbengine.close();
-                int flagPlayVideoForStore=0;
-                String Video_Name="0";
-                String VIDEO_PATH="0";
-                String VideoViewed="0";
-                String Contentype="0";
-                if(!VideoData.equals("0") && VideoData.contains("^")){
-                     Video_Name=   VideoData.toString().split(Pattern.quote("^"))[0];
-                     flagPlayVideoForStore=   Integer.parseInt( VideoData.toString().split(Pattern.quote("^"))[1]);
-                    VideoViewed=    VideoData.toString().split(Pattern.quote("^"))[2];
-                    Contentype=    VideoData.toString().split(Pattern.quote("^"))[3];
-                }
-
-                *//*  VIDEO_PATH= "/sdcard/WhatsApp/Media/WhatsApp Video/VID-20180303-WA0030.mp4";
-                VIDEO_PATH= "/sdcard/VideoLTFOODS/SampleVideo5mb.mp4";*//*
-                VIDEO_PATH=   Environment.getExternalStorageDirectory() + "/" + CommonInfo.VideoFolder + "/"+Video_Name;
-                Uri intentUri;
-                //if videoShown check
-                if(flagPlayVideoForStore==1 && !(VIDEO_PATH.equals("0")) && VideoViewed.equals("0")&& Contentype.equals("2")){
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-                        File file = new File(VIDEO_PATH);
-                         intentUri = FileProvider.getUriForFile(getBaseContext(), getApplicationContext().getPackageName() + ".provider", file);
-                    }
-                    else{
-                         intentUri = Uri.parse(VIDEO_PATH);
-                    }
-
-
-                    if(intentUri!=null) {
-                        Intent intent = new Intent(ActualVisitStock.this,VideoPlayerActivityForStore.class);
-                        intent.putExtra("FROM","ActualVisitStock");
-                        intent.putExtra("STRINGPATH",VIDEO_PATH);
-                        intent.putExtra("storeID", storeID);
-                        intent.putExtra("SN", selStoreName);
-                        intent.putExtra("imei", imei);
-                        intent.putExtra("userdate", date);
-                        intent.putExtra("pickerDate", pickerDate);
-                        intent.putExtra("flgOrderType", 1);
-                        startActivity(intent);
-                        finish();
-                       // openVideoPlayerDialog(VIDEO_PATH);
-
-                    }
-                    else{
-                        Toast.makeText(ActualVisitStock.this, "No video Found", Toast.LENGTH_LONG).show();
-                        passIntentToProductOrderFilter();
-                    }
-
-                }
-                else{
-
                     passIntentToProductOrderFilter();
-                }*/
-                //---------------********Video page open code  end
+                }
+                else
+                {
+                    showAlertForEveryOne("It's compulsory to fill atleast one stock as you have mentioned Ltfoods Stock available.");
+                }
+
+
             }
         });
 
     }
 
+    public void showAlertForEveryOne(String msg)
+    {
+        AlertDialog.Builder alertDialogNoConn = new AlertDialog.Builder(ActualVisitStock.this);
+        alertDialogNoConn.setTitle("Information");
+        alertDialogNoConn.setMessage(msg);
+        alertDialogNoConn.setCancelable(false);
+        alertDialogNoConn.setNeutralButton(R.string.txtOk,new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int which)
+            {
+                dialog.dismiss();
+
+
+            }
+        });
+        alertDialogNoConn.setIcon(R.drawable.info_ico);
+        AlertDialog alert = alertDialogNoConn.create();
+        alert.show();
+    }
+    public boolean isStockFilledProperly()
+    {
+        boolean stockFilledPrprly=false;
+        if(hmapFetchPDASavedData!=null && hmapFetchPDASavedData.size()>0)
+        {
+            for (Map.Entry<String,String> entry:hmapFetchPDASavedData.entrySet()){
+
+               if(!TextUtils.isEmpty(entry.getValue()))
+               {
+                   if(Integer.parseInt(entry.getValue().toString())>0)
+                   {
+                       stockFilledPrprly=true;
+                       break;
+                   }
+               }
+
+
+
+            }
+        }
+        return stockFilledPrprly;
+    }
+
 public void passIntentToProductOrderFilter(){
-    Intent nxtP4 = new Intent(ActualVisitStock.this,FeedbackCompetitorActivity.class);
-    //Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
-    nxtP4.putExtra("storeID", storeID);
-    nxtP4.putExtra("SN", selStoreName);
-    nxtP4.putExtra("imei", imei);
-    nxtP4.putExtra("userdate", date);
-    nxtP4.putExtra("pickerDate", pickerDate);
-    nxtP4.putExtra("flgOrderType", 1);
-    startActivity(nxtP4);
-    finish();
+    if(isCmpttrAvlbl==1)
+    {
+        Intent nxtP4 = new Intent(ActualVisitStock.this,FeedbackCompetitorActivity.class);
+        //Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
+        nxtP4.putExtra("storeID", storeID);
+        nxtP4.putExtra("SN", selStoreName);
+        nxtP4.putExtra("imei", imei);
+        nxtP4.putExtra("userdate", date);
+        nxtP4.putExtra("pickerDate", pickerDate);
+        nxtP4.putExtra("flgOrderType", 1);
+        nxtP4.putExtra("isStockAvlbl", isStockAvlbl);
+        nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+        startActivity(nxtP4);
+        finish();
+    }
+    else
+    {
+        Intent nxtP4 = new Intent(ActualVisitStock.this,PicClkdAfterStock.class);
+        nxtP4.putExtra("storeID",storeID );
+        nxtP4.putExtra("SN", selStoreName);
+        nxtP4.putExtra("imei", imei);
+        nxtP4.putExtra("userdate", date);
+        nxtP4.putExtra("pickerDate", pickerDate);
+        nxtP4.putExtra("flgOrderType", 1);
+        nxtP4.putExtra("isStockAvlbl", isStockAvlbl);
+        nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+        startActivity(nxtP4);
+        finish();
+    }
+
 }
     public void inflatePrdctStockData(){
 
@@ -392,6 +421,8 @@ public void passIntentToProductOrderFilter(){
             date = passedvals.getStringExtra("userdate");
             pickerDate = passedvals.getStringExtra("pickerDate");
             selStoreName = passedvals.getStringExtra("SN");
+            isStockAvlbl=passedvals.getIntExtra("isStockAvlbl",0);
+            isCmpttrAvlbl=passedvals.getIntExtra("isCmpttrAvlbl",0);
 
         }
 

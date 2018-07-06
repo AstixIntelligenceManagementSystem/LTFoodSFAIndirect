@@ -38,14 +38,26 @@ public class DBAdapterKenya
 
 	private static final String TAG = "DBAdapterKenya";
 
+    private static final String TABLE_tblIncentiveSecondaryMaster = "tblIncentiveSecondaryMaster";
+    private static final String CREATE_TABLE_tblIncentiveSecondaryMaster = "create table tblIncentiveSecondaryMaster(IncSlabId int null,IncId int null,OutputType int null,IncSlabName text null,flgAcheived text null,Earning text null);";
+
+
+    private static final String TABLE_STORE_STOCK_CMPTTR_AVLBL = "tableStoreLtfoodStkCompttrAvlbl";
+    private static final String DATABASE_CREATE_TABLE_STOCK_CMPTTR_AVLBL = "create table tableStoreLtfoodStkCompttrAvlbl(StoreID text null,flgLtfoodsStkAvlbl integer null,flgCompttrAvlbl integer null,flgStockRetailerAllowed integer null,flgCmpttrRetailerAllowed integer null,Sstat integer null);";
+
+
+    private static final String TABLE_STORE_SECTIONIMAGE = "tableStoreSctnImage";
+    private static final String DATABASE_CREATE_TABLE_STORE_SECTIONIMAGE = "create table tableStoreSctnImage(StoreID text null,imageName text null,imagePath text null,ImageClicktime text null,flgSectionPic text null,Sstat integer null);";
+
+
     private static final String DATABASE_TABLE_CompetitrPrdctPTRPTC = "tblCompetitrPrdctPTRPTC";
     private static final String DATABASE_CREATE_TABLE_CompetitrPrdctPTRPTC = "create table tblCompetitrPrdctPTRPTC(" +
-            "StoreID text null,CompetitionProductID text null,CompetitionProductName text null,PTR text null,PTC text null,BusinessUnitId int null,BusinessUnit text null,SurveyDate text null,Sstat int null);";
+            "StoreID text null,CompetitionProductID text null,CompetitionProductName text null,PTR text null,BusinessUnitId int null,BusinessUnit text null,SurveyDate text null,Sstat int null);";
 
     private static final String DATABASE_TABLE_CompetitrPrdctMstr = "tblCompetitrPrdctMstr";
     private static final String DATABASE_CREATE_TABLE_CompetitrPrdctMstr = "create table tblCompetitrPrdctMstr(" +
             "CompetitionProductID text null,CompetitionProductName text null,CompetitorBrandID text null,LTFoodsSimilarBrand text null," +
-            "CategoryID int null,Seq int null,Category text null,BusinessUnitId int null,BusinessUnit text null);";
+            "CategoryID int null,Seq int null,Category text null,BusinessUnitId int null,BusinessUnit text null,ProductImg text null,flgActive text null,Unit_In_gram text null,MinRate text null,MaxRate text null,photoPath text null);";
 
 	//feedbck competitor
 	private static final String DATABASE_TABLE_FeedbackCompetitrMstr = "tblFeedbackCompetitrMstr";
@@ -54,7 +66,7 @@ public class DBAdapterKenya
 			"CatSeq int null,ProdSeq int null);";
 
 	private static final String DATABASE_TABLE_FeedbackCompetitr = "tblFeedbackCompetitr";
-	private static final String DATABASE_CREATE_TABLE_FeedbackCompetitr = "create table tblFeedbackCompetitr(StoreID text null,CompetitorID text null,CompetitorDesc text null,CategoryID text null,Sstat text null);";
+	private static final String DATABASE_CREATE_TABLE_FeedbackCompetitr = "create table tblFeedbackCompetitr(StoreID text null,CompetitorID text null,CompetitorDesc text null,CategoryID text null,ProductId text null,PrdctDesc text null,flgAvlblPrdct integer null,Sstat text null);";
 
 
 
@@ -210,8 +222,9 @@ private static final String DATABASE_TABLE_tblOrderInPcsOrKg="tblOrderInPcsOrKg"
 	private static final String TABLE_tblIncentiveDetailsData = "tblIncentiveDetailsData";
 	private static String DATABASE_CREATE_TABLE_tblIncentiveDetailsData="";
 
-	private static final String TABLE_tblIncentiveDetailsColumnsDesc = "tblIncentiveDetailsColumnsDesc";
-	private static final String CREATE_TABLE_tblIncentiveDetailsColumnsDesc = "create table tblIncentiveDetailsColumnsDesc(IncId int null, ReportColumnName text null, DisplayColumnName text null);";
+    private static final String TABLE_tblIncentiveDetailsColumnsDesc = "tblIncentiveDetailsColumnsDesc";
+    private static final String CREATE_TABLE_tblIncentiveDetailsColumnsDesc = "create table tblIncentiveDetailsColumnsDesc(IncSlabId int null,ReportColumnName text null,DisplayColumnName text null);";
+
 
 	private static final String TABLE_tblTotalEarning = "tblTotalEarning";
 	private static final String CREATE_TABLE_tblTotalEarning = "create table tblTotalEarning(Total_Earning text null);";
@@ -219,11 +232,14 @@ private static final String DATABASE_TABLE_tblOrderInPcsOrKg="tblOrderInPcsOrKg"
 	private static final String TABLE_tblIncentivePastDetailsData = "tblIncentivePastDetailsData";
 	private static String DATABASE_CREATE_TABLE_tblIncentivePastDetailsData="";
 
-	private static final String TABLE_tblIncentivePastDetailsColumnsDesc = "tblIncentivePastDetailsColumnsDesc";
-	private static final String CREATE_TABLE_tblIncentivePastDetailsColumnsDesc = "create table tblIncentivePastDetailsColumnsDesc(IncId int null, ReportColumnName text null, DisplayColumnName text null, Ordr text null);";
+    private static final String TABLE_tblIncentivePastDetailsColumnsDesc = "tblIncentivePastDetailsColumnsDesc";
+    private static final String CREATE_TABLE_tblIncentivePastDetailsColumnsDesc = "create table tblIncentivePastDetailsColumnsDesc(IncSlabId int null,ReportColumnName text null,DisplayColumnName text null,Ordr text null);";
 
-	private static final String TABLE_tblIncentiveMsgToDisplay_Define = "tblIncentiveMsgToDisplay";
-	private static final String CREATE_tblIncentiveMsgToDisplay_Definition = "create table tblIncentiveMsgToDisplay(MsgToDisplay text null);";
+    private static final String TABLE_tblIncentiveMsgToDisplay_Define = "tblIncentiveMsgToDisplay";
+    private static final String CREATE_tblIncentiveMsgToDisplay_Definition = "create table tblIncentiveMsgToDisplay(MsgToDisplay text null,flgBankDetailsToShow int null);";
+
+    private static final String TABLE_tblIncentiveBankDetails = "tblIncentiveBankDetails";
+    private static final String CREATE_tblIncentiveBankDetails = "create table tblIncentiveBankDetails(LvlName text null,Value text null);";
 
 
 	// End Surbhi Change for Incentive
@@ -861,6 +877,12 @@ private static final String DATABASE_TABLE_tblProductListLastVisitStockOrOrderMs
 			
 			try
 			{
+                db.execSQL(CREATE_TABLE_tblIncentiveSecondaryMaster);
+                db.execSQL(CREATE_tblIncentiveBankDetails);
+                db.execSQL(DATABASE_CREATE_TABLE_STOCK_CMPTTR_AVLBL);
+
+                db.execSQL(DATABASE_CREATE_TABLE_STORE_SECTIONIMAGE);
+
                 db.execSQL(DATABASE_CREATE_TABLE_CompetitrPrdctPTRPTC);
                 db.execSQL(DATABASE_CREATE_TABLE_CompetitrPrdctMstr);
 				db.execSQL(DATABASE_CREATE_TABLE_FeedbackCompetitrMstr);
@@ -1097,6 +1119,22 @@ private static final String DATABASE_TABLE_tblProductListLastVisitStockOrOrderMs
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			try 
 			{
+
+                db.execSQL("DROP TABLE IF EXISTS tblIncentiveMaster");
+                db.execSQL("DROP TABLE IF EXISTS tblIncentiveSecondaryMaster");
+                db.execSQL("DROP TABLE IF EXISTS tblIncentiveDetailsColumnsDesc");
+                db.execSQL("DROP TABLE IF EXISTS tblIncentivePastDetailsColumnsDesc");
+                db.execSQL("DROP TABLE IF EXISTS tblTotalEarning");
+                db.execSQL("DROP TABLE IF EXISTS tblIncentiveMsgToDisplay");
+                db.execSQL("DROP TABLE IF EXISTS tblIncentiveBankDetails");
+
+
+
+                db.execSQL("DROP TABLE IF EXISTS tableStoreLtfoodStkCompttrAvlbl");
+                db.execSQL("DROP TABLE IF EXISTS tableStoreLtfoodStkCompttrAvlbl");
+
+                db.execSQL("DROP TABLE IF EXISTS tableStoreSctnImage");
+
                 db.execSQL("DROP TABLE IF EXISTS tblCompetitrPrdctPTRPTC");
 
                 db.execSQL("DROP TABLE IF EXISTS tblCompetitrPrdctMstr");
@@ -5704,8 +5742,20 @@ open();
 		
 		//db.execSQL("DELETE FROM tblAvailableVersionMstr");
 	//	db.execSQL("DELETE FROM tblNotificationMstr");
-		
-		
+
+        if(StoreSelection.hmapStoreIdSstat!=null)
+        {
+            StoreSelection.hmapStoreIdSstat.clear();
+        }
+        if(StoreSelection.hmapStoreIdForDate!=null)
+        {
+            StoreSelection.hmapStoreIdForDate.clear();
+        }
+        if(StoreSelection.hmapStoreIdflgOrderType!=null)
+        {
+            StoreSelection.hmapStoreIdflgOrderType.clear();
+        }
+        db.execSQL("DELETE FROM tableStoreLtfoodStkCompttrAvlbl");
 		db.execSQL("DELETE FROM tblStoreList"); 
 		db.execSQL("DELETE FROM tblProductList");
 		db.execSQL("DELETE FROM tblProductSegementMap");
@@ -5787,7 +5837,14 @@ open();
 		  db.execSQL("DELETE FROM tblStoreIDAndMaterialIDMap");
 		  db.execSQL("DELETE FROM  tblStoreMaterialDetail");
 		  db.execSQL("DELETE FROM  tblStoreMaterialPhotoDetail");
-		  
+
+        db.execSQL("DELETE FROM  tableStoreSctnImage");
+
+        db.execSQL("DELETE FROM  tblCompetitrPrdctPTRPTC");
+        db.execSQL("DELETE FROM  tblFeedbackCompetitr");
+
+
+        //nititshdubey
 
 		Log.w(TAG, "Table re-creation completed..");
 	}
@@ -10322,7 +10379,7 @@ close();
 	public String fnGetStoreTypeOnStoreIdBasis(String strStoreID) {
 
 		Cursor cursorE2 = db.rawQuery("SELECT StoreType FROM tblStoreList WHERE StoreID ='"+ strStoreID + "'", null);
-		String StoreType = "";
+		String StoreType = "0";
 		int ScodecolumnIndex = 0;
 		try {
 
@@ -13267,10 +13324,13 @@ public void deleteStoreTblsRecordsInCaseCancelOrderInOrderBooking(String StoreID
 			//tblOutletQuestAnsMstr
             ////// System.out.println("Updating Status for Store ID: " + sID);
 			int affected = db.update("tblStoreList", values, "StoreID=?",new String[] { sID });
+
 			//int affected2 = db.update("tblTransac", values, "StoreID=?",new String[] { sID });
 			//nitishdubey
 			int affected4 = db.update("tblNewStoreListEntries", values,"StoreID=?", new String[] { sID });
              int affected92 = db.update("tblCompetitrPrdctPTRPTC", values, "StoreID=?",new String[] { sID });
+             int affected91 = db.update("tableStoreLtfoodStkCompttrAvlbl", values, "StoreID=?",new String[] { sID });
+
 			//int affected4 = db.update("tblDistributionStoreProductWiseDetails", values, "StoreID=?",new String[] { sID });
 			//int affected5 = db.update("tblDistributionStoreProductMstr", values, "StoreID=?",new String[] { sID });
 			
@@ -13418,6 +13478,9 @@ public void deleteStoreTblsRecordsInCaseCancelOrderInOrderBooking(String StoreID
 
 			int affected = db.update("tblStoreList", values, "StoreID=?",new String[] { sID });
              int affected92 = db.update("tblCompetitrPrdctPTRPTC", values, "StoreID=?",new String[] { sID });
+
+             int affected91 = db.update("tableStoreLtfoodStkCompttrAvlbl", values, "StoreID=?",new String[] { sID });
+
 			 int affected1 = db.update("tblLatLongDetails", values, "StoreID=?",new String[] { sID });
 			
 			int affected26 = db.update("tblRateDistribution", values,"StoreId=?", new String[] { sID });
@@ -13436,6 +13499,7 @@ public void deleteStoreTblsRecordsInCaseCancelOrderInOrderBooking(String StoreID
 			
 			int affected24 = db.update("tblStoreOrderBillAddressDetails", values, "StoreID=?",new String[] { sID });
 			int affected25 = db.update("tblStoreSalesOrderPaymentDetails", values, "StoreId=?",new String[] { sID });
+             int affected51 = db.update("tableStoreSctnImage", values,"StoreID=?", new String[] { sID });
 			//int affected18 = db.update("tblStoreMaterialPhotoDetail", values,"StoreID=?", new String[] { sID });rerer
 			LinkedHashMap<String, String> hmapDistinctSalesQuotePersonMeetMstr= fngetDistinctSalesQuotePersonMeetMstrForSstatUpdate(sID);
 			
@@ -15689,10 +15753,16 @@ public void deleteStoreTblsRecordsInCaseCancelOrderInOrderBooking(String StoreID
 						new String[] { "5" });
 				int affected3 = db.update("tblStoreList", values, "Sstat=?",
 						new String[] { "5" });
-				int affected4 = db.update("tblNewStoreListEntries", values,
+//tableStoreLtfoodStkCompttrAvlbl(StoreID text null,flgLtfoodsStkAvlbl integer null,flgCompttrAvlbl integer null,flgStockRetailerAllowed integer null,flgCmpttrRetailerAllowed integer null,Sstat integer null);";
+                int affected91 = db.update("tableStoreLtfoodStkCompttrAvlbl", values, "Sstat=?",
+                        new String[] { "5" });
+                int affected92 = db.update("tblCompetitrPrdctPTRPTC", values, "Sstat=?",
+                        new String[] { "5" });
+                int affected4 = db.update("tblNewStoreListEntries", values,
 						"Sstat=?", new String[] { "5" });
-				
-				
+
+                int affected51 = db.update("tableStoreSctnImage", values, "Sstat=?",
+                        new String[] { "5" });
 				int affected7 = db.update("tblStoreProductAppliedSchemesBenifitsRecords", values,
 						"Sstat=?", new String[] { "5" });
 				int affected8 = db.update("tblStoreProdcutPurchaseDetails", values,
@@ -21351,7 +21421,7 @@ open();
 					       
 							int SnamecolumnIndex1 = 0;
 
-							
+
 							 Cursor cursor = db.rawQuery("SELECT DISTINCT(StoreID) FROM tblStoreProductPhotoDetail where Sstat=5", null);
 							//Cursor cursor = db.rawQuery("SELECT StoreID FROM tblStoreMaterialPhotoDetail", null);
 							try
@@ -21376,7 +21446,7 @@ open();
 
 						}
 						
-						public int getExistingPicNosForReturn(String StoreID) 
+						public int getExistingPicNosForReturn(String StoreID)
 						{
 
 							int ScodecolumnIndex = 0;
@@ -21437,7 +21507,7 @@ open();
 									System.out.println("Sunil Doing Testing Response after sending Image inside BD" + PhotoName);
 									final ContentValues values = new ContentValues();
 									values.put("Sstat", 4);
-									
+
 									int affected3 = db.update("tblStoreProductPhotoDetail", values, "PhotoName=?",new String[] { PhotoName });
 								} 
 								catch (Exception ex) 
@@ -25311,6 +25381,7 @@ public  LinkedHashMap<String,String> fngetAllOptionForQuestionID(int QuestID)
 			values.put("Sstat", flag2set);
 			int affected16 = db.update("tblStoreProductPhotoDetail", values,"StoreID=?", new String[] { sID });
 			int affected17 = db.update("tableImage", values,"StoreID=?", new String[] { sID });
+            int affected51 = db.update("tableStoreSctnImage", values, "StoreID=?",new String[] { sID });
 		}
 		catch (Exception ex)
 		{
@@ -27125,186 +27196,280 @@ public  LinkedHashMap<String,String> fngetAllOptionForQuestionID(int QuestID)
 
 	}
 
-	public ArrayList<Object> fetchIncentiveData()
-	{
-		ArrayList<Object> arrlstObjects=new ArrayList<Object>();
-		ArrayList<LinkedHashMap<String, ArrayList<String>>> array=new ArrayList<LinkedHashMap<String,ArrayList<String>>>();;
-		LinkedHashMap<String, ArrayList<String>> HmapMstrData=new LinkedHashMap<String, ArrayList<String>>();
+    public LinkedHashMap<String,ArrayList<String>> fnGetIncentivesMasterListData()
+    {
+        LinkedHashMap<String, ArrayList<String>> HmapIncMasterListData=new LinkedHashMap<String, ArrayList<String>>();
+        Cursor cursor=null;
+        open();
+        try
+        {
+            cursor = db.rawQuery("SELECT tblIncentiveMaster.IncId,tblIncentiveMaster.OutputType,tblIncentiveMaster.IncentiveName,count(tblIncentiveSecondaryMaster.IncSlabId) as ColumnCount,tblIncentiveMaster.flgAcheived,tblIncentiveMaster.Earning FROM tblIncentiveMaster INNER JOIN tblIncentiveSecondaryMaster ON tblIncentiveMaster.IncId = tblIncentiveSecondaryMaster.IncId", null);// group by tblIncentiveSecondaryMaster.IncId
+
+            if(cursor.getCount() >0)
+            {
+                if (cursor.moveToFirst())
+                {
+                    for (int i = 0; i < cursor.getCount(); i++)
+                    {
+                        ArrayList<String> list_frstTbl=new ArrayList<String>();
+                        list_frstTbl.add(0,cursor.getString(1).toString().trim()); //output type
+                        list_frstTbl.add(1,cursor.getString(2).toString().trim()); //incentive name
+                        list_frstTbl.add(2,cursor.getString(3).toString().trim()); //count of incId frm columndesc tbl
+                        list_frstTbl.add(3,cursor.getString(4).toString().trim()); //flgAchieved
+                        list_frstTbl.add(4,cursor.getString(5).toString().trim()); //Earning
+
+                        HmapIncMasterListData.put(cursor.getString(0).toString().trim(), list_frstTbl);
 
 
-		LinkedHashMap<String, ArrayList<String>> HmapIncPastDetailData=new LinkedHashMap<String, ArrayList<String>>();
-		LinkedHashMap<String, ArrayList<String>> HmapInnerData=new LinkedHashMap<String, ArrayList<String>>();
-		String total_earning="0",Incentive_msg="NA";
+                        cursor.moveToNext();
+                    }
 
-		open();
-		try
-		{
-			Cursor cursor = db.rawQuery("SELECT tblIncentiveMaster.IncId,OutputType,IncentiveName,count(tblIncentiveDetailsColumnsDesc.IncId) as ColumnCount,flgAcheived,Earning FROM tblIncentiveMaster INNER JOIN tblIncentiveDetailsColumnsDesc ON tblIncentiveMaster.IncId = tblIncentiveDetailsColumnsDesc.IncId group by tblIncentiveDetailsColumnsDesc.IncId", null);
 
-			if(cursor.getCount() >0)
-			{
-				if (cursor.moveToFirst())
-				{
-					for (int i = 0; i < cursor.getCount(); i++)
-					{
-						ArrayList<String> list_frstTbl=new ArrayList<String>();
-						list_frstTbl.add(0,cursor.getString(1).toString().trim()); //output type
-						list_frstTbl.add(1,cursor.getString(2).toString().trim()); //incentive name
-						list_frstTbl.add(2,cursor.getString(3).toString().trim()); //count of incId frm columndesc tbl
-						list_frstTbl.add(3,cursor.getString(4).toString().trim()); //flgAchieved
-						list_frstTbl.add(4,cursor.getString(5).toString().trim()); //Earning
+                }
+            }
 
-						HmapMstrData.put(cursor.getString(0).toString().trim(), list_frstTbl);
+        }
+        catch(Exception e)
+        {
+            System.out.println("EXception.."+e);
+        }
+        finally
+        {
+            if(cursor!=null) {
+                cursor.close();
 
-						HmapInnerData.put(cursor.getString(0).toString().trim(),fetchIncentiveInnerData(cursor.getString(0).toString().trim()));
+            }
+            close();
+        }
+        return HmapIncMasterListData;
+    }
 
-						ArrayList<String> list_pastDetail=new ArrayList<String>();
-						list_pastDetail=fetchIncPastDetailData(cursor.getString(0).toString().trim());
-						if(!list_pastDetail.isEmpty())
-						{
-							HmapIncPastDetailData.put(cursor.getString(0).toString().trim(),list_pastDetail);
-						}
+    public ArrayList<Object> fetchIncentiveData()
+    {
+        ArrayList<Object> arrlstObjects=new ArrayList<Object>();
+        ArrayList<LinkedHashMap<String, ArrayList<String>>> array=new ArrayList<LinkedHashMap<String,ArrayList<String>>>();;
+        LinkedHashMap<String, ArrayList<String>> HmapSecondaryMstrData=new LinkedHashMap<String, ArrayList<String>>();
+        LinkedHashMap<String, ArrayList<String>> HmapMstrData=new LinkedHashMap<String, ArrayList<String>>();
 
-						list_frstTbl.add(5,String.valueOf(getCountFromIncPastDetails(cursor.getString(0).toString().trim())));
+        LinkedHashMap<String, ArrayList<String>> HmapIncMasterListData=new LinkedHashMap<String, ArrayList<String>>();
 
-						cursor.moveToNext();
-					}
+        LinkedHashMap<String, ArrayList<String>> HmapIncPastDetailData=new LinkedHashMap<String, ArrayList<String>>();
+        LinkedHashMap<String, ArrayList<String>> HmapInnerData=new LinkedHashMap<String, ArrayList<String>>();
+        String total_earning="0",Incentive_msg="NA";
 
-					array.add(HmapMstrData);
-					array.add(HmapInnerData);
-					array.add(HmapIncPastDetailData);
-					arrlstObjects.add(array);
-					total_earning=fetchTotalEarning();
-					arrlstObjects.add(total_earning);
-					Incentive_msg=getMsgToDisplay();
-					arrlstObjects.add(Incentive_msg);
-				}
-			}
+        HmapIncMasterListData=fnGetIncentivesMasterListData();
 
-		}
-		catch(Exception e)
-		{
-			System.out.println("EXception.."+e);
-		}
-		finally
-		{
-			close();
-		}
-		return arrlstObjects;
-	}
+        open();
+        try
+        {
 
-	public ArrayList<String> fetchIncentiveInnerData(String IncId)
-	{
-		LinkedHashMap<String, ArrayList<String>> HmapInnerData=new LinkedHashMap<String, ArrayList<String>>();
-		String columnIncentives="";
-		String columnIncentivesForTableDisplay="";
-		ArrayList<String> list_frstTbl=new ArrayList<String>();
-		int ColumnCount=0;
-		try
-		{
-			Cursor cursor = db.rawQuery("SELECT Distinct ReportColumnName,DisplayColumnName FROM tblIncentiveDetailsColumnsDesc where IncId='"+IncId+"'", null);
+            for (String key : HmapIncMasterListData.keySet()) {
 
-			if(cursor.getCount() >0)
-			{
-				if (cursor.moveToFirst())
-				{
-					for (int i = 0; i < cursor.getCount(); i++)
-					{
-						ArrayList<String> arrIncenticeData=new ArrayList<String>();
-						if(columnIncentives.equals(""))
-						{
-							columnIncentives="IFNULL("+cursor.getString(0).toString().trim()+",' ')";
-							columnIncentivesForTableDisplay=cursor.getString(1).toString().trim();
-							ColumnCount=0;
-						}
-						else
-						{
-							columnIncentives=columnIncentives+",IFNULL("+cursor.getString(0).toString().trim()+",' ')";;
-							columnIncentivesForTableDisplay=columnIncentivesForTableDisplay+"^"+cursor.getString(1).toString().trim();
-							ColumnCount=ColumnCount+1;
+                int MasterIncId=Integer.parseInt(key);
 
-						}
+                HmapMstrData.put(""+MasterIncId,HmapIncMasterListData.get(""+MasterIncId));
+                array.add(HmapMstrData);
+                Cursor cursor = db.rawQuery("SELECT tblIncentiveSecondaryMaster.IncSlabId,tblIncentiveSecondaryMaster.OutputType,tblIncentiveSecondaryMaster.IncSlabName,count(tblIncentiveDetailsColumnsDesc.IncSlabId) as ColumnCount,tblIncentiveSecondaryMaster.flgAcheived,tblIncentiveSecondaryMaster.Earning FROM tblIncentiveSecondaryMaster INNER JOIN tblIncentiveDetailsColumnsDesc ON tblIncentiveSecondaryMaster.IncSlabId = tblIncentiveDetailsColumnsDesc.IncSlabId WHERE tblIncentiveSecondaryMaster.IncId="+MasterIncId+" group by tblIncentiveDetailsColumnsDesc.IncSlabId", null);//
+
+                if(cursor.getCount() >0)
+                {
+                    if (cursor.moveToFirst())
+                    {
+                        for (int i = 0; i < cursor.getCount(); i++)
+                        {
+                            ArrayList<String> list_frstTbl=new ArrayList<String>();
+                            list_frstTbl.add(0,cursor.getString(0).toString().trim());//IncSlabId
+                            list_frstTbl.add(1,cursor.getString(1).toString().trim()); //output type
+                            list_frstTbl.add(2,cursor.getString(2).toString().trim()); //incentive name
+                            list_frstTbl.add(3,cursor.getString(3).toString().trim()); //count of incId frm columndesc tbl
+                            list_frstTbl.add(4,cursor.getString(4).toString().trim()); //flgAchieved
+                            list_frstTbl.add(5,cursor.getString(5).toString().trim()); //Earning
+
+                            HmapSecondaryMstrData.put(""+MasterIncId+"^"+cursor.getString(0).toString().trim(), list_frstTbl);
+
+                            HmapInnerData.put(cursor.getString(0).toString().trim(),fetchIncentiveInnerData(cursor.getString(0).toString().trim()));
+
+                            ArrayList<String> list_pastDetail=new ArrayList<String>();
+                            list_pastDetail=fetchIncPastDetailData(cursor.getString(0).toString().trim());
+                            if(!list_pastDetail.isEmpty())
+                            {
+                                HmapIncPastDetailData.put(cursor.getString(0).toString().trim(),list_pastDetail);
+                            }
+
+                            list_frstTbl.add(5,String.valueOf(getCountFromIncPastDetails(cursor.getString(0).toString().trim())));
+
+                            cursor.moveToNext();
+                        }
+
+                        array.add(HmapSecondaryMstrData);
+                        array.add(HmapInnerData);
+                        array.add(HmapIncPastDetailData);
+                        arrlstObjects.add(array);
+                        total_earning=fetchTotalEarning();
+                        arrlstObjects.add(total_earning);
+                        Incentive_msg=getMsgToDisplay();
+                        arrlstObjects.add(Incentive_msg);
+                        String flgToShowBankDetails=""+getflgToShowBankDetails();
+                        arrlstObjects.add(flgToShowBankDetails);
+                        LinkedHashMap<String,String> hmapBankDetails=getIncentiveBankDetails();
+                        arrlstObjects.add(hmapBankDetails);
+
+                    }
+                }
+            }
+
+
+
+
+
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("EXception.."+e);
+        }
+        finally
+        {
+            close();
+        }
+        return arrlstObjects;
+    }
+    public int getflgToShowBankDetails()
+    {
+        int val=0;
+        try
+        {
+            Cursor cursor = db.rawQuery("SELECT flgBankDetailsToShow FROM tblIncentiveMsgToDisplay", null);
+
+            if(cursor.getCount() >0)
+            {
+                if (cursor.moveToFirst())
+                {
+                    val=Integer.parseInt(cursor.getString(0).toString().trim());
+                    System.out.println("MSG FETCHED..."+val);
+                }
+            }
+        }
+        finally
+        {
+        }
+        return val;
+    }
+
+    public ArrayList<String> fetchIncentiveInnerData(String IncSlabId)
+    {
+        LinkedHashMap<String, ArrayList<String>> HmapInnerData=new LinkedHashMap<String, ArrayList<String>>();
+        String columnIncentives="";
+        String columnIncentivesForTableDisplay="";
+        ArrayList<String> list_frstTbl=new ArrayList<String>();
+        int ColumnCount=0;
+        try
+        {
+            Cursor cursor = db.rawQuery("SELECT Distinct ReportColumnName,DisplayColumnName FROM tblIncentiveDetailsColumnsDesc where IncSlabId='"+IncSlabId+"'", null);
+
+            if(cursor.getCount() >0)
+            {
+                if (cursor.moveToFirst())
+                {
+                    for (int i = 0; i < cursor.getCount(); i++)
+                    {
+                        ArrayList<String> arrIncenticeData=new ArrayList<String>();
+                        if(columnIncentives.equals(""))
+                        {
+                            columnIncentives="IFNULL("+cursor.getString(0).toString().trim()+",' ')";
+                            columnIncentivesForTableDisplay=cursor.getString(1).toString().trim();
+                            ColumnCount=0;
+                        }
+                        else
+                        {
+                            columnIncentives=columnIncentives+",IFNULL("+cursor.getString(0).toString().trim()+",' ')";;
+                            columnIncentivesForTableDisplay=columnIncentivesForTableDisplay+"^"+cursor.getString(1).toString().trim();
+                            ColumnCount=ColumnCount+1;
+
+                        }
 											/*	ArrayList<String> list_frstTbl=new ArrayList<String>();
 												list_frstTbl.add(cursor.getString(1).toString().trim()); //column desc to show in tbl
 
 												;*/
 
-						if(i==(cursor.getCount()-1))
-						{
-							list_frstTbl.add(columnIncentivesForTableDisplay);
-							arrIncenticeData=fetchColumnData(IncId,columnIncentives,ColumnCount,list_frstTbl);
-						}
+                        if(i==(cursor.getCount()-1))
+                        {
+                            list_frstTbl.add(columnIncentivesForTableDisplay);
+                            arrIncenticeData=fetchColumnData(IncSlabId,columnIncentives,ColumnCount,list_frstTbl);
+                        }
 
-						cursor.moveToNext();
-					}
+                        cursor.moveToNext();
+                    }
 
-				}
-			}
-			return list_frstTbl;
-		}
-		finally
-		{
-		}
-	}
+                }
+            }
+            return list_frstTbl;
+        }
+        finally
+        {
+        }
+    }
 
-	public ArrayList<String> fetchColumnData(String IncId,String columnIncentives,int ColumnCount,ArrayList<String> list_frstTbl)
-	{
-		try
-		{
-			Cursor cursor = db.rawQuery("SELECT "+columnIncentives+" FROM tblIncentiveDetailsData where IncId='"+IncId+"'", null);
 
-			System.out.println("PASSED INFO..."+"IncId:"+IncId+" columnIncentives:"+columnIncentives+" ColumnCount:"+ColumnCount);
-			if(cursor.getCount() >0)
-			{
-				if (cursor.moveToFirst())
-				{
-					for (int i = 0; i < cursor.getCount(); i++)
-					{
-						Boolean val=false;
-						String incentiveColumnsData="";
-						for(int j=0;j <= ColumnCount;j++)
-						{
-							if(incentiveColumnsData.equals("") && val == false)
-							{
-								incentiveColumnsData=cursor.getString(j).toString().trim();
-								val=true;
-							}
-							else
-							{
-								if(j == (ColumnCount))
-								{
-									if(cursor.getString(j).toString().trim().equals(""))
-									{
-										incentiveColumnsData=incentiveColumnsData+"^"+"NA";
-										System.out.println("j:"+j+"-"+incentiveColumnsData+"-"+cursor.getColumnName(j).toString());
-									}
-									else
-									{
-										incentiveColumnsData=incentiveColumnsData+"^"+cursor.getString(j).toString().trim();
-									}
+    public ArrayList<String> fetchColumnData(String IncSlabId,String columnIncentives,int ColumnCount,ArrayList<String> list_frstTbl)
+    {
+        try
+        {
+            Cursor cursor = db.rawQuery("SELECT "+columnIncentives+" FROM tblIncentiveDetailsData where IncSlabId='"+IncSlabId+"'", null);
 
-									System.out.println("END OF LOOP: "+"IncId"+IncId+"-"+incentiveColumnsData);
-								}
-								else
-								{
-									incentiveColumnsData=incentiveColumnsData+"^"+cursor.getString(j).toString().trim();
-								}
-							}
+            System.out.println("PASSED INFO..."+"IncSlabId:"+IncSlabId+" columnIncentives:"+columnIncentives+" ColumnCount:"+ColumnCount);
+            if(cursor.getCount() >0)
+            {
+                if (cursor.moveToFirst())
+                {
+                    for (int i = 0; i < cursor.getCount(); i++)
+                    {
+                        Boolean val=false;
+                        String incentiveColumnsData="";
+                        for(int j=0;j <= ColumnCount;j++)
+                        {
+                            if(incentiveColumnsData.equals("") && val == false)
+                            {
+                                incentiveColumnsData=cursor.getString(j).toString().trim();
+                                val=true;
+                            }
+                            else
+                            {
+                                if(j == (ColumnCount))
+                                {
+                                    if(cursor.getString(j).toString().trim().equals(""))
+                                    {
+                                        incentiveColumnsData=incentiveColumnsData+"^"+"NA";
+                                        System.out.println("j:"+j+"-"+incentiveColumnsData+"-"+cursor.getColumnName(j).toString());
+                                    }
+                                    else
+                                    {
+                                        incentiveColumnsData=incentiveColumnsData+"^"+cursor.getString(j).toString().trim();
+                                    }
 
-						}
-						list_frstTbl.add(incentiveColumnsData); //column desc to show in tbl
-						cursor.moveToNext();
-					}
-				}
-			}
-			return list_frstTbl;
-		}
-		finally
-		{
-		}
-	}
+                                    System.out.println("END OF LOOP: "+"IncSlabId"+IncSlabId+"-"+incentiveColumnsData);
+                                }
+                                else
+                                {
+                                    incentiveColumnsData=incentiveColumnsData+"^"+cursor.getString(j).toString().trim();
+                                }
+                            }
 
-	public String fetchTotalEarning()
+                        }
+                        list_frstTbl.add(incentiveColumnsData); //column desc to show in tbl
+                        cursor.moveToNext();
+                    }
+                }
+            }
+            return list_frstTbl;
+        }
+        finally
+        {
+        }
+    }
+
+
+    public String fetchTotalEarning()
 	{
 		String total_earning="NA";
 		try
@@ -27327,120 +27492,122 @@ public  LinkedHashMap<String,String> fngetAllOptionForQuestionID(int QuestID)
 		}
 	}
 
-	public ArrayList<String> fetchIncPastDetailData(String IncId)
-	{
-		LinkedHashMap<String, ArrayList<String>> HmapInnerData=new LinkedHashMap<String, ArrayList<String>>();
+    public ArrayList<String> fetchIncPastDetailData(String IncSlabId)
+    {
+        LinkedHashMap<String, ArrayList<String>> HmapInnerData=new LinkedHashMap<String, ArrayList<String>>();
 
-		String columnIncentives="";
-		String columnIncentivesForTableDisplay="";
-		ArrayList<String> list_frstTbl=new ArrayList<String>();
-		int ColumnCount=0;
+        String columnIncentives="";
+        String columnIncentivesForTableDisplay="";
+        ArrayList<String> list_frstTbl=new ArrayList<String>();
+        int ColumnCount=0;
 
-		try
-		{
-			Cursor cursor = db.rawQuery("SELECT Distinct ReportColumnName,DisplayColumnName FROM tblIncentivePastDetailsColumnsDesc where IncId='"+IncId+"'", null);
+        try
+        {
+            Cursor cursor = db.rawQuery("SELECT Distinct ReportColumnName,DisplayColumnName FROM tblIncentivePastDetailsColumnsDesc where IncSlabId='"+IncSlabId+"'", null);
 
-			if(cursor.getCount() >0)
-			{
-				if (cursor.moveToFirst())
-				{
-					for (int i = 0; i < cursor.getCount(); i++)
-					{
-						ArrayList<String> arrIncenticeData=new ArrayList<String>();
+            if(cursor.getCount() >0)
+            {
+                if (cursor.moveToFirst())
+                {
+                    for (int i = 0; i < cursor.getCount(); i++)
+                    {
+                        ArrayList<String> arrIncenticeData=new ArrayList<String>();
 
-						if(columnIncentives.equals(""))
-						{
-							columnIncentives=cursor.getString(0).toString().trim();
-							columnIncentivesForTableDisplay=cursor.getString(1).toString().trim();
-							ColumnCount=0;
-						}
-						else
-						{
-							columnIncentives=columnIncentives+","+cursor.getString(0).toString().trim();
-							columnIncentivesForTableDisplay=columnIncentivesForTableDisplay+"^"+cursor.getString(1).toString().trim();
-							ColumnCount=ColumnCount+1;
-						}
+                        if(columnIncentives.equals(""))
+                        {
+                            columnIncentives=cursor.getString(0).toString().trim();
+                            columnIncentivesForTableDisplay=cursor.getString(1).toString().trim();
+                            ColumnCount=0;
+                        }
+                        else
+                        {
+                            columnIncentives=columnIncentives+","+cursor.getString(0).toString().trim();
+                            columnIncentivesForTableDisplay=columnIncentivesForTableDisplay+"^"+cursor.getString(1).toString().trim();
+                            ColumnCount=ColumnCount+1;
+                        }
 
-						if(i==(cursor.getCount()-1)) //in end
-						{
-							list_frstTbl.add(columnIncentivesForTableDisplay);
-							fetchIncPastDetailColumnData(IncId,columnIncentives,ColumnCount,list_frstTbl);
-						}
+                        if(i==(cursor.getCount()-1)) //in end
+                        {
+                            list_frstTbl.add(columnIncentivesForTableDisplay);
+                            fetchIncPastDetailColumnData(IncSlabId,columnIncentives,ColumnCount,list_frstTbl);
+                        }
 
-						cursor.moveToNext();
-					}
-				}
-			}
-			return list_frstTbl;
-		}
-		finally
-		{
-		}
-	}
+                        cursor.moveToNext();
+                    }
+                }
+            }
+            return list_frstTbl;
+        }
+        finally
+        {
+        }
+    }
 
-	public void fetchIncPastDetailColumnData(String IncId,String columnIncentives,int ColumnCount,ArrayList<String> list_frstTbl)
-	{
-		try
-		{
-			Cursor cursor = db.rawQuery("SELECT "+columnIncentives+" FROM tblIncentivePastDetailsData where IncId='"+IncId+"'", null);
 
-			if(cursor.getCount() >0)
-			{
-				if (cursor.moveToFirst())
-				{
-					for (int i = 0; i < cursor.getCount(); i++)
-					{
-						String incentiveColumnsData="";
+    public void fetchIncPastDetailColumnData(String IncSlabId,String columnIncentives,int ColumnCount,ArrayList<String> list_frstTbl)
+    {
+        try
+        {
+            Cursor cursor = db.rawQuery("SELECT "+columnIncentives+" FROM tblIncentivePastDetailsData where IncSlabId='"+IncSlabId+"'", null);
 
-						for(int j=0;j<=ColumnCount;j++)
-						{
-							if(incentiveColumnsData.equals(""))
-							{
-								incentiveColumnsData=cursor.getString(j).toString().trim();
-							}
-							else
-							{
-								incentiveColumnsData=incentiveColumnsData+"^"+cursor.getString(j).toString().trim();
-							}
-						}
-						list_frstTbl.add(incentiveColumnsData); //column desc to show in tbl
-						cursor.moveToNext();
-					}
-				}
-			}
-		}
-		finally
-		{
-		}
-	}
+            if(cursor.getCount() >0)
+            {
+                if (cursor.moveToFirst())
+                {
+                    for (int i = 0; i < cursor.getCount(); i++)
+                    {
+                        String incentiveColumnsData="";
 
-	public int getCountFromIncPastDetails(String IncId)
-	{
-		int cal=0;
-		try
-		{
-			Cursor cursor = db.rawQuery("SELECT IncId as ColumnCount FROM tblIncentivePastDetailsColumnsDesc where IncId='"+IncId+"'", null);
+                        for(int j=0;j<=ColumnCount;j++)
+                        {
+                            if(incentiveColumnsData.equals(""))
+                            {
+                                incentiveColumnsData=cursor.getString(j).toString().trim();
+                            }
+                            else
+                            {
+                                incentiveColumnsData=incentiveColumnsData+"^"+cursor.getString(j).toString().trim();
+                            }
+                        }
+                        list_frstTbl.add(incentiveColumnsData); //column desc to show in tbl
+                        cursor.moveToNext();
+                    }
+                }
+            }
+        }
+        finally
+        {
+        }
+    }
 
-			if(cursor.getCount() >0)
-			{
-				cal=cursor.getCount();
-				System.out.println("COUNT..."+cal+"INC ID.."+IncId);
-			}
-		}
-		finally
-		{
-		}
-		return cal;
-	}
+    public int getCountFromIncPastDetails(String IncSlabId)
+    {
+        int cal=0;
+        try
+        {
+            Cursor cursor = db.rawQuery("SELECT IncSlabId as ColumnCount FROM tblIncentivePastDetailsColumnsDesc where IncSlabId='"+IncSlabId+"'", null);
 
-	public long savetblIncentiveMsgToDisplay(String MsgToDisplay)
-	{
-		ContentValues initialValues = new ContentValues();
+            if(cursor.getCount() >0)
+            {
+                cal=cursor.getCount();
+                System.out.println("COUNT..."+cal+"IncSlab ID.."+IncSlabId);
+            }
+        }
+        finally
+        {
+        }
+        return cal;
+    }
 
-		initialValues.put("MsgToDisplay", MsgToDisplay);
-		System.out.println("MSG..."+MsgToDisplay);
-		return db.insert(TABLE_tblIncentiveMsgToDisplay_Define, null, initialValues);
-	}
+    public long savetblIncentiveMsgToDisplay(String MsgToDisplay,int flgBankDetailsToShow)
+    {
+        ContentValues initialValues = new ContentValues();
+
+        initialValues.put("MsgToDisplay", MsgToDisplay);
+        initialValues.put("flgBankDetailsToShow", flgBankDetailsToShow);
+        System.out.println("MSG..."+MsgToDisplay);
+        return db.insert(TABLE_tblIncentiveMsgToDisplay_Define, null, initialValues);
+    }
 
 	public String getMsgToDisplay()
 	{
@@ -27569,28 +27736,28 @@ public  LinkedHashMap<String,String> fngetAllOptionForQuestionID(int QuestID)
 		System.out.println("hi");
 	}
 
-	public long savetblIncentiveDetailsColumnsDesc(int IncId,String ReportColumnName,String DisplayColumnName)
-	{
-		ContentValues initialValues = new ContentValues();
+    public long savetblIncentiveDetailsColumnsDesc(int IncSlabId,String ReportColumnName,String DisplayColumnName)
+    {
+        ContentValues initialValues = new ContentValues();
 
-		initialValues.put("IncId", IncId);
-		initialValues.put("ReportColumnName", ReportColumnName.trim());
-		initialValues.put("DisplayColumnName", DisplayColumnName.trim());
+        initialValues.put("IncSlabId", IncSlabId);
+        initialValues.put("ReportColumnName", ReportColumnName.trim());
+        initialValues.put("DisplayColumnName", DisplayColumnName.trim());
 
-		return db.insert(TABLE_tblIncentiveDetailsColumnsDesc, null, initialValues);
-	}
+        return db.insert(TABLE_tblIncentiveDetailsColumnsDesc, null, initialValues);
+    }
 
-	public long savetblIncentivePastDetailsColumnsDesc(int IncId,String ReportColumnName,String DisplayColumnName, String Ordr)
-	{
-		ContentValues initialValues = new ContentValues();
+    public long savetblIncentivePastDetailsColumnsDesc(int IncSlabId,String ReportColumnName,String DisplayColumnName, String Ordr)
+    {
+        ContentValues initialValues = new ContentValues();
 
-		initialValues.put("IncId", IncId);
-		initialValues.put("ReportColumnName", ReportColumnName.trim());
-		initialValues.put("DisplayColumnName", DisplayColumnName.trim());
-		initialValues.put("Ordr", Ordr.trim());
+        initialValues.put("IncSlabId", IncSlabId);
+        initialValues.put("ReportColumnName", ReportColumnName.trim());
+        initialValues.put("DisplayColumnName", DisplayColumnName.trim());
+        initialValues.put("Ordr", Ordr.trim());
 
-		return db.insert(TABLE_tblIncentivePastDetailsColumnsDesc, null, initialValues);
-	}
+        return db.insert(TABLE_tblIncentivePastDetailsColumnsDesc, null, initialValues);
+    }
 
 	public long savetblTotalEarning(String Total_Earning)
 	{
@@ -27601,23 +27768,26 @@ public  LinkedHashMap<String,String> fngetAllOptionForQuestionID(int QuestID)
 		return db.insert(TABLE_tblTotalEarning, null, initialValues);
 	}
 
-	public void deleteIncentivesTbles()
-	{
-		try
-		{
-			db.execSQL("DELETE FROM tblIncentiveMaster");
-			db.execSQL("DELETE FROM tblIncentiveDetailsColumnsDesc");
-			db.execSQL("DELETE FROM tblIncentivePastDetailsColumnsDesc");
-			db.execSQL("DELETE FROM tblTotalEarning");
-			db.execSQL("DELETE FROM tblIncentiveMsgToDisplay");
+    public void deleteIncentivesTbles()
+    {
+        try
+        {
+            db.execSQL("DELETE FROM tblIncentiveMaster");
+            db.execSQL("DELETE FROM tblIncentiveSecondaryMaster");
+            db.execSQL("DELETE FROM tblIncentiveDetailsColumnsDesc");
+            db.execSQL("DELETE FROM tblIncentivePastDetailsColumnsDesc");
+            db.execSQL("DELETE FROM tblTotalEarning");
+            db.execSQL("DELETE FROM tblIncentiveMsgToDisplay");
+            db.execSQL("DELETE FROM tblIncentiveBankDetails");
 
-		}
-		catch(Exception e)
-		{	}
-		finally
-		{
-		}
-	}
+
+        }
+        catch(Exception e)
+        {	}
+        finally
+        {
+        }
+    }
 
 
 
@@ -29957,17 +30127,19 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 		db.execSQL("DELETE FROM tblFeedbackCompetitrMstr");
 	}
 
-	public ArrayList<LinkedHashMap> getFeedbckCompMstrDetails()
+	public ArrayList<LinkedHashMap<String,ArrayList<String>>> getFeedbckCompMstrDetails()
 	{
-		ArrayList<LinkedHashMap> array_visit=new ArrayList<>();;
-		String prevSection="NA";
+		ArrayList<LinkedHashMap<String,ArrayList<String>>> array_visit=new ArrayList<LinkedHashMap<String,ArrayList<String>>>();;
+
 		open();
 
 		try
 		{
-			array_visit.add(getFeedbckCompCatMapping());
+            array_visit.add(getFeedBackCtgryData());
+            array_visit.add(getFeedBackPrdctData());
+		/*	array_visit.add(getFeedbckCompCatMapping());
 			array_visit.add(getFeedbckCompIdAndDesc());
-			array_visit.add(getFeedbckCompCatIdAndDesc());
+			array_visit.add(getFeedbckCompCatIdAndDesc());*/
 		}
 		catch (Exception e)
 		{
@@ -30086,7 +30258,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 	{
 		LinkedHashMap<String,String> hmap=new LinkedHashMap<>();
 		open();
-		Cursor cursor = db.rawQuery("SELECT CompetitorID,CompetitorDesc,CategoryID from tblFeedbackCompetitr where StoreID='"+StoreID+"'", null);
+		Cursor cursor = db.rawQuery("SELECT CompetitorID,CompetitorDesc,CategoryID,ProductId,PrdctDesc,flgAvlblPrdct from tblFeedbackCompetitr where StoreID='"+StoreID+"'", null);
 		try
 		{
 			if(cursor.getCount()>0)
@@ -30095,7 +30267,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 				{
 					for (int i = 0; i <= (cursor.getCount() - 1); i++)
 					{
-						hmap.put(cursor.getString(0),cursor.getString(2)+"^"+cursor.getString(1));
+						hmap.put(cursor.getString(3)+"^"+cursor.getString(4)+"~"+cursor.getString(0)+"^"+cursor.getString(1)+"~"+cursor.getString(2),cursor.getString(5));
 						cursor.moveToNext();
 					}
 				}
@@ -30114,9 +30286,9 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 		close();
 	}
 
-	public long savetblFeedbackCompetitr(String StoreID,String CompetitorID,String CompetitorDesc,String CategoryID,String Sstat)
+	public long savetblFeedbackCompetitr(String StoreID,String CompetitorID,String CompetitorDesc,String CategoryID,String ProductId,String PrdctDesc,int flgAvlblPrdct,String Sstat)
 	{
-		//create table tblFeedbackCompetitr(StoreID text null,CompetitorID text null,CompetitorDesc text null,CategoryID);";
+		//tblFeedbackCompetitr(StoreID text null,CompetitorID text null,CompetitorDesc text null,CategoryID text null,ProductId text null,PrdctDesc text null,flgAvlblPrdct integer null,Sstat text null);";
 		//  open();
 		ContentValues initialValues = new ContentValues();
 
@@ -30124,6 +30296,10 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 		initialValues.put("CompetitorID", CompetitorID.trim());
 		initialValues.put("CompetitorDesc", CompetitorDesc.trim());
 		initialValues.put("CategoryID", CategoryID.trim());
+        initialValues.put("ProductId", ProductId.trim());
+        initialValues.put("PrdctDesc", PrdctDesc.trim());
+        initialValues.put("flgAvlblPrdct", flgAvlblPrdct);
+
 		initialValues.put("Sstat", Sstat.trim());
 		//System.out.println("Data Inserted");
 
@@ -30172,7 +30348,8 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         boolean flgCmpttrPrdctChck = false;
         Cursor cur = null;
         try {
-            cur = db.rawQuery("Select * from tblFeedbackCompetitr where StoreID ='" + StoreID + "'", null);
+            //tblFeedbackCompetitr(StoreID text null,CompetitorID text null,CompetitorDesc text null,CategoryID text null,ProductId text null,PrdctDesc text null,flgAvlblPrdct integer null,Sstat text null);";
+            cur = db.rawQuery("Select * from tblFeedbackCompetitr where StoreID ='" + StoreID + "' AND ProductId<>'0'", null);
             if (cur.getCount() > 0) {
                 flgCmpttrPrdctChck = true;
             }
@@ -30207,9 +30384,12 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         }
     }
 
+ /*   tblCompetitrPrdctMstr(" +
+                                  "CompetitionProductID text null,CompetitionProductName text null,CompetitorBrandID text null,LTFoodsSimilarBrand text null," +
+                                  "CategoryID int null,Seq int null,Category text null,BusinessUnitId int null,BusinessUnit text null,ProductImg text null,flgActive text null,Unit_In_gram text null,MinRate text null,MaxRate text null);";
 
-    public void insertCmpttrPrdctMstr(String CompetitionProductID,String CompetitionProductName,String CompetitorBrandID,String LTFoodsSimilarBrand,int CategoryID
-    ,int Seq,String Category,int BusinessUnitId,String BusinessUnit)
+ */   public void insertCmpttrPrdctMstr(String CompetitionProductID,String CompetitionProductName,String CompetitorBrandID,String LTFoodsSimilarBrand,int CategoryID
+   ,int Seq,String Category,int BusinessUnitId,String BusinessUnit,String ProductImg,String flgActive,String Unit_In_gram,String MinRate,String MaxRate,String photoPath)
     {
         open();
         ContentValues values=new ContentValues();
@@ -30222,8 +30402,115 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         values.put("Category",Category);
         values.put("BusinessUnitId",BusinessUnitId);
         values.put("BusinessUnit",BusinessUnit);
+        values.put("ProductImg",ProductImg);
+        values.put("flgActive",flgActive);
+        values.put("Unit_In_gram",Unit_In_gram);
+        values.put("MinRate",MinRate);
+        values.put("MaxRate",MaxRate);
+        values.put("photoPath",photoPath);
+
         db.insert(DATABASE_TABLE_CompetitrPrdctMstr,null,values);
         close();
+    }
+
+    public LinkedHashMap<String,String> getMinMaxCmpttrPrdct()
+    {
+        LinkedHashMap<String,String> hmapPrdctMinMax=new LinkedHashMap<String,String>();
+        open();
+        Cursor cur=null;
+        try
+        {
+            cur=db.rawQuery("Select CompetitionProductID,MinRate||'^'||MaxRate as minmaxRate from tblCompetitrPrdctMstr",null);
+            if(cur.getCount()>0)
+            {
+                if(cur.moveToFirst())
+                {
+                    for(int i=0;i<cur.getCount();i++)
+                    {
+                        hmapPrdctMinMax.put(cur.getString(0),cur.getString(1));
+                        cur.moveToNext();
+                    }
+                }
+            }
+        }
+        catch(SQLiteException exptn)
+        {
+
+        }
+        finally {
+            if(cur!=null)
+            {
+               cur.close();
+            }
+            close();
+            return hmapPrdctMinMax;
+        }
+
+
+    }
+    public LinkedHashMap<String,String> getGrmUnitPrdct()
+    {
+        LinkedHashMap<String,String> hmapPrdctunitInGram=new LinkedHashMap<String,String>();
+        open();
+        Cursor cur=null;
+        try {
+            cur=db.rawQuery("Select CompetitionProductID,Unit_In_gram  from tblCompetitrPrdctMstr",null);
+            if(cur.getCount()>0)
+            {
+                if(cur.moveToFirst())
+                {
+                    for(int i=0;i<cur.getCount();i++)
+                    {
+                        hmapPrdctunitInGram.put(cur.getString(0),cur.getString(1));
+                        cur.moveToNext();
+                    }
+                }
+            }
+        }catch(SQLiteException exception)
+        {
+
+        }
+        finally
+        {
+            if(cur!=null)
+            {
+                cur.close();
+            }
+            close();
+            return hmapPrdctunitInGram;
+        }
+
+
+    }
+    public LinkedHashMap<String,String> getPrdctImgPath()
+    {
+        LinkedHashMap<String,String> hmapPrdctImgPath=new LinkedHashMap<String,String>();
+        open();
+        Cursor cursor=null;
+        try {
+            cursor=db.rawQuery("Select CompetitionProductID,photoPath from tblCompetitrPrdctMstr where photoPath<>''",null);
+            if(cursor.getCount()>0)
+            {
+                if(cursor.moveToFirst())
+                {
+                    for(int i=0;i<cursor.getCount();i++)
+                    {
+                        hmapPrdctImgPath.put(cursor.getString(0),cursor.getString(1));
+                        cursor.moveToNext();
+                    }
+                }
+            }
+        }catch(SQLiteException exptn)
+        {
+
+        }
+        finally {
+            if(cursor!=null)
+            {
+                cursor.close();
+            }
+            return hmapPrdctImgPath;
+        }
     }
 
     //tblFeedbackCompetitrMstr"CompetitorID text null,CompetitorDesc text null,CategoryID text null,CategoryDesc text null," +
@@ -30241,7 +30528,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         Cursor cursor=null;
         try {
            // cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category||'^'||tblFeedbackCompetitr.CompetitorDesc as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
-            cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category||'^'||tblFeedbackCompetitr.CompetitorDesc as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' AND tblFeedbackCompetitr.CompetitorID<>'5' Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
+            cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category||'^'||tblFeedbackCompetitr.CompetitorDesc as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID AND tblCompetitrPrdctMstr.CompetitionProductID=tblFeedbackCompetitr.ProductId Where tblFeedbackCompetitr.StoreID='"+storeId+"' AND tblFeedbackCompetitr.CompetitorID<>'5' AND tblFeedbackCompetitr.flgAvlblPrdct=1 Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
             if(cursor.getCount()>0)
             {
                 if(cursor.moveToFirst())
@@ -30291,13 +30578,161 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
             return hmapCmpttrChkdPrdct;
         }
     }
+
+    public ArrayList<LinkedHashMap<String,ArrayList<String>>> getPTRMstrDetails(String storeId)
+    {
+        ArrayList<LinkedHashMap<String,ArrayList<String>>> array_visit=new ArrayList<LinkedHashMap<String,ArrayList<String>>>();;
+
+        open();
+
+        try
+        {
+            array_visit.add(getBusinessUnitIdVsCtgryChkdPrdct(storeId));
+            array_visit.add(getCtgryVsPrdctChkdPrdct(storeId));
+
+		/*	array_visit.add(getFeedbckCompCatMapping());
+			array_visit.add(getFeedbckCompIdAndDesc());
+			array_visit.add(getFeedbckCompCatIdAndDesc());*/
+        }
+        catch (Exception e)
+        {
+            System.out.println("Exception in tblAccLastSummary..."+e);
+        }
+        finally
+        {
+            close();
+            return array_visit;
+        }
+    }
+
+    public LinkedHashMap<String,ArrayList<String>> getCtgryVsPrdctChkdPrdct(String storeId)
+    {
+        //tblFeedbackCompetitr(StoreID text null,CompetitorID text null,CompetitorDesc text null,CategoryID text null,Sstat text null);";
+
+        LinkedHashMap<String,ArrayList<String>> hmapCmpttrChkdPrdct=new LinkedHashMap<String,ArrayList<String>>();
+        ArrayList<String> listCmpttrChkdPrdct=new ArrayList<String>();
+        Cursor cursor=null;
+        try {
+            // cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category||'^'||tblFeedbackCompetitr.CompetitorDesc as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
+            cursor=db.rawQuery("Select tblFeedbackCompetitr.CompetitorDesc as CmpttrCtgryBrndDscr,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID AND tblCompetitrPrdctMstr.CompetitionProductID=tblFeedbackCompetitr.ProductId Where tblFeedbackCompetitr.StoreID='"+storeId+"' AND tblFeedbackCompetitr.CompetitorID<>'5' AND tblFeedbackCompetitr.flgAvlblPrdct=1 Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
+            if(cursor.getCount()>0)
+            {
+                if(cursor.moveToFirst())
+                {
+                    String crntBusinessUnitDesc="",prvsBusinessUnitDesc="";
+                    for(int i=0;i<cursor.getCount();i++)
+                    {
+                        crntBusinessUnitDesc=cursor.getString(0);
+                        if(i==0)
+                        {
+                            prvsBusinessUnitDesc=crntBusinessUnitDesc;
+                            listCmpttrChkdPrdct.add(cursor.getString(1));
+                        }
+                        else
+                        {
+                            if(prvsBusinessUnitDesc.equals(crntBusinessUnitDesc))
+                            {
+                                listCmpttrChkdPrdct.add(cursor.getString(1));
+                            }
+                            else
+                            {
+                                hmapCmpttrChkdPrdct.put(prvsBusinessUnitDesc,listCmpttrChkdPrdct);
+                                listCmpttrChkdPrdct=new ArrayList<String>();
+                                prvsBusinessUnitDesc=crntBusinessUnitDesc;
+                                listCmpttrChkdPrdct.add(cursor.getString(1));
+                            }
+                        }
+                        if(i==(cursor.getCount()-1))
+                        {
+                            hmapCmpttrChkdPrdct.put(prvsBusinessUnitDesc,listCmpttrChkdPrdct);
+                        }
+                        cursor.moveToNext();
+                    }
+                }
+            }
+        }
+        catch(SQLiteException exptn)
+        {
+
+        }
+        finally {
+            if(cursor!=null)
+            {
+                cursor.close();
+            }
+
+            return hmapCmpttrChkdPrdct;
+        }
+    }
+
+    public LinkedHashMap<String,ArrayList<String>> getBusinessUnitIdVsCtgryChkdPrdct(String storeId)
+    {
+        //tblFeedbackCompetitr(StoreID text null,CompetitorID text null,CompetitorDesc text null,CategoryID text null,Sstat text null);";
+
+        LinkedHashMap<String,ArrayList<String>> hmapCmpttrChkdPrdct=new LinkedHashMap<String,ArrayList<String>>();
+        ArrayList<String> listCmpttrChkdPrdct=new ArrayList<String>();
+        Cursor cursor=null;
+        try {
+            // cursor=db.rawQuery("Select tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName||'^'||tblCompetitrPrdctMstr.Category||'^'||tblFeedbackCompetitr.CompetitorDesc as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID Where tblFeedbackCompetitr.StoreID='"+storeId+"' Order By tblCompetitrPrdctMstr.BusinessUnitId,tblCompetitrPrdctMstr.CompetitorBrandID ASC",null);
+            cursor=db.rawQuery("Select DISTINCT tblCompetitrPrdctMstr.BusinessUnitId||'^'||tblCompetitrPrdctMstr.BusinessUnit as BusinessUnitDesc,tblFeedbackCompetitr.CompetitorDesc as CmpttrPrdctDscr from tblCompetitrPrdctMstr inner join tblFeedbackCompetitr On tblCompetitrPrdctMstr.CompetitorBrandID=tblFeedbackCompetitr.CompetitorID AND tblCompetitrPrdctMstr.BusinessUnitId=tblFeedbackCompetitr.CategoryID AND tblCompetitrPrdctMstr.CompetitionProductID=tblFeedbackCompetitr.ProductId Where tblFeedbackCompetitr.StoreID='"+storeId+"' AND tblFeedbackCompetitr.CompetitorID<>'5' AND tblFeedbackCompetitr.flgAvlblPrdct=1 Order By tblCompetitrPrdctMstr.BusinessUnitId",null);
+            if(cursor.getCount()>0)
+            {
+                if(cursor.moveToFirst())
+                {
+                    String crntBusinessUnitDesc="",prvsBusinessUnitDesc="";
+                    for(int i=0;i<cursor.getCount();i++)
+                    {
+                        crntBusinessUnitDesc=cursor.getString(0);
+                        if(i==0)
+                        {
+                            prvsBusinessUnitDesc=crntBusinessUnitDesc;
+                            listCmpttrChkdPrdct.add(cursor.getString(1));
+                        }
+                        else
+                        {
+                            if(prvsBusinessUnitDesc.equals(crntBusinessUnitDesc))
+                            {
+                                listCmpttrChkdPrdct.add(cursor.getString(1));
+                            }
+                            else
+                            {
+                                hmapCmpttrChkdPrdct.put(prvsBusinessUnitDesc,listCmpttrChkdPrdct);
+                                listCmpttrChkdPrdct=new ArrayList<String>();
+                                prvsBusinessUnitDesc=crntBusinessUnitDesc;
+                                listCmpttrChkdPrdct.add(cursor.getString(1));
+                            }
+                        }
+                        if(i==(cursor.getCount()-1))
+                        {
+                            hmapCmpttrChkdPrdct.put(prvsBusinessUnitDesc,listCmpttrChkdPrdct);
+                        }
+                        cursor.moveToNext();
+                    }
+                }
+            }
+        }
+        catch(SQLiteException exptn)
+        {
+
+        }
+        finally {
+            if(cursor!=null)
+            {
+                cursor.close();
+            }
+
+            return hmapCmpttrChkdPrdct;
+        }
+    }
+
+
         public void deleteLastCompetitrPrdctPTRPTC(String storeId)
         {
             open();
             db.execSQL("Delete from tblCompetitrPrdctPTRPTC where StoreID='"+storeId+"'");
             close();
         }
-    public void insertCompetitrPrdctPTRPTC(String StoreID,String CompetitionProductID,String CompetitionProductName,String PTR,String PTC,String BusinessUnitId,String BusinessUnit,int Sstat,String surveyDate)
+    public void insertCompetitrPrdctPTRPTC(String StoreID,String CompetitionProductID,String CompetitionProductName,String PTR,String BusinessUnitId,String BusinessUnit,int Sstat,String surveyDate)
     {
 
         open();
@@ -30307,7 +30742,6 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         values.put("CompetitionProductID",CompetitionProductID);
         values.put("CompetitionProductName",CompetitionProductName);
         values.put("PTR",PTR);
-        values.put("PTC",PTC);
         values.put("BusinessUnitId",BusinessUnitId);
         values.put("BusinessUnit",BusinessUnit);
         values.put("SurveyDate",surveyDate);
@@ -30324,7 +30758,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
         LinkedHashMap<String,String> hmapSavedPTRPTC=new LinkedHashMap<String,String>();
         Cursor cursor=null;
         try {
-            cursor=db.rawQuery("Select CompetitionProductID,PTR,PTC from tblCompetitrPrdctPTRPTC where StoreID='"+StoreID+"'",null);
+            cursor=db.rawQuery("Select CompetitionProductID,PTR from tblCompetitrPrdctPTRPTC where StoreID='"+StoreID+"'",null);
             if(cursor.getCount()>0)
             {
                 if(cursor.moveToFirst())
@@ -30332,7 +30766,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
                     for(int i=0;i<cursor.getCount();i++)
                     {
                         hmapSavedPTRPTC.put(cursor.getString(0)+"_PTR",cursor.getString(1));
-                        hmapSavedPTRPTC.put(cursor.getString(0)+"_PTC",cursor.getString(2));
+
                         cursor.moveToNext();
                     }
                 }
@@ -30353,5 +30787,589 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 
     }
 
+    public void savePicSectionImage(String StoreID,String imageName,String imagePath,String ImageClicktime,String flgSctnPic,int Sstat)
+    {
+//tableStoreSctnImage(StoreID text null,imageName text null,imagePath text null,ImageClicktime text null,flgSctnPic text null,Sstat integer null);
+        open();
+        ContentValues values=new ContentValues();
+        values.put("StoreID",StoreID);
+        values.put("imageName",imageName);
+        values.put("imagePath",imagePath);
+        values.put("ImageClicktime",ImageClicktime);
+        values.put("flgSectionPic",flgSctnPic);
+        values.put("Sstat",Sstat);
+        db.insert(TABLE_STORE_SECTIONIMAGE,null,values);
+        close();
+    }
+
+    public void deletePicSectionImage(String StoreId,String flgSctnPic)
+    {
+
+       open();
+        db.delete(TABLE_STORE_SECTIONIMAGE,"StoreID=? AND flgSectionPic=?",new String[]{StoreId,flgSctnPic});
+        close();
+    }
+    public void deleteSinglePicSectionImage(String StoreId,String flgSctnPic,String imageName)
+    {
+        open();
+        try {
+            db.delete(TABLE_STORE_SECTIONIMAGE,"StoreID=? AND flgSectionPic=? AND imageName=?",new String[]{StoreId,flgSctnPic,imageName});
+        }
+        catch(SQLiteException exception)
+        {
+
+        }
+        finally
+        {
+            close();
+        }
+
+
+    }
+
+    public LinkedHashMap<String,String> getImageData(String StoreID,String flgSctnPic)
+    {
+        LinkedHashMap<String,String> hmapSctnImage=new LinkedHashMap<String,String>();
+        Cursor cursor=null;
+        String mSctnPic="";
+        open();
+        try {
+            if(flgSctnPic.indexOf("^")!=-1)
+            {
+                String[] tskpics=flgSctnPic.split(Pattern.quote("^"));
+                for(int i=0;i<tskpics.length;i++)
+                {
+                    if(i==0)
+                    {
+                        mSctnPic=" flgSectionPic='"+tskpics[i]+"'";
+                    }
+                    else
+                    {
+                        mSctnPic+=" OR flgSectionPic='"+tskpics[i]+"'";
+                    }
+
+                }
+            }
+            else
+            {
+                mSctnPic=" flgSectionPic='"+flgSctnPic+"'";
+            }
+            cursor=db.rawQuery("Select imageName,imagePath,ImageClicktime,flgSectionPic from tableStoreSctnImage where StoreID='"+StoreID+"' And ("+mSctnPic+")",null);
+            if(cursor.getCount()>0)
+            {
+                if(cursor.moveToFirst())
+                {
+                    for(int i=0;i<cursor.getCount();i++)
+                    {
+                        hmapSctnImage.put(cursor.getString(0),cursor.getString(1)+"^"+cursor.getString(2)+"^"+cursor.getString(3));
+                        cursor.moveToNext();
+                    }
+                }
+            }
+
+        }catch(SQLiteException exception)
+        {
+            System.out.println("ImageData  = "+exception);
+        }
+        finally
+        {
+            if(cursor!=null)
+            {
+                cursor.close();
+            }
+            close();
+            return hmapSctnImage;
+        }
+
+    }
+
+    public LinkedHashMap<String,ArrayList<String>> getFeedBackPrdctData()
+    {
+
+        LinkedHashMap<String,ArrayList<String>> hmapFeedBackPrdctData=new LinkedHashMap<String,ArrayList<String>>();
+        ArrayList<String> listCmpttrPrdct=new ArrayList<>();
+        Cursor cursor=null;
+        try {
+            cursor=db.rawQuery("Select tblFeedbackCompetitrMstr.CompetitorID||'^'||tblFeedbackCompetitrMstr.CompetitorDesc as cmpttrIdDesc,tblCompetitrPrdctMstr.CompetitionProductID||'^'||tblCompetitrPrdctMstr.CompetitionProductName as cmpttrPrdctIdDesc from tblFeedbackCompetitrMstr left outer join tblCompetitrPrdctMstr ON tblFeedbackCompetitrMstr.CompetitorID=tblCompetitrPrdctMstr.CompetitorBrandID AND tblFeedbackCompetitrMstr.CategoryID=tblCompetitrPrdctMstr.BusinessUnitId Order by tblFeedbackCompetitrMstr.CompetitorID",null);
+            if(cursor.getCount()>0)
+            {
+                if(cursor.moveToFirst())
+                {
+                    String crntBusinessUnitDesc="",prvsBusinessUnitDesc="";
+                    for(int i=0;i<cursor.getCount();i++)
+                    {
+                        crntBusinessUnitDesc=cursor.getString(0);
+                        if(i==0)
+                        {
+                            prvsBusinessUnitDesc=crntBusinessUnitDesc;
+                            listCmpttrPrdct.add(cursor.getString(1));
+                        }
+                        else
+                        {
+                            if(prvsBusinessUnitDesc.equals(crntBusinessUnitDesc))
+                            {
+                                listCmpttrPrdct.add(cursor.getString(1));
+                            }
+                            else
+                            {
+                                hmapFeedBackPrdctData.put(prvsBusinessUnitDesc,listCmpttrPrdct);
+                                listCmpttrPrdct=new ArrayList<String>();
+                                prvsBusinessUnitDesc=crntBusinessUnitDesc;
+                                listCmpttrPrdct.add(cursor.getString(1));
+                            }
+                        }
+                        if(i==(cursor.getCount()-1))
+                        {
+                            hmapFeedBackPrdctData.put(prvsBusinessUnitDesc,listCmpttrPrdct);
+                        }
+                        cursor.moveToNext();
+                    }
+                }
+            }
+        }catch(SQLiteException exception)
+        {
+            System.out.println("getFeedBackPrdctData = "+exception.toString());
+        }finally{
+                if(cursor!=null)
+                {
+                    cursor.close();
+                }
+
+            return hmapFeedBackPrdctData;
+        }
+    }
+
+    public LinkedHashMap<String,ArrayList<String>> getFeedBackCtgryData()
+    {
+        LinkedHashMap<String,ArrayList<String>> hmapFeedBackPrdctData=new LinkedHashMap<String,ArrayList<String>>();
+        ArrayList<String> listCmpttrPrdct=new ArrayList<>();
+        Cursor cursor=null;
+        try {
+            cursor=db.rawQuery("Select CategoryID||'^'||CategoryDesc as ctgryIdDesc,CompetitorID||'^'||CompetitorDesc as cmpttrIdDesc from tblFeedbackCompetitrMstr order by CategoryID",null);
+            if(cursor.getCount()>0)
+            {
+                if(cursor.moveToFirst())
+                {
+                    String crntBusinessUnitDesc="",prvsBusinessUnitDesc="";
+                    for(int i=0;i<cursor.getCount();i++)
+                    {
+                        crntBusinessUnitDesc=cursor.getString(0);
+                        if(i==0)
+                        {
+                            prvsBusinessUnitDesc=crntBusinessUnitDesc;
+                            listCmpttrPrdct.add(cursor.getString(1));
+                        }
+                        else
+                        {
+                            if(prvsBusinessUnitDesc.equals(crntBusinessUnitDesc))
+                            {
+                                listCmpttrPrdct.add(cursor.getString(1));
+                            }
+                            else
+                            {
+                                hmapFeedBackPrdctData.put(prvsBusinessUnitDesc,listCmpttrPrdct);
+                                listCmpttrPrdct=new ArrayList<String>();
+                                prvsBusinessUnitDesc=crntBusinessUnitDesc;
+                                listCmpttrPrdct.add(cursor.getString(1));
+                            }
+                        }
+                        if(i==(cursor.getCount()-1))
+                        {
+                            hmapFeedBackPrdctData.put(prvsBusinessUnitDesc,listCmpttrPrdct);
+                        }
+                        cursor.moveToNext();
+                    }
+                }
+            }
+        }catch(SQLiteException exception)
+        {
+            System.out.println("getFeedBackCtgryData = "+exception.toString());
+        }finally{
+            if(cursor!=null)
+            {
+                cursor.close();
+            }
+
+            return hmapFeedBackPrdctData;
+        }
+    }
+
+
+
+    public String[] getAllStoreIDSectionPic()
+    {
+
+        int SnamecolumnIndex1 = 0;
+
+        //tableStoreSctnImage(StoreID text null,imageName text null,imagePath text null,ImageClicktime text null,flgSectionPic text null,Sstat integer null);";
+        Cursor cursor = db.rawQuery("SELECT DISTINCT(StoreID) FROM tableStoreSctnImage where Sstat=5", null);
+        //Cursor cursor = db.rawQuery("SELECT StoreID FROM tblStoreMaterialPhotoDetail", null);
+        try
+        {
+            String StoreName[] = new String[cursor.getCount()];
+
+            if (cursor.moveToFirst())
+            {
+                for (int i = 0; i <= (cursor.getCount() - 1); i++)
+                {
+                    StoreName[i] = (String) cursor.getString(SnamecolumnIndex1).toString();
+                    cursor.moveToNext();
+                }
+            }
+
+            return StoreName;
+        }
+        finally
+        {
+            cursor.close();
+        }
+
+    }
+
+    public int getExistingSectionPic(String StoreID)
+    {
+
+        int ScodecolumnIndex = 0;
+//tableStoreSctnImage(StoreID text null,imageName text null,imagePath text null,ImageClicktime text null,flgSectionPic text null,Sstat integer null);";
+        Cursor cursor = db.rawQuery("SELECT Count(StoreID) FROM tableStoreSctnImage where StoreID='" + StoreID + "'", null);
+        try {
+            int strProdStockQty = 0;
+            if (cursor.moveToFirst()) {
+
+                for (int i = 0; i <= (cursor.getCount() - 1); i++) {
+                    if (!cursor.isNull(ScodecolumnIndex)) {
+                        strProdStockQty = Integer.parseInt(cursor.getString(ScodecolumnIndex).toString());
+                        cursor.moveToNext();
+                    }
+
+                }
+            }
+            return strProdStockQty;
+        } finally {
+            cursor.close();
+        }
+    }
+
+    public String[] getImgsPathForSectionPic(String StoreID)
+    {
+
+        int SnamecolumnIndex1 = 0;
+//tableStoreSctnImage(StoreID text null,imageName text null,imagePath text null,ImageClicktime text null,flgSectionPic text null,Sstat integer null);";
+        Cursor cursor = db.rawQuery("SELECT imageName FROM tableStoreSctnImage WHERE StoreID ='"+ StoreID + "'", null);
+        try
+        {
+
+            String StoreName[] = new String[cursor.getCount()];
+
+            if (cursor.moveToFirst())
+            {
+
+                for (int i = 0; i <= (cursor.getCount() - 1); i++)
+                {
+
+                    StoreName[i] = (String) cursor.getString(SnamecolumnIndex1).toString();
+                    cursor.moveToNext();
+                }
+            }
+            return StoreName;
+        } finally {
+            cursor.close();
+        }
+
+    }
+
+    public void updateImageSectionPic(String PhotoName)
+    {
+
+        try
+        {
+            open();
+            System.out.println("Sunil Doing Testing Response after sending Image inside BD" + PhotoName);
+            final ContentValues values = new ContentValues();
+            values.put("Sstat", 4);
+            ////tableStoreSctnImage(StoreID text null,imageName text null,imagePath text null,ImageClicktime text null,flgSectionPic text null,Sstat integer null);";
+            int affected3 = db.update("tableStoreSctnImage", values, "imageName=?",new String[] { PhotoName });
+        }
+        catch (Exception ex)
+        {
+            Log.e(TAG, ex.toString());
+        }
+        finally
+        {
+            close();
+        }
+
+
+    }
+    public void deletePrvsDetails(String storeId)
+    {
+        try {
+            db.delete(TABLE_STORE_STOCK_CMPTTR_AVLBL,"StoreID=?",new String[]{storeId});
+        }catch (SQLiteException exptn)
+        {
+
+        }
+
+    }
+    public void updateStockRetailerAllowed(String StoreId,int flgStockRetailerAllowed)
+    {
+        open();
+        db.execSQL("UPDATE tableStoreLtfoodStkCompttrAvlbl SET flgStockRetailerAllowed="+flgStockRetailerAllowed+" where StoreId='"+StoreId+"'" );
+        close();;
+    }
+    public void updateCmpttrRetailerAllowed(String StoreId,int flgCmpttrRetailerAllowed)
+    {
+        open();
+        db.execSQL("UPDATE tableStoreLtfoodStkCompttrAvlbl SET flgCmpttrRetailerAllowed="+flgCmpttrRetailerAllowed+" where StoreId='"+StoreId+"'" );
+        close();;
+    }
+//tableStoreLtfoodStkCompttrAvlbl(StoreID text null,flgLtfoodsStkAvlbl integer null,flgCompttrAvlbl integer null,flgStockRetailerAllowed integer null,flgCmpttrRetailerAllowed integer null,Sstat integer null);";
+    public void insertStoreStockCmpttrAvlbl(String StoreId,int flgLtfoodsStkAvlbl,int flgCompttrAvlbl,int flgStockRetailerAllowed,int flgCmpttrRetailerAllowed,int Sstat)
+    {
+        //tableStoreLtfoodStkCompttrAvlbl(StoreID text null,flgLtfoodsStkAvlbl integer null,flgCompttrAvlbl integer null);";
+
+        open();
+        ContentValues values=new ContentValues();
+        values.put("flgLtfoodsStkAvlbl",flgLtfoodsStkAvlbl);
+        values.put("flgCompttrAvlbl",flgCompttrAvlbl);
+       Cursor cur=db.rawQuery("Select flgLtfoodsStkAvlbl from tableStoreLtfoodStkCompttrAvlbl where StoreId='"+StoreId+"'",null);
+        if(cur.getCount()>0)
+        {
+
+            db.update(TABLE_STORE_STOCK_CMPTTR_AVLBL,values,"StoreId=?",new String[]{StoreId});
+        }
+        else {
+            values.put("StoreID",StoreId);
+            values.put("flgStockRetailerAllowed",flgStockRetailerAllowed);
+            values.put("flgCmpttrRetailerAllowed",flgCmpttrRetailerAllowed);
+
+            values.put("StoreID",StoreId);
+
+             values.put("Sstat",Sstat);
+            db.insert(TABLE_STORE_STOCK_CMPTTR_AVLBL,null,values);
+        }
+
+
+
+
+        close();
+    }
+
+    public ArrayList<Integer> getLTfoodStockCmpttr(String StoreID)
+    {
+        open();
+        ArrayList<Integer> listStkCmpttr=new ArrayList<Integer>();
+        Cursor cur=null;
+        try {
+            cur=db.rawQuery("Select flgLtfoodsStkAvlbl,flgCompttrAvlbl from tableStoreLtfoodStkCompttrAvlbl where StoreID='"+StoreID+"'",null);
+        if(cur.getCount()>0)
+        {
+            if(cur.moveToFirst())
+            {
+
+                    listStkCmpttr.add(cur.getInt(0));
+                    listStkCmpttr.add(cur.getInt(1));
+
+            }
+        }
+        }catch(SQLiteException exptn)
+        {
+
+        }finally
+        {
+            if(cur!=null)
+            {
+                cur.close();
+            }
+            return listStkCmpttr;
+        }
+    }
+
+    public int getStockRetailerAllowed(String StoreID)
+    {
+        ////tableStoreLtfoodStkCompttrAvlbl(StoreID text null,flgLtfoodsStkAvlbl integer null,flgCompttrAvlbl integer null,flgStockRetailerAllowed integer null,flgCmpttrRetailerAllowed integer null,Sstat integer null);";
+        open();
+       int flgStkRtlrAllowd=1;
+        Cursor cur=null;
+        try {
+            cur=db.rawQuery("Select flgStockRetailerAllowed from tableStoreLtfoodStkCompttrAvlbl where StoreID='"+StoreID+"'",null);
+            if(cur.getCount()>0)
+            {
+                if(cur.moveToFirst())
+                {
+
+                    flgStkRtlrAllowd=cur.getInt(0);
+
+
+                }
+            }
+        }catch(SQLiteException exptn)
+        {
+
+        }finally
+        {
+            if(cur!=null)
+            {
+                cur.close();
+            }
+            return flgStkRtlrAllowd;
+        }
+    }
+    public int getCmpttrRetailerAllowed(String StoreID)
+    {
+        ////tableStoreLtfoodStkCompttrAvlbl(StoreID text null,flgLtfoodsStkAvlbl integer null,flgCompttrAvlbl integer null,flgStockRetailerAllowed integer null,flgCmpttrRetailerAllowed integer null,Sstat integer null);";
+        open();
+        int flgCmpttrRtlrAllwd=1;
+        Cursor cur=null;
+        try {
+            cur=db.rawQuery("Select flgCmpttrRetailerAllowed from tableStoreLtfoodStkCompttrAvlbl where StoreID='"+StoreID+"'",null);
+            if(cur.getCount()>0)
+            {
+                if(cur.moveToFirst())
+                {
+
+                    flgCmpttrRtlrAllwd=cur.getInt(0);
+
+
+                }
+            }
+        }catch(SQLiteException exptn)
+        {
+
+        }finally
+        {
+            if(cur!=null)
+            {
+                cur.close();
+            }
+            return flgCmpttrRtlrAllwd;
+        }
+    }
+
+    public long savetblIncentiveBankDetails(String LvlName,String Value)
+    {
+        ContentValues initialValues = new ContentValues();
+
+        initialValues.put("LvlName", LvlName);
+        initialValues.put("Value", Value);
+        System.out.println("MSG..."+LvlName);
+        return db.insert(TABLE_tblIncentiveBankDetails, null, initialValues);
+    }
+
+    public LinkedHashMap<String,String> getIncentiveBankDetails()
+    {
+        LinkedHashMap<String,String> hmapBankDetails=new LinkedHashMap<String,String>();
+        try
+        {
+            Cursor cursor = db.rawQuery("SELECT LvlName,Value FROM tblIncentiveBankDetails", null);
+
+            if(cursor.getCount() >0)
+            {
+                if (cursor.moveToFirst())
+                {
+                    for (int i = 0; i < cursor.getCount(); i++) {
+                        hmapBankDetails.put(cursor.getString(0).toString().trim(), cursor.getString(1).toString().trim());
+                        cursor.moveToNext();
+                    }
+                }
+            }
+        }
+        finally
+        {
+        }
+        return hmapBankDetails;
+    }
+
+    public long savetblIncentiveSeondaryMaster(int IncSlabId,int IncId,int OutputType,String IncSlabName,String flgAcheived,String Earning)
+    {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put("IncSlabId", IncSlabId);
+        initialValues.put("IncId", IncId);
+        initialValues.put("OutputType", OutputType);
+        initialValues.put("IncSlabName", IncSlabName.trim());
+        initialValues.put("flgAcheived", flgAcheived.trim());
+        initialValues.put("Earning", Earning.trim());
+
+        return db.insert(TABLE_tblIncentiveSecondaryMaster, null, initialValues);
+    }
+
+
+    public void UpdateStorWhileAdding(String sID, int flag2set)
+    {
+        open();
+        try
+        {
+            final ContentValues values = new ContentValues();
+            values.put("Sstat", flag2set);
+            int affected1 = db.update("tblStoreList", values,"StoreID=?", new String[] { sID });
+            int affected2 = db.update("tblLatLongDetails", values,"StoreID=?", new String[] { sID });
+            int affected3 = db.update("tblNewStoreListEntries", values,"StoreID=?", new String[] { sID });
+            int affected4 = db.update("tblNewStoreSalesQuotePaymentDetails", values,"StoreId=?", new String[] { sID });
+            int affected5 = db.update("tblOutletQuestAnsMstr", values,"OutletID=?", new String[] { sID });
+            int affected6 = db.update("tableImage", values,"StoreID=?", new String[] { sID });
+        }
+        catch (Exception ex)
+        {
+            Log.e(TAG, ex.toString());
+        }
+        close();
+    }
+
+    public void UpdateAllStoreIDNewlyAddedStoreImages(int flag2set)
+    {
+        try
+        {
+            final ContentValues values = new ContentValues();
+            values.put("Sstat", flag2set);
+            int affected1 = db.update("tableImage", values,"Sstat=? OR Sstat=?", new String[] { "4","3" });
+        }
+        catch (Exception ex)
+        {
+            Log.e(TAG, ex.toString());
+        }
+
+    }
+
+
+    public String[] deletFromSDCardStoreSctnImage(int Sstat) {
+
+        String[] imageNameToBeDeleted = null;
+        open();
+//tableStoreSctnImage(StoreID text null,imageName text null,imagePath text null,ImageClicktime text null,flgSectionPic text null,Sstat integer null);";
+        Cursor cursor = db.rawQuery("SELECT  imageName from tableStoreSctnImage where Sstat="+Sstat, null);
+        try{
+            if(cursor.getCount()>0)
+            {
+                imageNameToBeDeleted=new String[cursor.getCount()];
+                if(cursor.moveToFirst())
+                {
+                    for(int i=0;i<cursor.getCount();i++)
+                    {
+                        imageNameToBeDeleted[i]=cursor.getString(0);
+                        cursor.moveToNext();
+                    }
+                }
+            }
+            else
+            {
+                imageNameToBeDeleted=new String[1];
+                imageNameToBeDeleted[0]="No Data";
+            }
+        }finally
+        {
+            if(cursor!=null)
+            {
+                cursor.close();
+            }
+
+            close();
+        }
+
+
+        //	Log.w(TAG, "affected records: " + affected);
+
+        //Log.w(TAG, "UpdateStoreActualLatLongi added..");
+        return imageNameToBeDeleted;
+    }
 }
 

@@ -38,6 +38,7 @@ import org.xml.sax.InputSource;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.os.Environment;
+import android.text.TextUtils;
 
 import com.astix.Common.CommonInfo;
 
@@ -541,7 +542,7 @@ catch(Exception e)
 							StoreCatType=XMLParser.getCharacterDataFromElement(line);
 						}
 					}
-					//flgCompSurvey
+					//flgCaptureCompetitorPTR
 					if(!element.getElementsByTagName("flgCompSurvey").equals(null))
 					{
 						NodeList flgCaptureCompetitorPTRNode = element.getElementsByTagName("flgCompSurvey");
@@ -957,7 +958,12 @@ catch(Exception e)
 				String Category="0";
 				int BusinessUnitId=0;
 				String BusinessUnit="0";
-
+				String ProductImg="";
+				String flgActive="0";
+				String Unit_In_gram="1";
+				String MinRate="0";
+				String MaxRate="0";
+				String photoPath="";
 
 				Element element = (Element) tblCompetitorPrdctMstr.item(i);
 
@@ -1076,10 +1082,85 @@ catch(Exception e)
 					}
 				}
 
+				if(!element.getElementsByTagName("ProductImg").equals(null))
+				{
 
+					NodeList ProductImgNode = element.getElementsByTagName("ProductImg");
+					Element     line = (Element) ProductImgNode.item(0);
 
+					if(ProductImgNode.getLength()>0)
+					{
 
-				dbengine.insertCmpttrPrdctMstr(CompetitionProductID,CompetitionProductName,CompetitorBrandID,LTFoodsSimilarBrand,CategoryID,Seq,Category,BusinessUnitId,BusinessUnit);
+						ProductImg=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+				if(!element.getElementsByTagName("flgActive").equals(null))
+				{
+
+					NodeList flgActiveNode = element.getElementsByTagName("flgActive");
+					Element     line = (Element) flgActiveNode.item(0);
+
+					if(flgActiveNode.getLength()>0)
+					{
+
+						flgActive=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+				//String ,String ,String ,String photoPath
+				if(!element.getElementsByTagName("Unit_In_gram").equals(null))
+				{
+
+					NodeList Unit_In_gramNode = element.getElementsByTagName("Unit_In_gram");
+					Element     line = (Element) Unit_In_gramNode.item(0);
+
+					if(Unit_In_gramNode.getLength()>0)
+					{
+
+						Unit_In_gram=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+				if(!element.getElementsByTagName("MinRate").equals(null))
+				{
+
+					NodeList MinRateNode = element.getElementsByTagName("MinRate");
+					Element     line = (Element) MinRateNode.item(0);
+
+					if(MinRateNode.getLength()>0)
+					{
+
+						MinRate=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+				if(!element.getElementsByTagName("MaxRate").equals(null))
+				{
+
+					NodeList MaxRateNode = element.getElementsByTagName("MaxRate");
+					Element     line = (Element) MaxRateNode.item(0);
+
+					if(MaxRateNode.getLength()>0)
+					{
+
+						MaxRate=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+				if(!element.getElementsByTagName("ProductImgPath").equals(null))
+				{
+
+					NodeList ProductImgPathNode = element.getElementsByTagName("ProductImgPath");
+					Element     line = (Element) ProductImgPathNode.item(0);
+
+					if(ProductImgPathNode.getLength()>0)
+					{
+
+						String ProductImgPath=xmlParser.getCharacterDataFromElement(line);
+						photoPath=downLoadingCmpttrImage(ProductImgPath,ProductImg);
+					}
+				}
+
+//betudubey
+				//if(TextUtils.isEmpty(photoPath))
+
+				dbengine.insertCmpttrPrdctMstr(CompetitionProductID,CompetitionProductName,CompetitorBrandID,LTFoodsSimilarBrand,CategoryID,Seq,Category,BusinessUnitId,BusinessUnit,ProductImg,flgActive,Unit_In_gram,MinRate,MaxRate,photoPath);
 			}
 	            
 	            
@@ -1099,7 +1180,71 @@ catch(Exception e)
 		}
 
 	}
+	public String downLoadingCmpttrImage(String SelfieNameURL,String SelfieName){
+		String URL_String=  SelfieNameURL;
+		String Video_Name=  SelfieName;
+		String PATH="";
+        PATH = Environment.getExternalStorageDirectory() + "/" + CommonInfo.CompetitorImagesFolder + "/" +SelfieName;
+		File fdelete = new File(PATH);
+		if (fdelete.exists())
+		{
 
+		}
+		else
+		{
+			try {
+                PATH="";
+				URL url = new URL(URL_String);
+				URLConnection connection = url.openConnection();
+				HttpURLConnection urlConnection = (HttpURLConnection) connection;
+				urlConnection.setRequestMethod("GET");
+				urlConnection.setDoInput(true);
+				urlConnection.connect();
+				PATH = Environment.getExternalStorageDirectory() + "/" + CommonInfo.CompetitorImagesFolder + "/";
+
+				File file2 = new File(PATH + Video_Name);
+				if (file2.exists()) {
+					file2.delete();
+				}
+
+				File file1 = new File(PATH);
+				if (!file1.exists()) {
+					file1.mkdirs();
+				}
+
+
+				File file = new File(file1, Video_Name);
+
+				int size = connection.getContentLength();
+
+
+				FileOutputStream fileOutput = new FileOutputStream(file);
+
+				InputStream inputStream = urlConnection.getInputStream();
+
+				byte[] buffer = new byte[size];
+				int bufferLength = 0;
+				long total = 0;
+				int current = 0;
+				while ((bufferLength = inputStream.read(buffer)) != -1) {
+					total += bufferLength;
+
+					fileOutput.write(buffer, 0, bufferLength);
+				}
+
+				fileOutput.close();
+				PATH+= Video_Name;
+
+			}
+			catch (Exception e){
+				PATH="";
+			}
+
+		}
+
+
+		return PATH;
+	}
 
 	/*public ServiceWorker getallStoresVideoDetails(Context ctx, String dateVAL, String uuid, String rID)
 	{
@@ -17561,7 +17706,7 @@ String RouteType="0";
 
 			dbengine.deleteIncentivesTbles();
 
-			NodeList tblIncentiveMasterNode = doc.getElementsByTagName("tblIncentiveMaster");
+			NodeList tblIncentiveMasterNode = doc.getElementsByTagName("tblIncentiveMainMaster");
 			for (int i = 0; i < tblIncentiveMasterNode.getLength(); i++)
 			{
 				int IncId=0;
@@ -17622,9 +17767,96 @@ String RouteType="0";
 					}
 				}
 
-				dbengine.savetblIncentiveMaster(IncId, OutputType, IncentiveName,flgAcheived,Earning);
+				dbengine.savetblIncentiveMaster(IncId,OutputType,IncentiveName,flgAcheived,Earning);
 				//System.out.println("MASTER TBL..."+IncId+"-"+OutputType+"-"+IncentiveName+"-"+flgAcheived+"-"+Earning);
 			}
+
+
+
+
+
+
+
+			NodeList tblIncentiveSecondaryMaster = doc.getElementsByTagName("tblIncentiveSecondaryMaster");
+			for (int i = 0; i < tblIncentiveSecondaryMaster.getLength(); i++)
+			{
+				int IncSlabId=0;
+				int IncId=0;
+				int OutputType=0;
+				String IncSlabName="NA";
+				String Earning="0";
+				String flgAcheived="0"; // by default red color
+
+				Element element = (Element) tblIncentiveSecondaryMaster.item(i);
+
+
+				if(!element.getElementsByTagName("IncSlabId").equals(null))
+				{
+					NodeList IncSlabIdNode = element.getElementsByTagName("IncSlabId");
+					Element      line = (Element) IncSlabIdNode.item(0);
+					if(IncSlabIdNode.getLength()>0)
+					{
+						IncSlabId=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
+					}
+				}
+
+				if(!element.getElementsByTagName("IncId").equals(null))
+				{
+					NodeList IncIdNode = element.getElementsByTagName("IncId");
+					Element      line = (Element) IncIdNode.item(0);
+					if(IncIdNode.getLength()>0)
+					{
+						IncId=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
+					}
+				}
+
+				if(!element.getElementsByTagName("OutputType").equals(null))
+				{
+					NodeList OutputTypeNode = element.getElementsByTagName("OutputType");
+					Element      line = (Element) OutputTypeNode.item(0);
+					if(OutputTypeNode.getLength()>0)
+					{
+						OutputType=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
+					}
+				}
+
+				if(!element.getElementsByTagName("IncSlabName").equals(null))
+				{
+					NodeList IncSlabNameNode = element.getElementsByTagName("IncSlabName");
+					Element      line = (Element) IncSlabNameNode.item(0);
+					if(IncSlabNameNode.getLength()>0)
+					{
+						IncSlabName=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+
+				if(!element.getElementsByTagName("flgAcheived").equals(null))
+				{
+					NodeList flgAcheivedNode = element.getElementsByTagName("flgAcheived");
+					Element      line = (Element) flgAcheivedNode.item(0);
+					if(flgAcheivedNode.getLength()>0)
+					{
+						flgAcheived=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+
+				if(!element.getElementsByTagName("Earning").equals(null))
+				{
+					NodeList EarningNode = element.getElementsByTagName("Earning");
+					Element      line = (Element) EarningNode.item(0);
+					if(EarningNode.getLength()>0)
+					{
+						Earning=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+
+				dbengine.savetblIncentiveSeondaryMaster(IncSlabId,IncId, OutputType, IncSlabName,flgAcheived,Earning);
+				//System.out.println("MASTER TBL..."+IncId+"-"+OutputType+"-"+IncentiveName+"-"+flgAcheived+"-"+Earning);
+			}
+
+
+
+
 
 			NodeList tblIncentiveDetailsDataNode = doc.getElementsByTagName("tblIncentiveDetailsData");
 			String TableColumn[]=null;
@@ -17680,19 +17912,19 @@ String RouteType="0";
 			NodeList tblIncentiveDetailsColumnsDescNode = doc.getElementsByTagName("tblIncentiveDetailsColumnsDesc");
 			for (int i = 0; i < tblIncentiveDetailsColumnsDescNode.getLength(); i++)
 			{
-				int IncId=0;
+				int IncSlabId=0;
 				String ReportColumnName="NA";
 				String DisplayColumnName="NA";
 
 				Element element = (Element) tblIncentiveDetailsColumnsDescNode.item(i);
 
-				if(!element.getElementsByTagName("IncId").equals(null))
+				if(!element.getElementsByTagName("IncSlabId").equals(null))
 				{
-					NodeList IncIdNode = element.getElementsByTagName("IncId");
-					Element      line = (Element) IncIdNode.item(0);
-					if(IncIdNode.getLength()>0)
+					NodeList IncIdIncSlabIdNode = element.getElementsByTagName("IncSlabId");
+					Element      line = (Element) IncIdIncSlabIdNode.item(0);
+					if(IncIdIncSlabIdNode.getLength()>0)
 					{
-						IncId=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
+						IncSlabId=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
 					}
 				}
 
@@ -17716,7 +17948,7 @@ String RouteType="0";
 					}
 				}
 
-				dbengine.savetblIncentiveDetailsColumnsDesc(IncId, ReportColumnName, DisplayColumnName);
+				dbengine.savetblIncentiveDetailsColumnsDesc(IncSlabId, ReportColumnName, DisplayColumnName);
 				//System.out.println("Column DESC TBL..."+IncId+"-"+ReportColumnName+"-"+DisplayColumnName);
 			}
 
@@ -17795,20 +18027,20 @@ String RouteType="0";
 			NodeList tblIncentivePastDetailsColumnsDescNode = doc.getElementsByTagName("tblIncentivePastDetailsColumnsDesc");
 			for (int i = 0; i < tblIncentivePastDetailsColumnsDescNode.getLength(); i++)
 			{
-				int IncId=0;
+				int IncSlabId=0;
 				String ReportColumnName="0";
 				String DisplayColumnName="0";
 				String Ordr="0";
 
 				Element element = (Element) tblIncentivePastDetailsColumnsDescNode.item(i);
 
-				if(!element.getElementsByTagName("IncId").equals(null))
+				if(!element.getElementsByTagName("IncSlabId").equals(null))
 				{
-					NodeList IncIdNode = element.getElementsByTagName("IncId");
-					Element      line = (Element) IncIdNode.item(0);
-					if(IncIdNode.getLength()>0)
+					NodeList IncSlabIdNode = element.getElementsByTagName("IncSlabId");
+					Element      line = (Element) IncSlabIdNode.item(0);
+					if(IncSlabIdNode.getLength()>0)
 					{
-						IncId=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
+						IncSlabId=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
 					}
 				}
 
@@ -17842,14 +18074,14 @@ String RouteType="0";
 					}
 				}
 
-				dbengine.savetblIncentivePastDetailsColumnsDesc(IncId, ReportColumnName, DisplayColumnName, Ordr);
+				dbengine.savetblIncentivePastDetailsColumnsDesc(IncSlabId, ReportColumnName, DisplayColumnName, Ordr);
 			}
 			NodeList tblIncentiveMsgToDisplay = doc.getElementsByTagName("tblIncentiveMsgToDisplay");
 			for (int i = 0; i < tblIncentiveMsgToDisplay.getLength(); i++)
 			{
 
 				String MsgToDisplay="0";
-
+				int flgBankDetailsToShow=0;
 				Element element = (Element) tblIncentiveMsgToDisplay.item(i);
 
 				if(!element.getElementsByTagName("MsgToDisplay").equals(null))
@@ -17862,11 +18094,51 @@ String RouteType="0";
 					}
 				}
 
+				if(!element.getElementsByTagName("flgBankDetailsToShow").equals(null))
+				{
+					NodeList flgBankDetailsToShowNode = element.getElementsByTagName("flgBankDetailsToShow");
+					Element      line = (Element) flgBankDetailsToShowNode.item(0);
+					if(flgBankDetailsToShowNode.getLength()>0)
+					{
+						flgBankDetailsToShow=Integer.parseInt(xmlParser.getCharacterDataFromElement(line));
+					}
+				}
 
-
-				dbengine.savetblIncentiveMsgToDisplay(MsgToDisplay);
+				dbengine.savetblIncentiveMsgToDisplay(MsgToDisplay,flgBankDetailsToShow);
 			}
 
+
+			NodeList tblIncentiveBankDetails = doc.getElementsByTagName("tblIncentiveBankDetails");
+			for (int i = 0; i < tblIncentiveBankDetails.getLength(); i++)
+			{
+
+				String LvlName="0";
+				String Value="NA";
+
+				Element element = (Element) tblIncentiveBankDetails.item(i);
+
+				if(!element.getElementsByTagName("LvlName").equals(null))
+				{
+					NodeList LvlNameNode = element.getElementsByTagName("LvlName");
+					Element      line = (Element) LvlNameNode.item(0);
+					if(LvlNameNode.getLength()>0)
+					{
+						LvlName=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+
+				if(!element.getElementsByTagName("Value").equals(null))
+				{
+					NodeList ValueNode = element.getElementsByTagName("Value");
+					Element      line = (Element) ValueNode.item(0);
+					if(ValueNode.getLength()>0)
+					{
+						Value=xmlParser.getCharacterDataFromElement(line);
+					}
+				}
+
+				dbengine.savetblIncentiveBankDetails(LvlName,Value);
+			}
 			dbengine.close();
 			setmovie.director = "1";
 

@@ -32,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,11 +66,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class CompetitorPrdctPriceActivity extends AppCompatActivity implements InterfaceClass{
+public class CompetitorPrdctPriceActivity extends AppCompatActivity implements InterfaceClass,MinMaxValidationCompttr{
 
+    LinkedHashMap<String,String> hmapPrdctunitInGram;
+    LinkedHashMap<String,String> hmapPrdctMinMax;
     Button btn_submit;
     ImageView btn_bck;
-
+    LinkedHashMap<String,String> hmapPrdctImgPath;
+    LinkedHashMap<String,ArrayList<String>> hmapCatIdAndCmpttrDtl;
+    LinkedHashMap<String,ArrayList<String>> hmapCmpttrIddAndPrdctDtl;
     int countSubmitClicked=0;
     public  int flgLocationServicesOnOffOrderReview=0;
     public  int flgGPSOnOffOrderReview=0;
@@ -93,18 +98,20 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
     public String date;
     public String pickerDate;
     public String SN="";
+    LinearLayout ll_CompetitorPrdct;
     DBAdapterKenya dbengine=new DBAdapterKenya(CompetitorPrdctPriceActivity.this);
     public AppLocationService appLocationService;
-    LinearLayout ll_CompetitorPrdct;
+
     public ProgressDialog pDialog2STANDBY;
     LocationRequest mLocationRequest;
     public LocationManager locationManager;
     LinkedHashMap<String,ArrayList<String>> hmapCmpttrChkdPrdct;
     LinkedHashMap<String,String> hmapCmpttrPrdctPTR=new LinkedHashMap<String,String>();
-    LinkedHashMap<String,String> hmapCmpttrPrdctPTC=new LinkedHashMap<String,String>();
-    LinkedHashMap<String,String> hmapSavedPTRPTC;
-    String surveyDate;
 
+
+    String surveyDate;
+    EditText edLastFocus=null;
+    String crntEditTextTag;
 
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
@@ -143,7 +150,8 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
         btn_submit= (Button) findViewById(R.id.btn_submit);
         btn_bck= (ImageView) findViewById(R.id.btn_bck);
         getDataFromIntent();
-        inflatePrdctCompetitor();
+        createViews();
+        //inflatePrdctCompetitor();
         btn_bck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,13 +172,32 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int isFlgPrdctPriceFld=validatePriceFilled();
-                if(isFlgPrdctPriceFld==2)
+                int isFlgPrdctPriceFld=2;//=validatePriceFilled();
+                if(validateMinMax())
                 {
 
+                    if((hmapCmpttrPrdctPTR!=null) && (hmapCmpttrPrdctPTR.size()>0))
+                    {
+                        savingPrdctCompetitor();
+                        Intent storeOrderReviewIntent=new Intent(CompetitorPrdctPriceActivity.this,DisplayItemPics.class);
+                        storeOrderReviewIntent.putExtra("storeID", storeID);
+                        storeOrderReviewIntent.putExtra("SN", SN);
+                        storeOrderReviewIntent.putExtra("bck", 1);
+                        storeOrderReviewIntent.putExtra("imei", imei);
+                        storeOrderReviewIntent.putExtra("userdate", date);
+                        storeOrderReviewIntent.putExtra("pickerDate", pickerDate);
 
-                            savingPrdctCompetitor();
-                            boolean isGPSEnabled2 = false;
+
+                        //fireBackDetPg.putExtra("rID", routeID);
+                        startActivity(storeOrderReviewIntent);
+                        finish();
+                    }
+                    else
+                    {
+                        showAlertForEveryOne("Please fill atleast one product PTR");
+                    }
+
+                        /*    boolean isGPSEnabled2 = false;
                             boolean isNetworkEnabled2=false;
                             isGPSEnabled2 = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                             isNetworkEnabled2 = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -199,7 +226,7 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
                             }
                             else{
                                 fnSaveFilledDataToDatabase(3);
-                            }
+                            }*/
 
 
 
@@ -213,358 +240,158 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
         });
     }
 
-    public int validatePriceFilled()
+
+   public void alertValidation(String message)
     {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(CompetitorPrdctPriceActivity.this);
 
-        int isflgPriceFilled=0;
+        // Setting Dialog Title
+        alertDialog.setTitle("Information");
 
-        //dbengine.deleteLastCompetitrPrdctPTRPTC(storeID);
-        for(Map.Entry<String,ArrayList<String>> entry:hmapCmpttrChkdPrdct.entrySet())
+        // Setting Dialog Message
+        alertDialog.setMessage(message);
+
+
+        // Setting Positive "Yes" Button
+        alertDialog.setPositiveButton("Proceed", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+
+                savingPrdctCompetitor();
+                Intent storeOrderReviewIntent=new Intent(CompetitorPrdctPriceActivity.this,DisplayItemPics.class);
+                storeOrderReviewIntent.putExtra("storeID", storeID);
+                storeOrderReviewIntent.putExtra("SN", SN);
+                storeOrderReviewIntent.putExtra("bck", 1);
+                storeOrderReviewIntent.putExtra("imei", imei);
+                storeOrderReviewIntent.putExtra("userdate", date);
+                storeOrderReviewIntent.putExtra("pickerDate", pickerDate);
+
+
+                //fireBackDetPg.putExtra("rID", routeID);
+                startActivity(storeOrderReviewIntent);
+                finish();
+            }
+        });
+
+        // Setting Negative "NO" Button
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                // Write your code here to invoke NO event
+
+                dialog.cancel();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
+    }
+
+    void createViews()
+    {
+        LayoutInflater inflater1 = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        for(Map.Entry<String,ArrayList<String>> entry:hmapCatIdAndCmpttrDtl.entrySet())
         {
+            View view_template = inflater1.inflate(R.layout.template_feedbckcmp, null);
 
-            String businessUnitId=entry.getKey().toString().split(Pattern.quote("^"))[0];
-            String businessUnit=entry.getKey().toString().split(Pattern.quote("^"))[1];
+            TextView txt_catName= (TextView) view_template.findViewById(R.id.txt_catName);
+            txt_catName.setText(entry.getKey().split(Pattern.quote("^"))[1]);
+            final String catId=entry.getKey().split(Pattern.quote("^"))[0];
+            final LinearLayout ll_CatTempltParent= (LinearLayout) view_template.findViewById(R.id.ll_CatTempltParent);
+            ll_CatTempltParent.setTag(entry.getKey()+"_ll"); //tag- catID_ll
 
-            ArrayList<String> listCmpttrPrdct=entry.getValue();
-            if(listCmpttrPrdct!=null && listCmpttrPrdct.size()>0)
+            ArrayList<String> list_compttrDtl=entry.getValue();
+            for(final String cmpptr:list_compttrDtl)
             {
+                View view_row= inflater1.inflate(R.layout.custom_row, null);
 
-                for(String cmpttrPrdctDesc:listCmpttrPrdct)
+                CheckBox cb_CompBox= (CheckBox) view_row.findViewById(R.id.cb_CompBox);
+                cb_CompBox.setTag(cmpptr);//tag- catID_prdctID_cb
+
+                TextView txt_CompName= (TextView) view_row.findViewById(R.id.txt_CompName);
+                //tag- catID_prdctID_text
+                txt_CompName.setText(cmpptr);
+
+                LinearLayout ll_prdctDetail= (LinearLayout) view_row.findViewById(R.id.ll_prdctDetail);
+
+
+
+                if((hmapCmpttrIddAndPrdctDtl!=null) && (hmapCmpttrIddAndPrdctDtl.size()>0))
                 {
-                    String cmpttrPrdctId=cmpttrPrdctDesc.split(Pattern.quote("^"))[0];
-                    String cmpttrPrdct=cmpttrPrdctDesc.split(Pattern.quote("^"))[1];
-                    String cmpttrCategory=cmpttrPrdctDesc.split(Pattern.quote("^"))[2];
-                    String prdctPTR="";
-                    String prdctPTC="";
-                    if(hmapCmpttrPrdctPTR.containsKey(cmpttrPrdctId+"_PTR"))
-                    {
-                        prdctPTR=hmapCmpttrPrdctPTR.get(cmpttrPrdctId+"_PTR");
-                    }
-                    if(hmapCmpttrPrdctPTC.containsKey(cmpttrPrdctId+"_PTC"))
-                    {
-                        prdctPTC=hmapCmpttrPrdctPTC.get(cmpttrPrdctId+"_PTC");
-                    }
-
-                    if(!TextUtils.isEmpty(prdctPTC) && !TextUtils.isEmpty(prdctPTR))
-                    {
-                        if(Double.parseDouble(prdctPTR)<=Double.parseDouble(prdctPTC))
+                    if(hmapCmpttrIddAndPrdctDtl.containsKey(cmpptr))
                     {
 
-                        isflgPriceFilled=2;
-                    }
-                    else
+                        ArrayList<String> listPrdct=hmapCmpttrIddAndPrdctDtl.get(cmpptr);
+
+                        if((listPrdct!=null) && (listPrdct.size()>0) && (listPrdct.get(0)!=null))
                         {
-                            isflgPriceFilled=1;
-                            EditText ed_CmpttrPrdct= (EditText) ll_CompetitorPrdct.findViewWithTag(cmpttrPrdctId+"_PTC");
-                            if(ed_CmpttrPrdct!=null)
-                            {
-                                ed_CmpttrPrdct.requestFocus();
-                                ed_CmpttrPrdct.setText("");
-                                startStopEditing(false,ed_CmpttrPrdct);
+                            View view_PrdctGrid= inflater1.inflate(R.layout.prdctdetail_grid, null);
+                            ExpandableHeightGridView expandableHeightGridView= (ExpandableHeightGridView) view_PrdctGrid.findViewById(R.id.expandable_gridview);
+                            expandableHeightGridView.setExpanded(true);
+                            PTRProductAdapter  adapterImage = new PTRProductAdapter(this,listPrdct,hmapPrdctImgPath,hmapCmpttrPrdctPTR);
 
-                            }
-                            showAlertForEveryOne("PTC cannot be less than PTR for "+cmpttrPrdct);
-                            break;
+                            expandableHeightGridView.setAdapter(adapterImage);
+
+                            ll_prdctDetail.addView(view_PrdctGrid);
                         }
 
 
-
                     }
-                    else if(TextUtils.isEmpty(prdctPTR) && (!TextUtils.isEmpty(prdctPTC)))
-                    {
-                        isflgPriceFilled=1;
-                        EditText ed_CmpttrPrdct= (EditText) ll_CompetitorPrdct.findViewWithTag(cmpttrPrdctId+"_PTR");
-                        if(ed_CmpttrPrdct!=null)
-                        {
-                            ed_CmpttrPrdct.requestFocus();
-
-                        }
-                        showAlertForEveryOne("Please fill PTR also of "+cmpttrPrdct);
-                        break;
-                    }
-                    else if(TextUtils.isEmpty(prdctPTC) && (!TextUtils.isEmpty(prdctPTR)))
-                    {
-                        isflgPriceFilled=1;
-                        EditText ed_CmpttrPrdct= (EditText) ll_CompetitorPrdct.findViewWithTag(cmpttrPrdctId+"_PTC");
-                        if(ed_CmpttrPrdct!=null)
-                        {
-                            ed_CmpttrPrdct.requestFocus();
-
-                        }
-                        showAlertForEveryOne("Please fill PTC also of "+cmpttrPrdct);
-                        break;
-
-                    }
-
-
-                    //ed_priceToRtlr.setTag(cmpttrPrdctId+"_PTR");
-
-                    //ed_priceToConsumer.setTag(cmpttrPrdctId+"_PTC");
-
-
                 }
 
 
-            }
-            if(isflgPriceFilled==1)
-            {
-                break;
+                ll_CatTempltParent.addView(view_row);
             }
 
+            ll_CompetitorPrdct.addView(view_template);
         }
-
-        return isflgPriceFilled;
     }
 
-    public void inflatePrdctCompetitor()
-    {
-
-        LayoutInflater inflater=(LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        for(Map.Entry<String,ArrayList<String>> entry:hmapCmpttrChkdPrdct.entrySet())
-        {
-
-            String businessUnitId=entry.getKey().toString().split(Pattern.quote("^"))[0];
-            String businessUnit=entry.getKey().toString().split(Pattern.quote("^"))[1];
-            TextView txtBusinessDesc=getTextView(businessUnit,businessUnitId,true);
-            LinearLayout ll_BusinessSegment=getLinearLayout(2);
-
-            ll_BusinessSegment.addView(txtBusinessDesc);
-            ArrayList<String> listCmpttrPrdct=entry.getValue();
-            if(listCmpttrPrdct!=null && listCmpttrPrdct.size()>0)
-            {
-                String prvsCmpttrBrandDesc="";
-                LinearLayout ll_CmpnyName=null;
-                int index=1;
-
-
-                for(String cmpttrPrdctDesc:listCmpttrPrdct)
-                {
-                    String cmpttrPrdctId=cmpttrPrdctDesc.split(Pattern.quote("^"))[0];
-                    String cmpttrPrdct=cmpttrPrdctDesc.split(Pattern.quote("^"))[1];
-                    String cmpttrCategory=cmpttrPrdctDesc.split(Pattern.quote("^"))[2];
-                    String cmpttrBrandDesc=cmpttrPrdctDesc.split(Pattern.quote("^"))[3];
-
-
-                    if(index==1)
-                    {
-                        prvsCmpttrBrandDesc=cmpttrBrandDesc;
-                        TextView txtCmpnyDesc=getTextView(cmpttrBrandDesc,businessUnitId,false);
-                        ll_CmpnyName=getLinearLayout(1);
-                        ll_CmpnyName.addView(txtCmpnyDesc);
-
-                    }
-                    else
-                    {
-                        if(prvsCmpttrBrandDesc.equals(cmpttrBrandDesc))
-                        {
-
-                        }
-                        else
-                        {
-                            ll_BusinessSegment.addView(ll_CmpnyName);
-
-                            prvsCmpttrBrandDesc=cmpttrBrandDesc;
-                            TextView txtCmpnyDesc=getTextView(cmpttrBrandDesc,businessUnitId,false);
-                             ll_CmpnyName=getLinearLayout(index%2);
-                            ll_CmpnyName.addView(txtCmpnyDesc);
-
-
-                        }
-
-                    }
-
-                    final View viewCompttrProduct=inflater.inflate(R.layout.list_product_competitor,null);
-                    TextView tvCtgryName= (TextView) viewCompttrProduct.findViewById(R.id.tvCtgryName);
-                   // TextView tvCmpnyName= (TextView) viewCompttrProduct.findViewById(R.id.tvCmpnyName);
-                    TextView tvProdctName= (TextView) viewCompttrProduct.findViewById(R.id.tvProdctName);
-                    tvCtgryName.setText(cmpttrCategory);
-                    tvProdctName.setText(cmpttrPrdct);
-                  //  tvCmpnyName.setText(cmpttrBrandDesc);
-                    final EditText ed_priceToRtlr= (EditText) viewCompttrProduct.findViewById(R.id.ed_priceToRtlr);
-                    ed_priceToRtlr.setTag(cmpttrPrdctId+"_PTR");
-                    final EditText ed_priceToConsumer= (EditText) viewCompttrProduct.findViewById(R.id.ed_priceToConsumer);
-                    ed_priceToConsumer.setTag(cmpttrPrdctId+"_PTC");
-
-             if(index%2==0)
-             {
-                 viewCompttrProduct.setBackgroundResource(R.drawable.card_background_even);
-             }
-			 else
-             {
-
-                 viewCompttrProduct.setBackgroundResource(R.drawable.card_background_odd);
-
-             }
-
-                    ed_priceToRtlr.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            if (!ed_priceToRtlr.getText().toString().trim().equalsIgnoreCase("")) {
-
-
-                                String editTextString = ed_priceToRtlr.getText().toString().trim();
-                                if(editTextString.length()>2)
-                                {
-                                    int decimalIndexOf = editTextString.indexOf(".");
-
-                                    if (decimalIndexOf >= 0) {
-                                        startStopEditing(false,ed_priceToRtlr);
-                                        if (editTextString.substring(decimalIndexOf).length() > 2) {
-
-                                            startStopEditing(true,ed_priceToRtlr);
-
-                                        }
-                                    }
-                                    else
-                                    {
-                                        startStopEditing(true,ed_priceToRtlr);
-                                    }
-
-
-                                }
-                                else
-                                {
-                                    startStopEditing(false,ed_priceToRtlr);
-                                }
-
-                            }
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable s) {
-
-                            String tagCmpttrPrdct=ed_priceToRtlr.getTag().toString();
-                            if(!TextUtils.isEmpty(ed_priceToRtlr.getText().toString().trim()))
-                            {
-                                hmapCmpttrPrdctPTR.put(tagCmpttrPrdct,ed_priceToRtlr.getText().toString().trim());
-                            }
-                            else
-                            {
-                                hmapCmpttrPrdctPTR.remove(tagCmpttrPrdct);
-                            }
-
-                        }
-                    });
-                    ed_priceToConsumer.addTextChangedListener(new TextWatcher() {
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                            if (!ed_priceToConsumer.getText().toString().trim().equalsIgnoreCase("")) {
-
-
-                                String editTextString = ed_priceToConsumer.getText().toString().trim();
-                                if(editTextString.length()>2)
-                                {
-                                    int decimalIndexOf = editTextString.indexOf(".");
-
-                                    if (decimalIndexOf >= 0) {
-                                        startStopEditing(false,ed_priceToConsumer);
-                                        if (editTextString.substring(decimalIndexOf).length() > 2) {
-
-                                            startStopEditing(true,ed_priceToConsumer);
-
-                                        }
-                                    }
-                                    else
-                                    {
-                                        startStopEditing(true,ed_priceToConsumer);
-                                    }
-
-
-                                }
-                                else
-                                {
-                                    startStopEditing(false,ed_priceToConsumer);
-                                }
-
-                            }
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                            String tagCmpttrPrdct=ed_priceToConsumer.getTag().toString();
-                            if(!TextUtils.isEmpty(ed_priceToConsumer.getText().toString().trim()))
-                            {
-                                hmapCmpttrPrdctPTC.put(tagCmpttrPrdct,ed_priceToConsumer.getText().toString().trim());
-                            }
-                            else
-                            {
-                                hmapCmpttrPrdctPTC.remove(tagCmpttrPrdct);
-                            }
-                        }
-                    });
-                    if(hmapSavedPTRPTC!=null && hmapSavedPTRPTC.size()>0)
-                    {
-                        if(hmapSavedPTRPTC.containsKey(cmpttrPrdctId+"_PTR"))
-                        {
-                            ed_priceToRtlr.setText(hmapSavedPTRPTC.get(cmpttrPrdctId+"_PTR"));
-                            ed_priceToConsumer.setText(hmapSavedPTRPTC.get(cmpttrPrdctId+"_PTC"));
-                        }
-                    }
-                    ll_CmpnyName.addView(viewCompttrProduct);
-
-                    if(index==listCmpttrPrdct.size())
-                    {
-                        ll_BusinessSegment.addView(ll_CmpnyName);
-                    }
-                    index++;
-
-
-                }
-                ll_CompetitorPrdct.addView(ll_BusinessSegment);
-
-            }
-
-        }
-
-    }
 
     public void savingPrdctCompetitor()
     {
 
 
         dbengine.deleteLastCompetitrPrdctPTRPTC(storeID);
-        for(Map.Entry<String,ArrayList<String>> entry:hmapCmpttrChkdPrdct.entrySet())
+        for(Map.Entry<String,ArrayList<String>> entry:hmapCatIdAndCmpttrDtl.entrySet())
         {
 
             String businessUnitId=entry.getKey().toString().split(Pattern.quote("^"))[0];
             String businessUnit=entry.getKey().toString().split(Pattern.quote("^"))[1];
 
-            ArrayList<String> listCmpttrPrdct=entry.getValue();
-            if(listCmpttrPrdct!=null && listCmpttrPrdct.size()>0)
+            ArrayList<String> listCmpttrBrand=entry.getValue();
+            if(listCmpttrBrand!=null && listCmpttrBrand.size()>0)
             {
                 int index=1;
-                for(String cmpttrPrdctDesc:listCmpttrPrdct)
+                for(String cmpttrDesc:listCmpttrBrand)
                 {
-                    String cmpttrPrdctId=cmpttrPrdctDesc.split(Pattern.quote("^"))[0];
-                    String cmpttrPrdct=cmpttrPrdctDesc.split(Pattern.quote("^"))[1];
-                    String cmpttrCategory=cmpttrPrdctDesc.split(Pattern.quote("^"))[2];
-                    String prdctPTR="";
-                    String prdctPTC="";
-                    if(hmapCmpttrPrdctPTR.containsKey(cmpttrPrdctId+"_PTR"))
-                    {
-                        prdctPTR=hmapCmpttrPrdctPTR.get(cmpttrPrdctId+"_PTR");
-                    }
-                    if(hmapCmpttrPrdctPTC.containsKey(cmpttrPrdctId+"_PTC"))
-                    {
-                        prdctPTC=hmapCmpttrPrdctPTC.get(cmpttrPrdctId+"_PTC");
+                    if(hmapCmpttrIddAndPrdctDtl.containsKey(cmpttrDesc)) {
+
+                        ArrayList<String> listPrdct = hmapCmpttrIddAndPrdctDtl.get(cmpttrDesc);
+
+                        if ((listPrdct != null) && (listPrdct.size() > 0) && (listPrdct.get(0) != null)) {
+                            for(String prdctDesc:listPrdct)
+                            {
+                                String cmpttrPrdctId=prdctDesc.split(Pattern.quote("^"))[0];
+                                String cmpttrPrdct=prdctDesc.split(Pattern.quote("^"))[1];
+
+                                String prdctPTR="";
+
+                                if(hmapCmpttrPrdctPTR.containsKey(cmpttrPrdctId+"_PTR"))
+                                {
+                                    prdctPTR=hmapCmpttrPrdctPTR.get(cmpttrPrdctId+"_PTR");
+                                }
+
+
+                                if(!TextUtils.isEmpty(prdctPTR))
+                                {
+
+                                    dbengine.insertCompetitrPrdctPTRPTC(storeID,cmpttrPrdctId,cmpttrPrdct,prdctPTR,businessUnitId,businessUnit,1,surveyDate);
+                                }
+                            }
+
+                        }
                     }
 
-                    if(!TextUtils.isEmpty(prdctPTC) && !TextUtils.isEmpty(prdctPTR))
-                    {
-
-                        dbengine.insertCompetitrPrdctPTRPTC(storeID,cmpttrPrdctId,cmpttrPrdct,prdctPTR,prdctPTC,businessUnitId,businessUnit,1,surveyDate);
-                    }
                     //ed_priceToRtlr.setTag(cmpttrPrdctId+"_PTR");
 
                     //ed_priceToConsumer.setTag(cmpttrPrdctId+"_PTC");
@@ -590,13 +417,78 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
         date = passedvals.getStringExtra("userdate");
         pickerDate = passedvals.getStringExtra("pickerDate");
         SN = passedvals.getStringExtra("SN");
-
-        hmapCmpttrChkdPrdct=dbengine.getCmpttrChkdPrdct(storeID);
-
+        ArrayList<LinkedHashMap<String,ArrayList<String>>> listMstrDetails=dbengine.getPTRMstrDetails(storeID);
+        hmapCatIdAndCmpttrDtl=listMstrDetails.get(0);
+        hmapCmpttrIddAndPrdctDtl=listMstrDetails.get(1);
+        hmapPrdctMinMax=dbengine.getMinMaxCmpttrPrdct();
+        hmapPrdctunitInGram=dbengine.getGrmUnitPrdct();
+       // hmapCmpttrChkdPrdct=dbengine.getCmpttrChkdPrdct(storeID);
+        hmapPrdctImgPath=dbengine.getPrdctImgPath();
         strGlobalOrderID=dbengine.fngetOrderIDAganistStore(storeID);
-        hmapSavedPTRPTC=dbengine.getSavedPTRPTC(storeID);
+        hmapCmpttrPrdctPTR=dbengine.getSavedPTRPTC(storeID);
     }
 
+
+
+    public LinearLayout getLinearLayout( int flgPaddingApplicable)
+    {
+        LinearLayout lay = new LinearLayout(CompetitorPrdctPriceActivity.this);
+
+        LinearLayout.LayoutParams llParams=new LinearLayout.LayoutParams(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
+        lay.setOrientation(LinearLayout.VERTICAL);
+        llParams.setMargins(0,0,0,5);
+        if(flgPaddingApplicable==2)
+        {
+            lay.setBackgroundResource(R.drawable.card_background_gray);
+            lay.setPadding(16,5,16,5);
+
+
+        }
+        else if(flgPaddingApplicable==1)
+        {
+            lay.setBackgroundResource(R.drawable.card_background_even);
+            lay.setPadding(0,5,0,5);
+
+        }
+        else
+        {
+            lay.setBackgroundResource(R.drawable.card_background_odd);
+            lay.setPadding(0,5,0,5);
+        }
+        lay.setLayoutParams(llParams);
+        lay.removeAllViews();
+        return lay;
+    }
+    public TextView getTextView(String catgryDes, String tagVal,boolean isHeader)
+    {
+
+
+        TextView txtVw_ques=new TextView(CompetitorPrdctPriceActivity.this);
+        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, 1f);
+        txtVw_ques.setLayoutParams(layoutParams1);
+        txtVw_ques.setTag(tagVal);
+
+        txtVw_ques.setPadding(0,3,0,3);
+        if(isHeader)
+        {
+            txtVw_ques.setGravity(Gravity.CENTER);
+            txtVw_ques.setTypeface(null, Typeface.BOLD);
+        }
+        else
+        {
+            txtVw_ques.setGravity(Gravity.LEFT);
+        }
+        txtVw_ques.setTextColor(getResources().getColor(R.color.primaryColorDark));
+        txtVw_ques.setText(catgryDes);
+
+
+
+
+
+
+        return txtVw_ques;
+    }
 
     public void showSettingsAlert()
     {
@@ -667,11 +559,7 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
 
 
 
-                        pDialog2STANDBY= ProgressDialog.show(CompetitorPrdctPriceActivity.this,getText(R.string.genTermPleaseWaitNew) ,getText(R.string.genTermRetrivingLocation), true);
-                        pDialog2STANDBY.setIndeterminate(true);
 
-                        pDialog2STANDBY.setCancelable(false);
-                        pDialog2STANDBY.show();
 
 
                         LocationRetreivingGlobal llaaa=new LocationRetreivingGlobal();
@@ -708,6 +596,7 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
 
 
     }
+
     @Override
     public void testFunctionOne(String fnLati, String fnLongi, String finalAccuracy, String fnAccurateProvider,
                                 String GpsLat, String GpsLong, String GpsAccuracy, String NetwLat, String NetwLong,
@@ -945,6 +834,96 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
     }
 
 
+
+    public boolean validateMinMax()
+    {
+        boolean validated=true;
+
+
+
+
+
+
+        if(edLastFocus!=null)
+        {
+            String prdctId=crntEditTextTag.split(Pattern.quote("^"))[0];
+            String prdctName=crntEditTextTag.split(Pattern.quote("^"))[1];
+            String value=edLastFocus.getText().toString().trim();
+            if(!TextUtils.isEmpty(value))
+            {
+
+                hmapCmpttrPrdctPTR.put(prdctId+"_PTR",value);
+                if((hmapPrdctunitInGram.containsKey(prdctId)) && (hmapPrdctMinMax.containsKey(prdctId)))
+                {
+                    String grmPerUnit=hmapPrdctunitInGram.get(prdctId);
+                    String minVal=(hmapPrdctMinMax.get(prdctId)).split(Pattern.quote("^"))[0];
+                    String maxVal=(hmapPrdctMinMax.get(prdctId)).split(Pattern.quote("^"))[1];
+                    Double netPtrPerKG=(Double.parseDouble(value))/(Double.parseDouble(grmPerUnit));
+                    if(netPtrPerKG<Double.parseDouble(minVal))
+                    {
+                 //       Price of <<>> is out of range. Please check you have price of unit and not per kg. Update price if incorrect or leave it if unit price is OK
+                        alertValidation("Price of "+prdctName+" is out of range. Please check you have price of unit and not per kg. Update price if incorrect or leave it if unit price is OK");
+                        validated=false;
+                    }
+                    else if(netPtrPerKG>Double.parseDouble(maxVal))
+                    {
+                        alertValidation("Price of "+prdctName+" is out of range. Please check you have price of unit and not per kg. Update price if incorrect or leave it if unit price is OK");
+                        validated=false;
+                    }
+                }
+            }
+            else
+            {
+                if(hmapCmpttrPrdctPTR.containsKey(prdctId+"_PTR"))
+                {
+                    hmapCmpttrPrdctPTR.remove(prdctId+"_PTR");
+                }
+            }
+        }
+        return validated;
+    }
+
+    @Override
+    public void edittextValPTR(String value,String tagPrdct) {
+        String prdctId=tagPrdct.split(Pattern.quote("^"))[0];
+        String prdctName=tagPrdct.split(Pattern.quote("^"))[1];
+        if(!TextUtils.isEmpty(value))
+        {
+            hmapCmpttrPrdctPTR.put(prdctId+"_PTR",value);
+            if((hmapPrdctunitInGram.containsKey(prdctId)) && (hmapPrdctMinMax.containsKey(prdctId)))
+            {
+                String grmPerUnit=hmapPrdctunitInGram.get(prdctId);
+                String minVal=(hmapPrdctMinMax.get(prdctId)).split(Pattern.quote("^"))[0];
+                String maxVal=(hmapPrdctMinMax.get(prdctId)).split(Pattern.quote("^"))[1];
+                Double netPtrPerKG=(Double.parseDouble(value))/(Double.parseDouble(grmPerUnit));
+                if(netPtrPerKG<Double.parseDouble(minVal))
+                {
+                    showAlertForEveryOne("Price of "+prdctName+" is out of range. Please check you have price of unit and not per kg. Update price if incorrect or leave it if unit price is OK");
+                }
+                else if(netPtrPerKG>Double.parseDouble(maxVal))
+                {
+                    showAlertForEveryOne("Price of "+prdctName+" is out of range. Please check you have price of unit and not per kg. Update price if incorrect or leave it if unit price is OK");
+                }
+            }
+        }
+        else
+        {
+            if(hmapCmpttrPrdctPTR.containsKey(prdctId+"_PTR"))
+            {
+                hmapCmpttrPrdctPTR.remove(prdctId+"_PTR");
+            }
+        }
+
+
+    }
+
+    @Override
+    public void crntFocusEditext(EditText edText, String tag) {
+        edLastFocus=edText;
+        crntEditTextTag=tag;
+    }
+
+
     private class FullSyncDataNow extends AsyncTask<Void, Void, Void> {
 
 
@@ -1103,105 +1082,6 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
         }
     }
 
-    public void startStopEditing(boolean isLock, EditText editText) {
-
-        if (isLock) {
-
-            editText.setFilters(new InputFilter[] { new InputFilter() {
-                @Override
-                public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                   if((source.length() < 1))
-                   {
-                       return "";
-                   }
-
-                   else
-                   {
-                       if(source.equals("."))
-                       {
-                           return null;
-                       }
-                       else
-                       {
-                           return dest.subSequence(dstart, dend);
-                       }
-
-                   }
-                  //  return source.length() < 1 ? dest.subSequence(dstart, dend) : "";
-                }
-            } });
-
-        } else {
-
-            editText.setFilters(new InputFilter[] { new InputFilter() {
-                @Override
-                public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                    return null;
-                }
-            } });
-        }
-    }
-
-
-    public LinearLayout getLinearLayout( int flgPaddingApplicable)
-    {
-        LinearLayout lay = new LinearLayout(CompetitorPrdctPriceActivity.this);
-
-        LinearLayout.LayoutParams llParams=new LinearLayout.LayoutParams(WindowManager.LayoutParams.FILL_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-
-        lay.setOrientation(LinearLayout.VERTICAL);
-        llParams.setMargins(0,0,0,5);
-        if(flgPaddingApplicable==2)
-        {
-            lay.setBackgroundResource(R.drawable.card_background_gray);
-            lay.setPadding(16,5,16,5);
-
-
-        }
-        else if(flgPaddingApplicable==1)
-        {
-            lay.setBackgroundResource(R.drawable.card_background_even);
-            lay.setPadding(0,5,0,5);
-
-        }
-        else
-        {
-            lay.setBackgroundResource(R.drawable.card_background_odd);
-            lay.setPadding(0,5,0,5);
-        }
-        lay.setLayoutParams(llParams);
-        lay.removeAllViews();
-        return lay;
-    }
-    public TextView getTextView(String catgryDes, String tagVal,boolean isHeader)
-    {
-
-
-        TextView txtVw_ques=new TextView(CompetitorPrdctPriceActivity.this);
-        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, 1f);
-        txtVw_ques.setLayoutParams(layoutParams1);
-        txtVw_ques.setTag(tagVal);
-
-        txtVw_ques.setPadding(0,3,0,3);
-        if(isHeader)
-        {
-            txtVw_ques.setGravity(Gravity.CENTER);
-            txtVw_ques.setTypeface(null, Typeface.BOLD);
-        }
-        else
-        {
-            txtVw_ques.setGravity(Gravity.LEFT);
-        }
-        txtVw_ques.setTextColor(getResources().getColor(R.color.primaryColorDark));
-        txtVw_ques.setText(catgryDes);
-
-
-
-
-
-
-        return txtVw_ques;
-    }
 
     public boolean isOnline()
     {

@@ -93,7 +93,8 @@ public class LastVisitDetails extends Activity
 	public Double currLon;
 	public Double currLat;
 	public String selStoreName;
-	
+
+
 	public String startTS;
 	public int bck = 0;
 	
@@ -464,15 +465,18 @@ public class LastVisitDetails extends Activity
 		
 		else
 		{
+
+			locACC = passedvals.getFloatExtra("acc", 0);
+			currLon = passedvals.getDoubleExtra("currUsrLon", 0);
+			currLat = passedvals.getDoubleExtra("currUsrLat", 0);
 			storeID = passedvals.getStringExtra("storeID");
 			imei = passedvals.getStringExtra("imei");
 			date = passedvals.getStringExtra("userDate");
 			pickerDate= passedvals.getStringExtra("pickerDate");
-			locACC = passedvals.getFloatExtra("acc", 0);
-			currLon = passedvals.getDoubleExtra("currUsrLon", 0);
-			currLat = passedvals.getDoubleExtra("currUsrLat", 0);
 			selStoreName = passedvals.getStringExtra("selStoreName");
 			startTS = passedvals.getStringExtra("startTS");
+
+
 		
 		}
 		
@@ -1479,17 +1483,66 @@ final Button btn_Cancel=(Button) findViewById(R.id.btn_Cancel);
 					dbengine.open();
 					dbengine.UpdateStoreEndVisit(storeID,startTS);
 					dbengine.close();
-					Intent nxtP4 = new Intent(LastVisitDetails.this,ActualVisitStock.class);
+		/*		//	Intent nxtP4 = new Intent(LastVisitDetails.this,ActualVisitStock.class);
 
-					nxtP4.putExtra("storeID", storeID);
-					nxtP4.putExtra("SN", selStoreName);
-					nxtP4.putExtra("imei", imei);
-					nxtP4.putExtra("userdate", date);
-					nxtP4.putExtra("pickerDate", pickerDate);
-					nxtP4.putExtra("flgOrderType", 1);
+						Intent nxtP4 = new Intent(LastVisitDetails.this,PicClkBfrStock.class);
+						nxtP4.putExtra("storeID", storeID);
+						nxtP4.putExtra("SN", selStoreName);
+						nxtP4.putExtra("imei", imei);
+						nxtP4.putExtra("userdate", date);
+						nxtP4.putExtra("pickerDate", pickerDate);
+						nxtP4.putExtra("flgOrderType", 1);
+						nxtP4.putExtra("isStockAvlbl", isStockAvlbl);
+						nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+						startActivity(nxtP4);
+						finish();*/
+					Intent ready4GetLoc = new Intent(LastVisitDetails.this,StockCheckAndCmpttrAvilable.class);
+					//enableGPSifNot();
 
-					startActivity(nxtP4);
+
+					ready4GetLoc.putExtra("storeID", storeID);
+					ready4GetLoc.putExtra("selStoreName", selStoreName);
+					ready4GetLoc.putExtra("imei", imei);
+					ready4GetLoc.putExtra("userDate", date);
+					ready4GetLoc.putExtra("pickerDate", pickerDate);
+
+
+
+
+
+
+					startActivity(ready4GetLoc);
 					finish();
+
+						/*if(isCmpttrAvlbl==1)
+						{
+							Intent nxtP4 = new Intent(LastVisitDetails.this,FeedbackCompetitorActivity.class);
+							//Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
+							nxtP4.putExtra("storeID", storeID);
+							nxtP4.putExtra("SN", selStoreName);
+							nxtP4.putExtra("imei", imei);
+							nxtP4.putExtra("userdate", date);
+							nxtP4.putExtra("pickerDate", pickerDate);
+							nxtP4.putExtra("flgOrderType", 1);
+							nxtP4.putExtra("isStockAvlbl", isStockAvlbl);
+							nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+							startActivity(nxtP4);
+							finish();
+						}
+						else {
+							Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch.class);
+							//Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
+							nxtP4.putExtra("storeID", storeID);
+							nxtP4.putExtra("SN", selStoreName);
+							nxtP4.putExtra("imei", imei);
+							nxtP4.putExtra("userdate", date);
+							nxtP4.putExtra("pickerDate", pickerDate);
+							nxtP4.putExtra("flgOrderType", 1);
+							startActivity(nxtP4);
+							finish();
+						}*/
+
+
 
 				}
 
@@ -1751,7 +1804,8 @@ final Button btn_Cancel=(Button) findViewById(R.id.btn_Cancel);
 		
 		if(flgGSTCapture.equals("1")) 
 		  {
-			ll_gstDetails.setVisibility(View.VISIBLE);
+			//ll_gstDetails.setVisibility(View.VISIBLE);
+			  ll_gstDetails.setVisibility(View.GONE);
 			     if(flgGSTCompliance.equals("0"))
 			     {
 				      rb_gst_no.setEnabled(true);

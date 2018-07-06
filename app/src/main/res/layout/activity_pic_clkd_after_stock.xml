@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:background="@drawable/custom_header_color"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:id="@+id/header"
+        >
+
+        <ImageView
+            android:id="@+id/img_back_Btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.30"
+            android:visibility="visible"
+            android:src="@drawable/back_button_image" />
+        <ImageView
+            android:id="@+id/img_side_popUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="0dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_action" />
+
+        <TextView
+            android:id="@+id/bardd"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/picSctn2"
+            android:textColor="#ffff"
+            android:textSize="16sp"
+
+            android:textStyle="bold"
+            android:typeface="normal" />
+
+        <ImageView
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.30"
+            android:visibility="invisible" />
+
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:background="@drawable/card_background_even"
+        android:drawableRight="@drawable/camera_icon"
+        android:paddingBottom="2dp"
+        android:paddingLeft="3dp"
+        android:textColor="#000000"
+        android:text="Click Picture after stock Merchandising"
+        android:paddingRight="15dp"
+        android:paddingTop="2dp" />
+    <project.astix.com.ltfoodsfaindirect.ExpandableHeightGridView
+        android:id="@+id/expandable_gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/btn_camera"
+        android:numColumns="auto_fit"
+        android:columnWidth="90dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:gravity="center"
+        android:stretchMode="columnWidth"/>
+
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expandable_gridview"
+        android:background="@drawable/custom_button"
+        android:layout_margin="16dp"
+        android:text="Next"
+        android:drawableRight="@drawable/custom_button"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>

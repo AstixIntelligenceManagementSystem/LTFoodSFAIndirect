@@ -92,19 +92,19 @@ public class SplashScreen extends AppCompatActivity
         imei = tManager.getDeviceId();
 
 
-      // imei="866741034767667";  // live user
+     // imei="866741034767667";  // live user
 
        // imei="866741034767675";
        // imei="866343034574597";
-         // imei="866741034767667";
+      // imei="866741034767667";
       //imei="351928089616384";  // Test Release,Dev
       //  imei="354470089454505";  // Test Release,Dev
       //  imei="359473079352536";  // Test Ramesh
-      //imei="911433803802793";  // Dev by avinash sir use it
+      imei="911433803802793";  // Dev by avinash sir use it
 
        // imei="865166033749030";
 
-      // imei="354010084603910";
+      //imei="354010084603910";
         CommonInfo.imei = imei;
         sPref=getSharedPreferences(CommonInfo.Preference, MODE_PRIVATE);
         Date date1 = new Date();
@@ -215,7 +215,7 @@ public class SplashScreen extends AppCompatActivity
         setContentView(R.layout.activity_splash);
         BugSenseHandler.setup(this, "5b0eb804");
 
-        if (android.os.Build.VERSION.SDK_INT > 9)
+        if (Build.VERSION.SDK_INT > 9)
         {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -1049,9 +1049,9 @@ public class SplashScreen extends AppCompatActivity
                             {	SharedPreferences.Editor editor=sPref.edit();
                                 editor.clear();
                                 editor.commit();
-                                sPref.edit().putString("DatePref", serverDateForSPref).commit();
+                               // sPref.edit().putString("DatePref", serverDateForSPref).commit();
                                // fnShowAlertBeforeRedirectingToLauncher();
-                                Intent i=new Intent(SplashScreen.this,RegistrationActivity.class);
+                                Intent i=new Intent(SplashScreen.this,IncentiveActivity.class);
                                 i.putExtra("IntentFrom", "SPLASH");
                                 startActivity(i);
                                 finish();
@@ -1059,9 +1059,12 @@ public class SplashScreen extends AppCompatActivity
                         }
                         else
                         {
-                            sPref.edit().putString("DatePref", serverDateForSPref).commit();
+                            SharedPreferences.Editor editor=sPref.edit();
+                            editor.clear();
+                            editor.commit();
+                           // sPref.edit().putString("DatePref", serverDateForSPref).commit();
                            // fnShowAlertBeforeRedirectingToLauncher();
-                            Intent i=new Intent(SplashScreen.this,RegistrationActivity.class);
+                            Intent i=new Intent(SplashScreen.this,IncentiveActivity.class);
                             i.putExtra("IntentFrom", "SPLASH");
                             startActivity(i);
                             finish();

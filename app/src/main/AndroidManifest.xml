@@ -62,7 +62,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".SplashScreen">
+        <activity android:name=".SplashScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -451,7 +452,19 @@
             android:configChanges="orientation|keyboardHidden"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".CompetitorPrdctPriceActivity"
+        <activity
+            android:name=".CompetitorPrdctPriceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PicClkBfrStock"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PicClkdAfterStock"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".DisplayItemPics"
+            android:screenOrientation="portrait" />
+        <activity android:name=".StockCheckAndCmpttrAvilable"
             android:screenOrientation="portrait"></activity>
     </application>
 

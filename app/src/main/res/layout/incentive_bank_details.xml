@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/et_boundary"
+    >
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:textSize="14sp"
+        android:text=""
+        android:padding="2dp"
+        android:layout_weight="1"
+        android:gravity="left|center_vertical"
+        android:id="@+id/BankColumn"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/BankValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:text=":"
+        android:padding="2dp"
+        android:layout_weight="1"
+
+        android:gravity="center_horizontal|left"
+
+        android:textColor="#000"/>
+
+
+
+</LinearLayout>

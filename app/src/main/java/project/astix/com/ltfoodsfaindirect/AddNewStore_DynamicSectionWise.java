@@ -1292,14 +1292,43 @@ if(flgCheckNewOldStore==1)
 
         helperDb.saveSOAPdataStoreListDetailsInNewTable(selStoreID, hmapStoreAddress.get("2"), hmapStoreAddress.get("1"), hmapStoreAddress.get("3"),1);
         helperDb.close();
+        dbengine.UpdateStorWhileAdding(selStoreID,3);
+        try {
 
-        /*Intent ide=new Intent(AddNewStore_DynamicSectionWise.this,StoreSelection.class);
-        ide.putExtra("userDate", pickerDate);
-        ide.putExtra("pickerDate", pickerDate);
-        ide.putExtra("imei", imei);
-        ide.putExtra("rID", rID);
-        AddNewStore_DynamicSectionWise.this.startActivity(ide);
-        finish();*/
+
+            File OrderXMLFolder = new File(Environment.getExternalStorageDirectory(), CommonInfo.OrderXMLFolder);
+
+            if (!OrderXMLFolder.exists())
+            {
+                OrderXMLFolder.mkdirs();
+
+            }
+            dbengine.open();
+            String presentRoute=dbengine.GetActiveRouteID();
+            dbengine.close();
+
+
+            Date dateobj = new Date(syncTIMESTAMP);
+            SimpleDateFormat df1 = new SimpleDateFormat("dd.MM.yyyy.HH.mm.ss",Locale.ENGLISH);
+
+            newfullFileName=imei+"."+presentRoute+"."+df1.format(dateobj);
+
+
+            DA.open();
+            DA.export(CommonInfo.DATABASE_NAME, newfullFileName,presentRoute);
+            DA.close();
+
+            dbengine.savetbl_XMLfiles(newfullFileName, "3","1");
+            dbengine.UpdateStorWhileAdding(selStoreID,5);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            if(pDialogGetStores.isShowing())
+            {
+                pDialogGetStores.dismiss();
+            }
+        }
         if(activityFrom.equals("StoreSelection"))
         {
             Intent ide=new Intent(AddNewStore_DynamicSectionWise.this,StoreSelection.class);

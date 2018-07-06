@@ -1817,6 +1817,20 @@ if(Totalfiles.length>0) {
             public void onClick(View v) {
                 Intent i;
                 if(FROM.equals("SPLASH")){
+
+                    String serverDateForSPref;
+                    dbengine.open();
+                    serverDateForSPref=	dbengine.fnGetServerDate();
+                    dbengine.close();
+                    SharedPreferences sPref;
+
+                    sPref=getSharedPreferences(CommonInfo.Preference, MODE_PRIVATE);
+
+
+                    SharedPreferences.Editor editor=sPref.edit();
+                    editor.clear();
+                    editor.commit();
+                    sPref.edit().putString("DatePref", serverDateForSPref).commit();
                     i=new Intent(RegistrationActivity.this,AllButtonActivity.class);
                 }
                 else{
@@ -2041,7 +2055,19 @@ if(Totalfiles.length>0) {
                     dbengine.savetblDsrRegDetails(PersonNodeId_string,PersonNodeType_string,NAME_String,ContactNo_string,DOB_string,globalImageName,SignName_string,AccNO_string,BankID,IFSC_string,UPI_ID_YesNO,UPIID_string, SelfieNameURL);
                     dbengine.close();
 
+                    String serverDateForSPref;
+                    dbengine.open();
+                    serverDateForSPref=	dbengine.fnGetServerDate();
+                    dbengine.close();
+                    SharedPreferences sPref;
 
+                    sPref=getSharedPreferences(CommonInfo.Preference, MODE_PRIVATE);
+
+
+                    SharedPreferences.Editor editor=sPref.edit();
+                    editor.clear();
+                    editor.commit();
+                    sPref.edit().putString("DatePref", serverDateForSPref).commit();
                     FullSyncDataNow task = new FullSyncDataNow(RegistrationActivity.this);
                     task.execute();
                     //-------*******************************************************

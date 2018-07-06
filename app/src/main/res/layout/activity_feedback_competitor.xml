@@ -45,6 +45,18 @@
 </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_checkbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_header"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/chkBox_Rtailer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Retailer has disallowed checking competitor"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -52,7 +64,7 @@
         android:layout_marginRight="5dp"
         android:padding="3dp"
         android:id="@+id/llnewhead"
-        android:layout_below="@+id/ll_header">
+        android:layout_below="@+id/ll_checkbox">
 
         <TextView
             android:id="@+id/head"

@@ -1,68 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="4dp"
-    android:paddingTop="4dp"
-    android:gravity="center"
-    android:background="@drawable/card_background"
-    android:orientation="horizontal">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:background="@drawable/custom_border"
+        android:layout_width="match_parent"
+        android:padding="5dp"
 
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textSize="11sp"
-            android:gravity="left"
-            android:layout_marginLeft="2dp"
-            android:text="Category Name"
-            android:textColor="#000"
-           android:minLines="2"
-            android:layout_weight="2"
-            android:background="@drawable/edit_text_bg_gst_disable"
-            android:id="@+id/tvCtgryName"
+        android:layout_height="100dp">
+        <ImageView
+            android:id="@+id/img_prdct"
+            android:adjustViewBounds="true"
+            android:src="@drawable/kohinoor_basmati_rice"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
             />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#807295A6">
+
+        </View>
 
     <TextView
         android:id="@+id/tvProdctName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:layout_weight="2"
-        android:minLines="2"
-        android:background="@drawable/edit_text_bg_gst_disable"
-        android:gravity="left"
-        android:text="Product Name"
-        android:textColor="#000"
-        android:textSize="11sp" />
+        android:layout_gravity="center"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:text="PrductName"
 
-    <EditText
-        android:id="@+id/ed_priceToRtlr"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:gravity="center"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        android:layout_marginRight="5dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="8dp"
-        android:inputType="numberDecimal"
-
-        android:background="@drawable/ed_cmpttrprd_bg"
-        />
-    <EditText
-        android:id="@+id/ed_priceToConsumer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:gravity="center"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        android:layout_marginRight="5dp"
-        android:layout_weight="1"
-        android:layout_marginLeft="8dp"
-        android:background="@drawable/ed_cmpttrprd_bg"
         />
 
-</LinearLayout>
+            <EditText
+                android:id="@+id/ed_priceToRtlr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/ed_cmpttrprd_bg"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:hint="PTR"
+               android:inputType="numberDecimal"
+
+
+                />
+
+
+
+
+
+
+    </LinearLayout>
+

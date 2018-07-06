@@ -135,6 +135,8 @@ public class DatabaseAssistant
 			exportTable("tblFeedbackCompetitr");
 
 				exportTable("tblCompetitrPrdctPTRPTC");
+				exportTable("tableStoreSctnImage");
+				exportTable("tableStoreLtfoodStkCompttrAvlbl");
 
 			//String routeID=GetActiveRouteIDSunil();
 

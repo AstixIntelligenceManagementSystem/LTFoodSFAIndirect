@@ -3,6 +3,7 @@
     android:layout_width="100dp"
     android:layout_height="100dp"
     android:id="@+id/rl_photo"
+	android:padding="5dp"
     android:orientation="vertical">
 
     

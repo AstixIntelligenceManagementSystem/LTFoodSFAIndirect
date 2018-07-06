@@ -1,13 +1,18 @@
 package project.astix.com.ltfoodsfaindirect;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
+import android.support.annotation.IdRes;
 import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +20,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,14 +33,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class FeedbackCompetitorActivity extends BaseActivity
+public class FeedbackCompetitorActivity extends BaseActivity implements CheckedUnchekedCmpttrProduct
 {
     LinearLayout ll_parent;
-    LinkedHashMap<String,String> hmapPrdctIdAndName=new LinkedHashMap<>();
-    LinkedHashMap<String,ArrayList<String>> hmapCatIdAndPrdctId=new LinkedHashMap<>();
-    LinkedHashMap<String,String> hmapCatIdAndDesc=new LinkedHashMap<>();
 
+    LinkedHashMap<String,ArrayList<String>> hmapCatIdAndCmpttrDtl=new LinkedHashMap<String,ArrayList<String>>();
+    LinkedHashMap<String,ArrayList<String>> hmapCmpttrIddAndPrdctDtl=new LinkedHashMap<String,ArrayList<String>>();
+    public ProgressDialog pDialog2STANDBYabhi;
+    Thread myThread;
+    boolean isRetailerAllowedToDo=true;
     LinkedHashMap<String,String> hmapSavedCompetitrData=new LinkedHashMap<>();
+    LinkedHashMap<String,String> hmapPrdctImgPath;
     String[] prdctIDArray={"13","83","98","99","55"};
     String[] prdctNameArray={"Indiagate","Kohinoor","Rajdhani","Aahaar","Other"};
     String[] catIDArray={"1","1","1","2","2"};
@@ -47,6 +57,9 @@ public class FeedbackCompetitorActivity extends BaseActivity
     ImageView img_back;
     String  flgOrderType;
     String  SN;
+    int isStockAvlbl=0;
+    int isCmpttrAvlbl=0;
+    CheckBox chkBox_Rtailer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,15 +73,35 @@ public class FeedbackCompetitorActivity extends BaseActivity
         date = intent.getStringExtra("userdate");
         pickerDate= intent.getStringExtra("pickerDate");
         SN= intent.getStringExtra("SN");
-
+        isStockAvlbl=intent.getIntExtra("isStockAvlbl",0);
+        isCmpttrAvlbl=intent.getIntExtra("isCmpttrAvlbl",0);
         ll_parent=(LinearLayout) findViewById(R.id.ll_parent);
         btn_save= (Button) findViewById(R.id.btn_save);
+        chkBox_Rtailer= (CheckBox) findViewById(R.id.chkBox_Rtailer);
+        chkBox_Rtailer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               if(chkBox_Rtailer.isChecked())
+               {
+                   isRetailerAllowedToDo=false;
+                   hmapSavedCompetitrData.clear();
+                   disableAllCheckBox("Disabling Product");
 
+               }
+               else
+               {
+                   isRetailerAllowedToDo=true;
+                   disableAllCheckBox("Enabling Product");
+               }
+            }
+        });
         //putDataInHashmap();
-        getDataFromDatabase();
-        createViews();
+
+
         saveBtnWorking();
         backBtnWorking();
+
+        getDataFromDatabase();
     }
 
    /* void putDataInHashmap()
@@ -90,12 +123,28 @@ public class FeedbackCompetitorActivity extends BaseActivity
 
     void getDataFromDatabase()
     {
-        ArrayList<LinkedHashMap> list_fns=dbengine.getFeedbckCompMstrDetails();
-        hmapCatIdAndPrdctId=list_fns.get(0); //catID and ProdID mapping
-        hmapPrdctIdAndName=list_fns.get(1); //compID and compDesc
-        hmapCatIdAndDesc=list_fns.get(2); //catID and catDesc
+        ArrayList<LinkedHashMap<String,ArrayList<String>>> list_fns=dbengine.getFeedbckCompMstrDetails();
+        hmapCatIdAndCmpttrDtl=list_fns.get(0); //ctgryid^ctgryDesc cmpttrId^cmpttrDesc
+        hmapCmpttrIddAndPrdctDtl=list_fns.get(1); //cmpttrId^cmpttrDesc prdctId^prdctDesc
 
         hmapSavedCompetitrData=dbengine.fetchCompetitorData(StoreID);
+        hmapPrdctImgPath=dbengine.getPrdctImgPath();
+        if(dbengine.getCmpttrRetailerAllowed(StoreID)==0)
+        {
+            chkBox_Rtailer.setChecked(true);
+            isRetailerAllowedToDo=false;
+
+            disableAllCheckBox("Disabling Product");
+
+        }
+        else
+        {
+            if((hmapSavedCompetitrData!=null) && (hmapSavedCompetitrData.size()>0))
+            {
+                chkBox_Rtailer.setEnabled(false);
+            }
+            disableAllCheckBox("Loading Product");
+        }
     }
 
     void saveBtnWorking()
@@ -104,139 +153,190 @@ public class FeedbackCompetitorActivity extends BaseActivity
             @Override
             public void onClick(View v)
             {
-                AlertDialog.Builder alert=new AlertDialog.Builder(FeedbackCompetitorActivity.this);
-                alert.setTitle("Alert");
-                alert.setMessage("Do you want to save changes?");
-
-                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                if(isRetailerAllowedToDo)
                 {
-                    public void onClick(DialogInterface dialog, int which)
+                    dbengine.updateCmpttrRetailerAllowed(StoreID,1);
+                    AlertDialog.Builder alert=new AlertDialog.Builder(FeedbackCompetitorActivity.this);
+                    alert.setTitle("Alert");
+                    alert.setMessage("Do you want to save changes?");
+
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener()
                     {
-                        dbengine.deletetblFeedbackCompetitrData(StoreID);
-                        dbengine.open();
-                        if(hmapSavedCompetitrData != null && hmapSavedCompetitrData.size()>0)
+                        public void onClick(DialogInterface dialog, int which)
                         {
-
-                            for(Map.Entry<String,String> entry:hmapSavedCompetitrData.entrySet())
+                            dbengine.deletetblFeedbackCompetitrData(StoreID);
+                            dbengine.open();
+                            if(hmapSavedCompetitrData != null && hmapSavedCompetitrData.size()>0)
                             {
-                                String prdctID=entry.getKey();
-                                String catID=entry.getValue().split(Pattern.quote("^"))[0];
-                                String prdctDesc=entry.getValue().split(Pattern.quote("^"))[1];
 
-                                //key=compID, value=compName
-                                if(prdctID.equals("13"))
+                                for(Map.Entry<String,String> entry:hmapSavedCompetitrData.entrySet())
                                 {
 
-                                }
-                                else
-                                {
-                                    dbengine.savetblFeedbackCompetitr(StoreID,prdctID,prdctDesc,catID,"1");//1 here is Sstat
+                                    String prdctDesc=entry.getKey().split(Pattern.quote("~"))[0];
+                                    String compttrDesc=entry.getKey().split(Pattern.quote("~"))[1];
+                                    String catId=entry.getKey().split(Pattern.quote("~"))[2];
+                                    String prdctID=prdctDesc.split(Pattern.quote("^"))[0];
+                                    String prdctName=prdctDesc.split(Pattern.quote("^"))[1];
+                                    String compttrId=compttrDesc.split(Pattern.quote("^"))[0];
+                                    String compttrName=compttrDesc.split(Pattern.quote("^"))[1];
+                                    int flgAvilable=Integer.parseInt(entry.getValue());
+                                    dbengine.savetblFeedbackCompetitr(StoreID,compttrId,compttrName,catId,prdctID,prdctName,flgAvilable,"1");//1 here is Sstat
+
                                 }
 
-                                System.out.println("SAVING.."+StoreID+"--"+prdctID+"--"+prdctDesc+"--"+catID);
                             }
+                            dbengine.close();
+                            dialog.dismiss();
+                            // VideoPageOpenOrProductOrderPageOpen();
+
+                            intentToPicSctn2();
+
+
 
                         }
+                    });
 
-                        dbengine.savetblFeedbackCompetitr(StoreID,"13","Other Banded Rice","1","1");//1 here is Sstat
-                        dbengine.close();
-                        dialog.dismiss();
-                        VideoPageOpenOrProductOrderPageOpen();
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
 
+                    AlertDialog dialog=alert.create();
+                    dialog.show();
+                }
+                else
+                {
+                    dbengine.updateCmpttrRetailerAllowed(StoreID,0);
+                    intentToPicSctn2();
+                }
 
-                           /* Intent intent = new Intent(FeedbackCompetitorActivity.this, LastVisitDetails.class);
-                            intent.putExtra("storeID", StoreID);
-                            intent.putExtra("imei", imei);
-                            intent.putExtra("userdate", date);
-                            intent.putExtra("pickerDate", pickerDate);
-                            intent.putExtra("SN", SN);
-                            startActivity(intent);
-                            finish();*/
-
-
-                    }
-                });
-
-                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-
-                AlertDialog dialog=alert.create();
-                dialog.show();
             }
         });
     }
 
-    void createViews()
+    public void intentToPicSctn2()
     {
+        if((isStockAvlbl==1) && (dbengine.getStockRetailerAllowed(StoreID)==1))
+        {
+            Intent nxtP4 = new Intent(FeedbackCompetitorActivity.this,PicClkdAfterStock.class);
+            nxtP4.putExtra("storeID",StoreID );
+            nxtP4.putExtra("SN", SN);
+            nxtP4.putExtra("imei", imei);
+            nxtP4.putExtra("userdate", date);
+            nxtP4.putExtra("pickerDate", pickerDate);
+            nxtP4.putExtra("flgOrderType", 1);
+            nxtP4.putExtra("isStockAvlbl", isStockAvlbl);
+            nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+
+            startActivity(nxtP4);
+            finish();
+        }
+
+        else
+        {
+            VideoPageOpenOrProductOrderPageOpen();
+        }
+
+    }
+
+    void createViews(boolean isRetailerAllowed)
+    {
+        ll_parent.removeAllViews();
         LayoutInflater inflater1 = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
-        for(Map.Entry<String,String> entry:hmapCatIdAndDesc.entrySet())
+        for(Map.Entry<String,ArrayList<String>> entry:hmapCatIdAndCmpttrDtl.entrySet())
         {
             View view_template = inflater1.inflate(R.layout.template_feedbckcmp, null);
 
             TextView txt_catName= (TextView) view_template.findViewById(R.id.txt_catName);
-            txt_catName.setText(entry.getValue());
-            
+            txt_catName.setText(entry.getKey().split(Pattern.quote("^"))[1]);
+           final String catId=entry.getKey().split(Pattern.quote("^"))[0];
             final LinearLayout ll_CatTempltParent= (LinearLayout) view_template.findViewById(R.id.ll_CatTempltParent);
             ll_CatTempltParent.setTag(entry.getKey()+"_ll"); //tag- catID_ll
 
-            ArrayList<String> list_prdctID=hmapCatIdAndPrdctId.get(entry.getKey());
-            for(int i=0;i<list_prdctID.size();i++)
+            ArrayList<String> list_compttrDtl=entry.getValue();
+            for(final String cmpptr:list_compttrDtl)
             {
-                String prdctDesc=hmapPrdctIdAndName.get(list_prdctID.get(i));
-
                 View view_row= inflater1.inflate(R.layout.custom_row, null);
 
-                CheckBox cb_CompBox= (CheckBox) view_row.findViewById(R.id.cb_CompBox);
-                cb_CompBox.setTag(entry.getKey()+"_"+list_prdctID.get(i)+"_cb");//tag- catID_prdctID_cb
+                final CheckBox cb_CompBox= (CheckBox) view_row.findViewById(R.id.cb_CompBox);
+                cb_CompBox.setTag(cmpptr+"~"+catId);//tag- catID_prdctID_cb
 
                 TextView txt_CompName= (TextView) view_row.findViewById(R.id.txt_CompName);
-                txt_CompName.setTag(entry.getKey()+"_"+list_prdctID.get(i)+"_text"); //tag- catID_prdctID_text
-                txt_CompName.setText(prdctDesc);
+               //tag- catID_prdctID_text
+                txt_CompName.setText(cmpptr.split(Pattern.quote("^"))[1]);
 
-                if(hmapSavedCompetitrData != null && hmapSavedCompetitrData.size()>0)
+                LinearLayout ll_prdctDetail= (LinearLayout) view_row.findViewById(R.id.ll_prdctDetail);
+
+
+
+                if((hmapCmpttrIddAndPrdctDtl!=null) && (hmapCmpttrIddAndPrdctDtl.size()>0))
                 {
-                    if(hmapSavedCompetitrData.containsKey(list_prdctID.get(i)))
+                    if(hmapCmpttrIddAndPrdctDtl.containsKey(cmpptr))
                     {
-                        cb_CompBox.setChecked(true);
-                    }
-                    else
-                    {
-                        cb_CompBox.setChecked(false);
+
+                            ArrayList<String> listPrdct=hmapCmpttrIddAndPrdctDtl.get(cmpptr);
+
+                            if((listPrdct!=null) && (listPrdct.size()>0) && (listPrdct.get(0)!=null))
+                            {
+                                View view_PrdctGrid= inflater1.inflate(R.layout.prdctdetail_grid, null);
+                                ExpandableHeightGridView expandableHeightGridView= (ExpandableHeightGridView) view_PrdctGrid.findViewById(R.id.expandable_gridview);
+                                expandableHeightGridView.setExpanded(true);
+                                ImageProductAdapter  adapterImage = new ImageProductAdapter(this,listPrdct,hmapPrdctImgPath,cmpptr+"~"+catId,hmapSavedCompetitrData,isRetailerAllowed);
+
+                                expandableHeightGridView.setAdapter(adapterImage);
+
+                                ll_prdctDetail.addView(view_PrdctGrid);
+                            }
+                            else
+                            {
+
+                                cb_CompBox.setVisibility(View.VISIBLE);
+                                if(isRetailerAllowed)
+                                {
+                                    cb_CompBox.setEnabled(true);
+                                }
+                                else
+                                {
+                                    cb_CompBox.setChecked(false);
+                                    cb_CompBox.setEnabled(false);
+                                }
+                                if(hmapSavedCompetitrData.containsKey("0^NA~"+cb_CompBox.getTag().toString()))
+                                {
+                                    cb_CompBox.setChecked(true);
+                                }
+                                cb_CompBox.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        CheckBox checkBox=(CheckBox)v;
+                                        String tag="0^NA~"+checkBox.getTag().toString();
+                                        if(cb_CompBox.isChecked())
+                                        {
+                                             chkBox_Rtailer.setEnabled(false);
+
+                                            hmapSavedCompetitrData.put(tag,"1");
+                                        }
+                                        else
+                                        {
+                                            if(hmapSavedCompetitrData.containsKey(tag))
+                                            {
+                                                hmapSavedCompetitrData.remove(tag);
+                                                if(hmapSavedCompetitrData.size()<1)
+                                                {
+                                                    chkBox_Rtailer.setEnabled(true);
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+
+
                     }
                 }
 
-                cb_CompBox.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        String catID=v.getTag().toString().trim().split(Pattern.quote("_"))[0];
-                        String prdctID=v.getTag().toString().trim().split(Pattern.quote("_"))[1];
-
-                        String prdctName="";
-
-                        TextView compText= (TextView) ll_parent.findViewWithTag(catID+"_"+prdctID+"_text");
-                        if(compText != null)
-                        {
-                            prdctName=compText.getText().toString().trim();
-                        }
-
-                        CheckBox cb= (CheckBox) v;
-                        if(cb.isChecked())
-                        {
-                            hmapSavedCompetitrData.put(prdctID,catID+"^"+prdctName);
-                        }
-                        else
-                        {
-                            hmapSavedCompetitrData.remove(prdctID);
-                        }
-                    }
-                });
 
                 ll_CatTempltParent.addView(view_row);
             }
@@ -252,17 +352,52 @@ public class FeedbackCompetitorActivity extends BaseActivity
             @Override
             public void onClick(View v) {
 
-
-  Intent intent=new Intent(FeedbackCompetitorActivity.this,ActualVisitStock.class);
+        if((isStockAvlbl==1) && (dbengine.getStockRetailerAllowed(StoreID)==1))
+        {
+            Intent intent=new Intent(FeedbackCompetitorActivity.this,ActualVisitStock.class);
             intent.putExtra("storeID", StoreID);
             intent.putExtra("imei", imei);
             intent.putExtra("userdate", date);
             intent.putExtra("pickerDate", pickerDate);
-           intent.putExtra("SN", SN);
+            intent.putExtra("SN", SN);
+            intent.putExtra("isStockAvlbl", isStockAvlbl);
+            intent.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+
+            startActivity(intent);
+            finish();
+        }
+        else if((isStockAvlbl==1) && (dbengine.getStockRetailerAllowed(StoreID)==0))
+        {
+            Intent nxtP4 = new Intent(FeedbackCompetitorActivity.this,PicClkBfrStock.class);
+            nxtP4.putExtra("storeID", StoreID);
+            nxtP4.putExtra("SN", SN);
+            nxtP4.putExtra("imei", imei);
+            nxtP4.putExtra("userdate", date);
+            nxtP4.putExtra("pickerDate", pickerDate);
+            nxtP4.putExtra("flgOrderType", 1);
+            nxtP4.putExtra("isStockAvlbl", isStockAvlbl);
+            nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
+            startActivity(nxtP4);
+            finish();
+        }
+
+        else
+        {
+            Intent ready4GetLoc = new Intent(FeedbackCompetitorActivity.this,StockCheckAndCmpttrAvilable.class);
+            //enableGPSifNot();
+
+            ready4GetLoc.putExtra("storeID", StoreID);
+            ready4GetLoc.putExtra("selStoreName", SN);
+            ready4GetLoc.putExtra("imei", imei);
+            ready4GetLoc.putExtra("userDate", date);
+            ready4GetLoc.putExtra("pickerDate", pickerDate);
 
 
-    startActivity(intent);
-    finish();
+            startActivity(ready4GetLoc);
+            finish();
+
+        }
+
 
 
 
@@ -329,6 +464,8 @@ public class FeedbackCompetitorActivity extends BaseActivity
         }
     }
     public void passIntentToProductOrderFilter(){
+
+
         Intent nxtP4 = new Intent(FeedbackCompetitorActivity.this,ProductOrderFilterSearch.class);
         //Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
         nxtP4.putExtra("storeID", StoreID);
@@ -340,4 +477,132 @@ public class FeedbackCompetitorActivity extends BaseActivity
         startActivity(nxtP4);
         finish();
     }
+
+
+    @Override
+    public void checkedUncheckedPrdct(boolean isChecked,String tagChkdPrdct) {
+        if(isChecked)
+        {
+            chkBox_Rtailer.setEnabled(false);
+            hmapSavedCompetitrData.put(tagChkdPrdct,"1");
+        }
+        else
+        {
+            if( hmapSavedCompetitrData.containsKey(tagChkdPrdct))
+            {
+                hmapSavedCompetitrData.remove(tagChkdPrdct);
+                if(hmapSavedCompetitrData.size()<1)
+                {
+                    chkBox_Rtailer.setEnabled(true);
+                }
+            }
+        }
+
+    }
+
+
+    public void disableAllCheckBox(String message)
+    {
+
+            pDialog2STANDBYabhi=ProgressDialog.show(FeedbackCompetitorActivity.this,getText(R.string.genTermPleaseWaitNew) ,message, false,true);
+            myThread = new Thread(myRunnable);
+            myThread.setPriority(Thread.MAX_PRIORITY);
+            myThread.start();
+
+
+    }
+    Runnable myRunnable = new Runnable(){
+
+        @Override
+        public void run() {
+
+            runOnUiThread(new Runnable(){
+
+                @Override
+                public void run() {
+
+
+                    new CountDownTimer(2000, 1000) {
+
+                        public void onTick(long millisUntilFinished) {
+                            if(pDialog2STANDBYabhi != null && pDialog2STANDBYabhi.isShowing())
+                            {
+                                pDialog2STANDBYabhi.setCancelable(false);
+
+                            }
+                        }
+
+                        public void onFinish() {
+
+                            new IAmABackgroundTask().execute();
+
+                        }
+                    }.start();
+
+
+
+
+
+
+
+                }
+
+            });
+
+        }
+    };
+
+    class IAmABackgroundTask extends
+            AsyncTask<String, Integer, Boolean> {
+
+
+        @SuppressWarnings("static-access")
+        @Override
+        protected void onPreExecute() {
+            createViews(isRetailerAllowedToDo);
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+
+            fnAbhinav(1000);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+
+            return true;
+
+        }
+
+    }
+
+    public void countUp(int start)
+    {
+
+        if(pDialog2STANDBYabhi != null && pDialog2STANDBYabhi.isShowing())
+        {
+
+            pDialog2STANDBYabhi.setTitle("My Name Abhinav");
+            pDialog2STANDBYabhi.setCancelable(true);
+            pDialog2STANDBYabhi.cancel();
+            pDialog2STANDBYabhi.dismiss();
+
+        }
+
+        else
+        {
+            countUp(start + 1);
+        }
+    }
+
+
+    public void fnAbhinav(int mytimeval)
+    {
+        countUp(1);
+    }
+
 }

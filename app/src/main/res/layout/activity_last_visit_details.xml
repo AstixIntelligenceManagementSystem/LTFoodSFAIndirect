@@ -195,7 +195,7 @@
 				<Button
 					android:id="@+id/txt_visitDate_Details"
 					android:layout_width="wrap_content"
-					android:layout_height="35dp"
+					android:layout_height="wrap_content"
 					android:layout_marginBottom="5dp"
 					android:layout_marginLeft="65dp"
 					android:layout_marginTop="5dp"
@@ -285,7 +285,7 @@
 				<Button
 					android:id="@+id/txt_execution_Details"
 					android:layout_width="wrap_content"
-					android:layout_height="35dp"
+					android:layout_height="wrap_content"
 					android:layout_alignBaseline="@id/txt_execution_Value"
 					android:layout_alignLeft="@id/txt_orderDate_Details"
 					android:layout_below="@id/txt_orderDate_Details"
@@ -302,12 +302,12 @@
 
 			</RelativeLayout>
 
-			<LinearLayout
+		<!--	<LinearLayout
 				android:id="@+id/ll_prdctDetails"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_below="@id/rl_LastVisitDetails"
-
+				android:visibility="gone"
 				android:layout_marginLeft="10dp"
 				android:layout_marginRight="10dp"
 				android:layout_marginTop="10dp"
@@ -331,6 +331,7 @@
 					android:layout_height="wrap_content"
 					android:layout_marginBottom="10dp"
 					android:layout_marginTop="0dp"
+
 					android:background="@drawable/shadow_with_5dp"
 					android:orientation="vertical"
 					android:padding="8dp">
@@ -434,12 +435,12 @@
 				</LinearLayout>
 
 
-			</LinearLayout>
+			</LinearLayout>-->
 			<LinearLayout
 				android:id="@+id/ll_gstDetails"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@id/rl_LastVisitDetails"
+				android:layout_below="@+id/rl_LastVisitDetails"
 				android:visibility="gone"
 				android:layout_marginLeft="10dp"
 				android:layout_marginRight="10dp"
@@ -577,7 +578,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
-				android:layout_below="@id/ll_prdctDetails"
+				android:layout_below="@id/rl_LastVisitDetails"
 				android:layout_marginLeft="15dp"
 				android:layout_marginTop="5dp"
 				android:text="Outstanding Details :"
@@ -1352,13 +1353,13 @@
 		android:layout_alignParentBottom="true"
 		android:layout_gravity="center_vertical"
 		android:layout_marginBottom="5dp"
-		android:layout_marginLeft="25dp"
+		android:layout_marginLeft="16dp"
 
-		android:layout_marginRight="25dp"
+		android:layout_marginRight="16dp"
 		android:layout_marginTop="5dp"
 		android:gravity="center"
 		android:orientation="horizontal"
-		android:weightSum="4">
+		android:weightSum="3">
 
 		<Button
 			android:id="@+id/but_Competitor"
@@ -1389,7 +1390,7 @@
 			android:id="@+id/nxtP4"
 			android:layout_width="0dip"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="10dp"
+			android:layout_marginLeft="5dp"
 			android:layout_weight="1"
 			android:background="@drawable/custom_button"
 
@@ -1400,10 +1401,10 @@
 			android:id="@+id/btn_Cancel"
 			android:layout_width="0dip"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="10dp"
+
 			android:layout_weight="1"
 			android:background="@drawable/custom_button"
-
+			android:layout_marginLeft="5dp"
 			android:text="Cancel"
 			android:textColor="#ffffff" />
 	</LinearLayout>

@@ -65,4 +65,9 @@
     <color name="radioBtnKg">#0288D1</color>
 
     <color name="blue">#965418</color>
+    <color name="incentaiveRed">#FF0000</color>
+    <color name="incentaiveLightOrange">#FFC000</color>
+    <color name="incentaiveLightGreen">#C2CE4E</color>
+    <color name="incentaiveDeepGreen">#00B050</color>
+    <color name="incentivegrey">#E8E8E8</color>
 </resources>

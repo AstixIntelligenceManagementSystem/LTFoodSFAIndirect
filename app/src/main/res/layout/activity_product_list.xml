@@ -447,9 +447,10 @@ android:visibility="gone"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:gravity="center"
-                android:textColor="#ffffff"
+
                 android:text="Save &amp; Exit"
                 android:textSize="14sp"
+                android:textColor="#ffffff"
                 android:background="@drawable/custom_button"/>
             <Button
                 android:id="@+id/btn_sbmt"

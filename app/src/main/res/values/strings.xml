@@ -1,11 +1,11 @@
 <resources>
 
-    <!--<string name="app_name">GTFieldOperations</string>-->
+ <string name="app_name">GTFieldOperations</string>
     <!-- <string name="app_name">GTFieldOperations Stagging</string>-->
     <!-- <string name="app_name">GTFieldOperations Test</string>-->
     <!--  <string name="app_name">GTFieldOperations Dev</string>-->
     ,
-      <string name="app_name">GTFieldOperations Test Release</string>
+   <!-- <string name="app_name">GTFieldOperations Test Release</string>-->
 
     <string name="AlertDialogHeaderErrorMsg">Error</string>
 
@@ -527,6 +527,9 @@
 
     <string name="txtAddStore">Add Store</string>
     <string name="OrderTypeActualVisitHeader">Store Check</string>
+    <string name="picSctn1">Before Stock Check</string>
+    <string name="picSctn2">After Stock Check</string>
+    <string name="displayItemPic">POSM(Poster/ Dangler/Bunting/ Rack etc)</string>
     <string name="TodayStock">Stock Today</string>
     <string name="stockAsOn">Stock On </string>
     <string name="store_call">Store Call</string>

@@ -119,7 +119,13 @@ public class LocationRetreivingGlobal implements LocationListener,GoogleApiClien
                 | PowerManager.ACQUIRE_CAUSES_WAKEUP
                 | PowerManager.ON_AFTER_RELEASE, "INFO");
         wl.acquire();
-
+        if(pDialog2STANDBY!=null)
+        {
+            if(pDialog2STANDBY.isShowing())
+            {
+                pDialog2STANDBY.dismiss();
+            }
+        }
 
         pDialog2STANDBY = ProgressDialog.show(context, context.getText(R.string.genTermPleaseWaitNew), context.getText(R.string.rtrvng_loc), true);
         pDialog2STANDBY.setIndeterminate(true);
@@ -735,7 +741,7 @@ else{
             if (addresses != null && addresses.size() > 0){
                 if(addresses.get(0).getAddressLine(1)!=null){
                     addr=addresses.get(0).getAddressLine(1);
-                    address=addr;
+
                 }
 
                 if(addresses.get(0).getLocality()!=null){
@@ -765,6 +771,7 @@ else{
                     }
 
                     addr=  getAddressNewWay(addresses.get(0).getAddressLine(0),city,state,zipcode,countryname);
+                    address=addr;
                 }
 
               /*  NewStoreFormSO recFragment = (NewStoreFormSO)getFragmentManager().findFragmentByTag("NewStoreFragment");

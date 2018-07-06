@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+
+
+   <project.astix.com.ltfoodsfaindirect.ExpandableHeightGridView
+        android:id="@+id/expandable_gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/btn_camera"
+        android:numColumns="3"
+        android:columnWidth="75dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:gravity="center"
+        android:stretchMode="columnWidth"/>
+
+
+
+</LinearLayout>
