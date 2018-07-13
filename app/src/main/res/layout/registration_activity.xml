@@ -423,6 +423,36 @@ android:id="@+id/textDob"
                             android:layout_margin="5dp"
                             android:textSize="13sp"
 
+                            android:text="Email ID"
+                            android:textColor="#cf6f16"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content" />
+                        <EditText
+                            android:layout_width="0dp"
+                            android:background="@drawable/edittex_with_white_background"
+                            android:padding="2dp"
+                            android:textColor="#000"
+                            android:id="@+id/ed_EmailID"
+                            android:layout_margin="5dp"
+                            android:gravity="center"
+
+                            android:textSize="13sp"
+                            android:layout_weight="1"
+
+
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:textSize="13sp"
+
                             android:text="DOB"
                             android:textColor="#cf6f16"
                             android:textStyle="bold"

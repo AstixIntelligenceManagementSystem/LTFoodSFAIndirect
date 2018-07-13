@@ -19105,6 +19105,7 @@ String RouteType="0";
 				String flgUPIID="0";
 				String UPIID="0";
 				String SelfieNameURL="0";
+				String EmailId="0";
 
 
 
@@ -19217,6 +19218,13 @@ String RouteType="0";
 					{
 						SelfieNameURL=xmlParser.getCharacterDataFromElement(line);
 					}}
+				if(!element.getElementsByTagName("EmailId").equals(null)) {
+					NodeList EmailIdNode = element.getElementsByTagName("EmailId");
+					Element	line = (Element) EmailIdNode.item(0);
+					if(EmailIdNode.getLength()>0)
+					{
+						EmailId=xmlParser.getCharacterDataFromElement(line);
+					}}
 
 				if(SelfieNameURL!=null && SelfieName!=null){
 					if((!SelfieNameURL.equals("")) && (!SelfieName.equals("")) && (!SelfieNameURL.equals("0")) && (!SelfieName.equals("0"))){
@@ -19224,7 +19232,7 @@ String RouteType="0";
 					}
 				}
 
-				dbengine.savetblDsrRegDetails(PersonNodeId,PersonNodeType,Name,ContactNo,DOB_string,SelfieName,SignImgName,BankAccountnumber,BankID,IFSCCode,flgUPIID,UPIID,SelfieNameURL);
+				dbengine.savetblDsrRegDetails(PersonNodeId,PersonNodeType,Name,ContactNo,DOB_string,SelfieName,SignImgName,BankAccountnumber,BankID,IFSCCode,flgUPIID,UPIID,SelfieNameURL,EmailId);
 
 			}
 
@@ -19382,6 +19390,7 @@ String RouteType="0";
 				String flgUPIID="0";
 				String UPIID="0";
 				String SelfieNameURL="0";
+				String EmailId="0";
 
 
 
@@ -19494,6 +19503,13 @@ String RouteType="0";
 					{
 						SelfieNameURL=xmlParser.getCharacterDataFromElement(line);
 					}}
+				if(!element.getElementsByTagName("EmailId").equals(null)) {
+					NodeList EmailIdNode = element.getElementsByTagName("EmailId");
+					Element	line = (Element) EmailIdNode.item(0);
+					if(EmailIdNode.getLength()>0)
+					{
+						EmailId=xmlParser.getCharacterDataFromElement(line);
+					}}
 
 				if(SelfieNameURL!=null && SelfieName!=null){
 					if((!SelfieNameURL.equals("")) && (!SelfieName.equals("")) && (!SelfieNameURL.equals("0")) && (!SelfieName.equals("0"))){
@@ -19502,7 +19518,7 @@ String RouteType="0";
 				}
 
 
-				dbengine.savetblDsrRegDetails(PersonNodeId,PersonNodeType,Name,ContactNo,DOB_string,SelfieName,SignImgName,BankAccountnumber,BankID,IFSCCode,flgUPIID,UPIID,SelfieNameURL);
+				dbengine.savetblDsrRegDetails(PersonNodeId,PersonNodeType,Name,ContactNo,DOB_string,SelfieName,SignImgName,BankAccountnumber,BankID,IFSCCode,flgUPIID,UPIID,SelfieNameURL,EmailId);
 
 			}
 

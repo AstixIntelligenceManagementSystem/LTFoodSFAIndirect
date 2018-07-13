@@ -11,6 +11,7 @@
             android:adjustViewBounds="true"
             android:src="@drawable/kohinoor_basmati_rice"
             android:layout_width="match_parent"
+            android:layout_gravity="center"
             android:layout_height="75dp"
             />
         <View

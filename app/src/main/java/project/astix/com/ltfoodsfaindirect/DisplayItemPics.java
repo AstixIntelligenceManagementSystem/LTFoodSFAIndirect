@@ -410,7 +410,7 @@ public class DisplayItemPics extends AppCompatActivity implements InterfaceClass
 
 
                         LocationRetreivingGlobal llaaa=new LocationRetreivingGlobal();
-                        llaaa.locationRetrievingAndDistanceCalculating(DisplayItemPics.this);
+                        llaaa.locationRetrievingAndDistanceCalculating(DisplayItemPics.this,false,50);
 
 
                     }

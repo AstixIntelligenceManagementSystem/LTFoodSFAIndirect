@@ -16,6 +16,9 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -108,49 +111,70 @@ class ImageProductAdapter extends BaseAdapter
         holder.tv_prdctName.setTag(productIdTag.get(position)+"~"+tagToSet);
         if(hmapPrdctImgPath.containsKey(productIdTag.get(position).split(Pattern.quote("^"))[0]))
         {
-            Bitmap bitmap= ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(hmapPrdctImgPath.get(productIdTag.get(position).split(Pattern.quote("^"))[0])),120,120);
+			holder.img_prdct.setTag(hmapPrdctImgPath.get(productIdTag.get(position).split(Pattern.quote("^"))[0]));
+			Uri uri = Uri.fromFile(new File(hmapPrdctImgPath.get(productIdTag.get(position).split(Pattern.quote("^"))[0])));
+
+			Picasso.get().load(uri).resize(96,96).error(R.drawable.image_not_found).centerCrop().into(holder.img_prdct, new Callback() {
+				@Override
+				public void onSuccess() {
+					if(isRetailerAllowed)
+					{
+						holder.img_prdct.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								Intent intent = new Intent();
+								intent.setAction(Intent.ACTION_VIEW);
+								String filePathName=v.getTag().toString();
+								if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+								{
+									intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+									if(filePathName.contains("file:")){
+										filePathName=filePathName.replace("file:","");
+									}
+
+									File file = new File(filePathName);
+									Uri intentUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
+									intent.setDataAndType(intentUri, "image/*");
+									context.startActivity(intent);
+
+								}
+								else{
+
+									//	Uri intentUri = Uri.parse(filePathName);
+
+									Uri intentUri = Uri.fromFile(new  File(filePathName));
+									intent.setDataAndType(intentUri, "image/*");
+									context.startActivity(intent);
+								}
+
+							}
+						});
+					}
+				}
+
+				@Override
+				public void onError(Exception e) {
+					holder.img_prdct.setOnClickListener(null);
+
+				}
+			});
+			/*Picasso.with(context).load(uri)
+					.resize(96, 96).centerCrop().into(holder.img_prdct);
+			holder.img_prdct.setTag(hmapPrdctImgPath.get(productIdTag.get(position).split(Pattern.quote("^"))[0]));*/
+           /* Bitmap bitmap= ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(hmapPrdctImgPath.get(productIdTag.get(position).split(Pattern.quote("^"))[0])),120,120);
             if(bitmap!=null)
             {
                 holder.img_prdct.setImageBitmap(bitmap);
-				holder.img_prdct.setTag(hmapPrdctImgPath.get(productIdTag.get(position).split(Pattern.quote("^"))[0]));
-            }
+
+            }*/
         }
 		 System.out.println("Picture Bitmap "+position);
 
 
 		if(isRetailerAllowed)
 		{
-			holder.img_prdct.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent();
-					intent.setAction(Intent.ACTION_VIEW);
-					String filePathName=v.getTag().toString();
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-					{
-						intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-						if(filePathName.contains("file:")){
-							filePathName=filePathName.replace("file:","");
-						}
-
-						File file = new File(filePathName);
-						Uri intentUri = FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
-						intent.setDataAndType(intentUri, "image/*");
-						context.startActivity(intent);
-
-					}
-					else{
-
-					//	Uri intentUri = Uri.parse(filePathName);
-
-						Uri intentUri = Uri.fromFile(new  File(filePathName));
-						intent.setDataAndType(intentUri, "image/*");
-						context.startActivity(intent);
-					}
-
-				}
-			});
 			if((hmapSavedCompetitrData!=null) && (hmapSavedCompetitrData.containsKey(productIdTag.get(position)+"~"+tagToSet)))
 			{
 				holder.tv_prdctName.setChecked(true);

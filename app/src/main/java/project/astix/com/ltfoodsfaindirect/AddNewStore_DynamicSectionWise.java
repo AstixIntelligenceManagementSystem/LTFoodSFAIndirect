@@ -1133,7 +1133,7 @@ if(flgCheckNewOldStore==1)
                             helperDb.close();
 
                             LocationRetreivingGlobal llaaa=new LocationRetreivingGlobal();
-                            llaaa.locationRetrievingAndDistanceCalculating(AddNewStore_DynamicSectionWise.this);
+                            llaaa.locationRetrievingAndDistanceCalculating(AddNewStore_DynamicSectionWise.this ,true,20);
 
 
                            // FullSyncDataNow task = new FullSyncDataNow(AddNewStore_DynamicSectionWise.this);

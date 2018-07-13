@@ -834,7 +834,7 @@ private static final String DATABASE_TABLE_tblProductListLastVisitStockOrOrderMs
 
 	//Registration
 	private static final String DATABASE_TABLE_tblRegistrationDetail = "tblRegistrationDetail";
-	private static final String DATABASE_CREATE_RegistrationDetail= "create table tblRegistrationDetail (RecordId text null,ClickedDateTime text null,PhotoName text null,PDAPhotoPath text null,SignName text null,SignPath text null,Sstat integer null,Name text null,ContactNo text null,DOB text null,AccNo text null,BankID text null,IFSC text null,UPIID_Flag text null,UPIID_text text null,IMEI text null,NodeID text null,NodeType text null);";
+	private static final String DATABASE_CREATE_RegistrationDetail= "create table tblRegistrationDetail (RecordId text null,ClickedDateTime text null,PhotoName text null,PDAPhotoPath text null,SignName text null,SignPath text null,Sstat integer null,Name text null,ContactNo text null,DOB text null,AccNo text null,BankID text null,IFSC text null,UPIID_Flag text null,UPIID_text text null,IMEI text null,NodeID text null,NodeType text null,EmailID text null);";
 
 	//account census
 	private static final String DATABASE_TABLE_tblDAGetAddedOutletSummaryReport = "tblDAGetAddedOutletSummaryReport";
@@ -844,7 +844,7 @@ private static final String DATABASE_TABLE_tblProductListLastVisitStockOrOrderMs
 	private static final String DATABASE_CREATE_TABLE_tblUserRegistarationStatus = "create table tblUserRegistarationStatus (Flag text null,MsgToDisplay text null);";
 
 	private static final String TABLE_tblDSMRegDetailsFromServer = "tblDSMRegDetailsFromServer";
-	private static final String DATABASE_CREATE_TABLE_tblDSMRegDetailsFromServer = "create table tblDSMRegDetailsFromServer (PersonNodeId text null,  PersonNodeType text null,Name text null,ContactNo text null,DOB text null,SelfieName text null,SignImgName text null,BankAccountnumber text null,BankID text null,IFSCCode text null,flgUPIID text null,UPIID text null,SelfieNameURL text null);";
+	private static final String DATABASE_CREATE_TABLE_tblDSMRegDetailsFromServer = "create table tblDSMRegDetailsFromServer (PersonNodeId text null,  PersonNodeType text null,Name text null,ContactNo text null,DOB text null,SelfieName text null,SignImgName text null,BankAccountnumber text null,BankID text null,IFSCCode text null,flgUPIID text null,UPIID text null,SelfieNameURL text null,EmailID text null);";
 
 
 	private final Context context;
@@ -29638,7 +29638,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 			// Log.e(TAG, ex.toString());
 		}
 	}
-	public void inserttblProfilePhotoSignDetail(String RecordId,String ClickedDateTime,String PhotoName,String PDAPhotoPath,String SignName,String SignPath,String Name,String ContactNo,String DOB,String AccNo,String BankID,String IFSC,String UPIID_Flag,String UPIID_text,String IMEI,String NodeID,String NodeType)
+	public void inserttblProfilePhotoSignDetail(String RecordId,String ClickedDateTime,String PhotoName,String PDAPhotoPath,String SignName,String SignPath,String Name,String ContactNo,String DOB,String AccNo,String BankID,String IFSC,String UPIID_Flag,String UPIID_text,String IMEI,String NodeID,String NodeType,String EmailID)
 	{
 		//tblProfileData(DBId text null,DOId text null,QuestId text null,SectionID text null,QuestDesc text null);";
 // private static final String DATABASE_CREATE_tblProfileData= "create table tblProfileData(DBId text null,DOId text null,QuestId text null,QuestDesc text null,ControlType text null);";
@@ -29667,6 +29667,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 		initialValues.put("NodeID", NodeID.trim());
 		initialValues.put("NodeType", NodeType.trim());
 		initialValues.put("Sstat", 3);
+        initialValues.put("EmailID", EmailID.trim());
 
 
 
@@ -29863,13 +29864,13 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 		open();
 
 		try {                                   //0             1                         2                      3               4                       5                    6              7                         8                9                  10                    11                12                   13                 14                 15                        16           17                      18
-			Cursor cursor = db.rawQuery("SELECT IFNULL(Name,0),IFNULL(ContactNo,0),IFNULL(DOB,0),IFNULL(SelfieName,0),IFNULL(SignImgName,0),IFNULL(BankAccountnumber,0),IFNULL(BankID,0),IFNULL(IFSCCode,0),IFNULL(flgUPIID,0),IFNULL(UPIID,0),IFNULL(PersonNodeId,0),IFNULL(PersonNodeType,0),IFNULL(SelfieNameURL,0) from tblDSMRegDetailsFromServer   ", null);// Where PNodeID='"+TSIID+"'
+			Cursor cursor = db.rawQuery("SELECT IFNULL(Name,0),IFNULL(ContactNo,0),IFNULL(DOB,0),IFNULL(SelfieName,0),IFNULL(SignImgName,0),IFNULL(BankAccountnumber,0),IFNULL(BankID,0),IFNULL(IFSCCode,0),IFNULL(flgUPIID,0),IFNULL(UPIID,0),IFNULL(PersonNodeId,0),IFNULL(PersonNodeType,0),IFNULL(SelfieNameURL,0),IFNULL(EmailId,0) from tblDSMRegDetailsFromServer   ", null);// Where PNodeID='"+TSIID+"'
 			if(cursor.getCount()>0)
 			{
 				if (cursor.moveToFirst())
 				{
 					for (int i = 0; i <= (cursor.getCount() - 1); i++) {
-						hmapQuestionMstr.put("DSRDETAILS",(String) cursor.getString(0).toString()+"^"+(String) cursor.getString(1).toString()+"^"+(String) cursor.getString(2).toString()+"^"+(String) cursor.getString(3).toString()+"^"+(String) cursor.getString(4).toString()+"^"+(String) cursor.getString(5).toString()+"^"+(String) cursor.getString(6).toString()+"^"+(String) cursor.getString(7).toString()+"^"+(String) cursor.getString(8).toString()+"^"+(String) cursor.getString(9).toString()+"^"+(String) cursor.getString(10).toString()+"^"+(String) cursor.getString(11).toString()+"^"+(String) cursor.getString(12).toString());
+						hmapQuestionMstr.put("DSRDETAILS",(String) cursor.getString(0).toString()+"^"+(String) cursor.getString(1).toString()+"^"+(String) cursor.getString(2).toString()+"^"+(String) cursor.getString(3).toString()+"^"+(String) cursor.getString(4).toString()+"^"+(String) cursor.getString(5).toString()+"^"+(String) cursor.getString(6).toString()+"^"+(String) cursor.getString(7).toString()+"^"+(String) cursor.getString(8).toString()+"^"+(String) cursor.getString(9).toString()+"^"+(String) cursor.getString(10).toString()+"^"+(String) cursor.getString(11).toString()+"^"+(String) cursor.getString(12).toString()+"^"+(String) cursor.getString(13).toString());
 						//    System.out.println("QuestID:"+(String)cursor.getString(0).toString()+"QuestCode:"+(String) cursor.getString(1).toString()+"QuestDesc:"+(String) cursor.getString(2).toString()+"QuestType:"+(String) cursor.getString(3).toString()+"AnsControlType:"+(String) cursor.getString(4).toString()+"AnsControlInputTypeID:"+(String) cursor.getString(5).toString()+"AnsControlInputTypeMaxLength:"+(String) cursor.getString(6).toString()+"AnsMustRequiredFlg:"+(String) cursor.getString(7).toString()+"QuestBundleFlg:"+(String) cursor.getString(8).toString()+"ApplicationTypeID:"+(String) cursor.getString(9).toString()+"Sequence:"+(String) cursor.getString(10).toString());
 						cursor.moveToNext();
 					}
@@ -29887,7 +29888,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 			return hmapQuestionMstr;
 		}
 	}
-	public long savetblDsrRegDetails(String PersonNodeId,String PersonNodeType,String Name,String ContactNo,String DOB,String SelfieName,String SignImgName,String BankAccountnumber,String BankID,String IFSCCode,String flgUPIID,String UPIID,String SelfieNameURL)
+	public long savetblDsrRegDetails(String PersonNodeId,String PersonNodeType,String Name,String ContactNo,String DOB,String SelfieName,String SignImgName,String BankAccountnumber,String BankID,String IFSCCode,String flgUPIID,String UPIID,String SelfieNameURL,String EmailID)
 	{
 
 		ContentValues initialValues = new ContentValues();
@@ -29904,6 +29905,7 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 		initialValues.put("flgUPIID", flgUPIID.trim());
 		initialValues.put("UPIID", UPIID.trim());
         initialValues.put("SelfieNameURL", SelfieNameURL.trim());
+        initialValues.put("EmailID", EmailID.trim());
 
 
 		return db.insert(TABLE_tblDSMRegDetailsFromServer, null, initialValues);

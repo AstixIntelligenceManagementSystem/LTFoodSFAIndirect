@@ -88,7 +88,7 @@ import java.util.regex.Pattern;
 public class RegistrationActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     View viewStoreLocDetail;
     LinearLayout ll_ImageToSet;
-    EditText ET_mobile_credential,ET_firstname,ET_lastname ,ET_contact_no,editText_emailID;
+    EditText ET_mobile_credential,ET_firstname,ET_lastname ,ET_contact_no,editText_emailID,ed_EmailID;
     public int chkFlgForErrorToCloseApp=0;
     public String newfullFileName;
    ScrollView scrollViewParentOfMap;
@@ -1419,6 +1419,10 @@ if(Totalfiles.length>0) {
     }
     public boolean validate()
     {
+       // String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String mail=ed_EmailID.getText().toString().trim();
         if(ed_Name.getText().toString().trim().equals("") )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
@@ -1429,6 +1433,14 @@ if(Totalfiles.length>0) {
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Enter Valid Contact No.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(!(ed_EmailID.getText().toString().trim().equals("")) && (!mail.matches(emailPattern)) )
+        {
+
+            Toast.makeText(getApplicationContext(), "Email ID is not valid", Toast.LENGTH_SHORT).show();
+
+
             return false;
         }
         else if(Text_Dob.getText().toString().trim().equals("Select Date")  )
@@ -2017,6 +2029,7 @@ if(Totalfiles.length>0) {
                     String IMEI_string=CommonInfo.imei;
                     String NAME_String="0";
                     String ContactNo_string="0";
+                    String EmailID_string="NA";
                     String DOB_string="0";
                     String AccNO_string="0";
                     String BankID="0";
@@ -2028,6 +2041,9 @@ if(Totalfiles.length>0) {
 
                     NAME_String=ed_Name.getText().toString().trim();
                     ContactNo_string=ed_ContactNo.getText().toString().trim();
+                    if(!ed_EmailID.getText().toString().trim().equals("")){
+                        EmailID_string=ed_EmailID.getText().toString().trim();
+                    }
                     DOB_string=Text_Dob.getText().toString().trim();
                     AccNO_string=ed_AccNo.getText().toString().trim();
                     if(hashmapBank!=null && hashmapBank.containsKey(spinner_Bank.getText().toString().trim())){
@@ -2047,12 +2063,12 @@ if(Totalfiles.length>0) {
                     //-------*******************************************************
                     dbengine.open();
                     // dbengine.deletetblRegistrationDetail();
-                    dbengine.inserttblProfilePhotoSignDetail(RecordId,photoClickedDateTime,globalImageName,globalImagePath,SignName_string,SignPath_string,NAME_String,ContactNo_string,DOB_string,AccNO_string,BankID,IFSC_string,UPI_ID_YesNO,UPIID_string,IMEI_string,PersonNodeId_string,PersonNodeType_string);
+                    dbengine.inserttblProfilePhotoSignDetail(RecordId,photoClickedDateTime,globalImageName,globalImagePath,SignName_string,SignPath_string,NAME_String,ContactNo_string,DOB_string,AccNO_string,BankID,IFSC_string,UPI_ID_YesNO,UPIID_string,IMEI_string,PersonNodeId_string,PersonNodeType_string,EmailID_string);
                   //  int count=    dbengine.CheckDataInRegistration();
 
                     dbengine.Delete_tblDsrRegDetails();
 
-                    dbengine.savetblDsrRegDetails(PersonNodeId_string,PersonNodeType_string,NAME_String,ContactNo_string,DOB_string,globalImageName,SignName_string,AccNO_string,BankID,IFSC_string,UPI_ID_YesNO,UPIID_string, SelfieNameURL);
+                    dbengine.savetblDsrRegDetails(PersonNodeId_string,PersonNodeType_string,NAME_String,ContactNo_string,DOB_string,globalImageName,SignName_string,AccNO_string,BankID,IFSC_string,UPI_ID_YesNO,UPIID_string, SelfieNameURL,EmailID_string);
                     dbengine.close();
 
                     String serverDateForSPref;
@@ -2163,6 +2179,7 @@ if(Totalfiles.length>0) {
         ed_ifsc=(EditText) findViewById(R.id.ed_ifsc);
         ed_UPIID=(EditText) findViewById(R.id.ed_UPIID);
         ed_ContactNo=(EditText) findViewById(R.id.ed_ContactNo);
+        ed_EmailID=(EditText) findViewById(R.id.ed_EmailID);
 
     }
     public void  RadioButtonInitialization(){
@@ -2365,7 +2382,7 @@ if(Totalfiles.length>0) {
             userNodeIdGlobal  =   DSR_All_DATA.split(Pattern.quote("^"))[10];
             userNodetypeGlobal=   DSR_All_DATA.split(Pattern.quote("^"))[11];
             SelfieNameURL=   DSR_All_DATA.split(Pattern.quote("^"))[12];
-
+            String EmailIDString=   DSR_All_DATA.split(Pattern.quote("^"))[13];
             if(!Name.equals("0")){
                 ed_Name.setText(Name);
                 ed_Name.setEnabled(false);
@@ -2373,6 +2390,10 @@ if(Totalfiles.length>0) {
             if(!ContactNo.equals("0")){
                 ed_ContactNo.setText(ContactNo);
                 ed_ContactNo.setEnabled(false);
+            }
+            if(!(EmailIDString.equals("0")) && (!EmailIDString.equals("NA"))){
+                ed_EmailID.setText(EmailIDString);
+                // ed_EmailID.setEnabled(false);//Gaurav sir told to always enable it
             }
             if(!DOB.equals("0")){
                 Text_Dob.setText(DOB);
@@ -2505,6 +2526,7 @@ if(Totalfiles.length>0) {
         ed_Name.setEnabled(true);
                 ed_ContactNo.setText("");
         ed_ContactNo.setEnabled(true);
+
         Text_Dob.setText("");
         Text_Dob.setEnabled(true);
                 ed_AccNo.setText("");
