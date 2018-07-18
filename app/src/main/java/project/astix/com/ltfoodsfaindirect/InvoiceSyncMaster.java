@@ -69,7 +69,7 @@ public class InvoiceSyncMaster extends Activity
 	ProgressDialog PDpicTasker;
 	public String whereTo;
 	public int IMGsyOK = 0;
-	 
+	public static String activityFrom="";
 	//ProgressDialog pDialog2;
 	InputStream inputStream;
 	ArrayList mSelectedItems = new ArrayList();
@@ -97,6 +97,7 @@ public class InvoiceSyncMaster extends Activity
 						submitStoreIntent.putExtra("imei", imei);
 						submitStoreIntent.putExtra("currSysDate", currSysDate);
 						submitStoreIntent.putExtra("pickerDate", pickerDate);
+						submitStoreIntent.putExtra("activityFrom", activityFrom);
 						startActivity(submitStoreIntent);
 						finish();
 						//SyncMaster.this.finish();
@@ -159,6 +160,7 @@ public class InvoiceSyncMaster extends Activity
 					submitStoreIntent.putExtra("imei", imei);
 					submitStoreIntent.putExtra("currSysDate", currSysDate);
 					submitStoreIntent.putExtra("pickerDate", pickerDate);
+						submitStoreIntent.putExtra("activityFrom", activityFrom);
 					startActivity(submitStoreIntent);
 					finish();		
 					/*destroyNcleanup(1);
@@ -521,9 +523,10 @@ private class SyncImgTasker extends AsyncTask<String, Void, Void> {
 						
 						else{*/
 						Intent submitStoreIntent = new Intent(InvoiceSyncMaster.this, InvoiceStoreSelection.class);
-						submitStoreIntent.putExtra("imei", imei);
-						submitStoreIntent.putExtra("currSysDate", currSysDate);
-						submitStoreIntent.putExtra("pickerDate", pickerDate);
+						submitStoreIntent.putExtra("imei",imei);
+						submitStoreIntent.putExtra("currSysDate",currSysDate);
+						submitStoreIntent.putExtra("pickerDate",pickerDate);
+						submitStoreIntent.putExtra("activityFrom",activityFrom);
 						startActivity(submitStoreIntent);
 						finish();
 						//}
@@ -878,7 +881,7 @@ private class SyncImgTasker extends AsyncTask<String, Void, Void> {
 		 xmlForWeb[0] = syncIntent.getStringExtra("xmlPathForSync");
 		zipFileName = syncIntent.getStringExtra("OrigZipFileName");
 		whereTo = syncIntent.getStringExtra("whereTo");
-		
+		activityFrom = syncIntent.getStringExtra("activityFrom");
 		mSelectedItems = syncIntent.getStringArrayListExtra("mSelectedItems");
 		//mSelectedItemsConfornInvoiceOrders = syncIntent.getStringArrayListExtra("mSelectedItemsConfornInvoiceOrders");
 		imei = syncIntent.getStringExtra("imei");

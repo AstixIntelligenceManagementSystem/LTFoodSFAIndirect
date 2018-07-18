@@ -111,6 +111,7 @@ LinearLayout ll_cancleremakrs;
 		//Button storeSaveOnly;//Only Save
 		public int syncClick = 0;
 		String StoreID="0";
+		String activityFrom="";
 		public String SelectStoreTag;
 		
 		
@@ -278,6 +279,7 @@ LinearLayout ll_cancleremakrs;
 		currSysDate = passedvals.getStringExtra("currSysDate");
 		pickerDate = passedvals.getStringExtra("pickerDate");
 		StoreID = passedvals.getStringExtra("StoreID");
+		activityFrom = passedvals.getStringExtra("activityFrom");
 		SelectStoreTag = passedvals.getStringExtra("SelectStoreTag");
 		spinnerRouteSelected=passedvals.getIntExtra("spinnerSlctd", 0);
 		spinnerDistSlctd=passedvals.getIntExtra("spnrDistSlctd", 0);
@@ -516,6 +518,7 @@ LinearLayout ll_cancleremakrs;
 								fireBackDetPg.putExtra("pickerDate", pickerDate);
 								fireBackDetPg.putExtra("spinnerSlctd", spinnerRouteSelected);
 								fireBackDetPg.putExtra("spnrDistSlctd", spinnerDistSlctd);
+								fireBackDetPg.putExtra("activityFrom", activityFrom);
 
 								startActivity(fireBackDetPg);
 								finish();
@@ -572,6 +575,7 @@ LinearLayout ll_cancleremakrs;
 				fireBackDetPg.putExtra("pickerDate", pickerDate);
 				fireBackDetPg.putExtra("spinnerSlctd", spinnerRouteSelected);
 				fireBackDetPg.putExtra("spnrDistSlctd", spinnerDistSlctd);
+				fireBackDetPg.putExtra("activityFrom", activityFrom);
 				startActivity(fireBackDetPg);
 				finish();
 			}
@@ -779,6 +783,7 @@ LinearLayout ll_cancleremakrs;
 						fireBackDetPg.putExtra("pickerDate", pickerDate);
 						fireBackDetPg.putExtra("spinnerSlctd", spinnerRouteSelected);
 						fireBackDetPg.putExtra("spnrDistSlctd", spinnerDistSlctd);
+						fireBackDetPg.putExtra("activityFrom", activityFrom);
 						
 						startActivity(fireBackDetPg);
 						finish();

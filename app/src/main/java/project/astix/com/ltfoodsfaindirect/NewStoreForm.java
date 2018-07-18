@@ -418,7 +418,7 @@ public class NewStoreForm extends Fragment  {
 			sectionIsShown=sectionToShowOrHide;
 			
 			
-				alertSaveAndSaveExit("Exit","Please ensure that you have saved data before exiting?",true);
+				alertSaveAndSaveExit("Exit","All your filled data will be lost.",true);
 			
 		}
 		else if(isNextPressed==5)
@@ -7817,7 +7817,7 @@ public void selectedOption(String optId, String optionVal, EditText editext,List
 			 
 		        // Setting Dialog Title
 		        alertDialog.setTitle(title);
-		 
+				alertDialog.setCancelable(false);
 		        // Setting Dialog Message
 		        alertDialog.setMessage(message);
 		 
@@ -7878,11 +7878,12 @@ public void selectedOption(String optId, String optionVal, EditText editext,List
 		        });
 		 
 		        // Setting Negative "NO" Button
-		        alertDialog.setNegativeButton("Save and Exit", new DialogInterface.OnClickListener() {
+		        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 		            public void onClick(DialogInterface dialog, int which) {
-		           
+
+		            	dialog.dismiss();
 			                    // User pressed No button. Write Logic Here
-							if(validateNameFilled())
+						/*	if(validateNameFilled())
 							{
 
 
@@ -7910,13 +7911,13 @@ public void selectedOption(String optId, String optionVal, EditText editext,List
 							//	helperDb.saveSOAPdataStoreListDetailsInNewTable(AddNewStore_DynamicSectionWise.selStoreID, hmapAddress.get("2"), hmapAddress.get("1"), hmapAddress.get("3"),1);
 								helperDb.close();
 
-								/*Intent intent = new Intent(getActivity(), StoreSelection.class);
+								*//*Intent intent = new Intent(getActivity(), StoreSelection.class);
 								intent.putExtra("imei", AddNewStore_DynamicSectionWise.imei);
 								intent.putExtra("userDate", AddNewStore_DynamicSectionWise.date_value);
 								intent.putExtra("pickerDate", AddNewStore_DynamicSectionWise.pickerDate);
 								intent.putExtra("rID", getActiveRouteId);
 								getActivity().startActivity(intent);
-								getActivity().finish();*/
+								getActivity().finish();*//*
 								if(activityFrom.equals("StoreSelection")){
 
 									Intent intent = new Intent(getActivity(), StoreSelection.class);
@@ -7942,7 +7943,7 @@ public void selectedOption(String optId, String optionVal, EditText editext,List
 							else
 							{
 								Toast.makeText(getActivity(), "Please Fill Name To Save", Toast.LENGTH_SHORT).show();
-							}
+							}*/
 
 			                    	  
 		            }

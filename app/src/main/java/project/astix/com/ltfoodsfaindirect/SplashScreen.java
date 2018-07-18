@@ -111,8 +111,14 @@ public class SplashScreen extends AppCompatActivity
         sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
         fDate = sdf.format(date1).toString().trim();
 
-        int checkDataNotSync = dbengine.CheckUserDoneGetStoreOrNot();
-
+        int checkDataNotSync = 0;//dbengine.CheckUserDoneGetStoreOrNot();
+        if(sPref.contains("ExecutedData"))
+        {
+            if(sPref.getBoolean("ExecutedData", false))
+            {
+                checkDataNotSync=1;
+            }
+        }
         if (checkDataNotSync == 1)
         {
             dbengine.open();

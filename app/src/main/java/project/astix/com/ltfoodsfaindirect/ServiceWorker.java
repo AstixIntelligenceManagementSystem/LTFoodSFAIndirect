@@ -19873,6 +19873,7 @@ String RouteType="0";
 			Document doc = db.parse(is);
 
 			dbengine.deletetblProductListLastVisitStockOrOrderMstr();
+			dbengine.deletetblFeedbackCompetitrMstrData();
 
 			NodeList tblLastOutstanding = doc.getElementsByTagName("tblProductListLastVisitStockOrOrderMstr");
 			for (int i = 0; i < tblLastOutstanding.getLength(); i++)

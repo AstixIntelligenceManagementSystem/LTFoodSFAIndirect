@@ -5756,7 +5756,9 @@ open();
             StoreSelection.hmapStoreIdflgOrderType.clear();
         }
         db.execSQL("DELETE FROM tableStoreLtfoodStkCompttrAvlbl");
-		db.execSQL("DELETE FROM tblStoreList"); 
+		db.execSQL("DELETE FROM tblStoreList");
+
+
 		db.execSQL("DELETE FROM tblProductList");
 		db.execSQL("DELETE FROM tblProductSegementMap");
 		db.execSQL("DELETE FROM tblCatagoryMstr");
@@ -5842,7 +5844,8 @@ open();
 
         db.execSQL("DELETE FROM  tblCompetitrPrdctPTRPTC");
         db.execSQL("DELETE FROM  tblFeedbackCompetitr");
-
+        db.execSQL("DELETE FROM tblFeedbackCompetitrMstr");
+        db.execSQL("DELETE FROM tblCompetitrPrdctMstr");
 
         //nititshdubey
 
@@ -29870,7 +29873,14 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 				if (cursor.moveToFirst())
 				{
 					for (int i = 0; i <= (cursor.getCount() - 1); i++) {
-						hmapQuestionMstr.put("DSRDETAILS",(String) cursor.getString(0).toString()+"^"+(String) cursor.getString(1).toString()+"^"+(String) cursor.getString(2).toString()+"^"+(String) cursor.getString(3).toString()+"^"+(String) cursor.getString(4).toString()+"^"+(String) cursor.getString(5).toString()+"^"+(String) cursor.getString(6).toString()+"^"+(String) cursor.getString(7).toString()+"^"+(String) cursor.getString(8).toString()+"^"+(String) cursor.getString(9).toString()+"^"+(String) cursor.getString(10).toString()+"^"+(String) cursor.getString(11).toString()+"^"+(String) cursor.getString(12).toString()+"^"+(String) cursor.getString(13).toString());
+
+                        String emailID="0";
+                        if((String) cursor.getString(13).toString()!=null){
+                            if(!((String) cursor.getString(13).toString()).equals("")){
+                                emailID=(String) cursor.getString(13).toString();
+                            }
+                        }
+						hmapQuestionMstr.put("DSRDETAILS",(String) cursor.getString(0).toString()+"^"+(String) cursor.getString(1).toString()+"^"+(String) cursor.getString(2).toString()+"^"+(String) cursor.getString(3).toString()+"^"+(String) cursor.getString(4).toString()+"^"+(String) cursor.getString(5).toString()+"^"+(String) cursor.getString(6).toString()+"^"+(String) cursor.getString(7).toString()+"^"+(String) cursor.getString(8).toString()+"^"+(String) cursor.getString(9).toString()+"^"+(String) cursor.getString(10).toString()+"^"+(String) cursor.getString(11).toString()+"^"+(String) cursor.getString(12).toString()+"^"+emailID);
 						//    System.out.println("QuestID:"+(String)cursor.getString(0).toString()+"QuestCode:"+(String) cursor.getString(1).toString()+"QuestDesc:"+(String) cursor.getString(2).toString()+"QuestType:"+(String) cursor.getString(3).toString()+"AnsControlType:"+(String) cursor.getString(4).toString()+"AnsControlInputTypeID:"+(String) cursor.getString(5).toString()+"AnsControlInputTypeMaxLength:"+(String) cursor.getString(6).toString()+"AnsMustRequiredFlg:"+(String) cursor.getString(7).toString()+"QuestBundleFlg:"+(String) cursor.getString(8).toString()+"ApplicationTypeID:"+(String) cursor.getString(9).toString()+"Sequence:"+(String) cursor.getString(10).toString());
 						cursor.moveToNext();
 					}

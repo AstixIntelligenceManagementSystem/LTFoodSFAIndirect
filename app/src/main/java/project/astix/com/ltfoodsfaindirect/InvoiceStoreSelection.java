@@ -1494,6 +1494,8 @@ strReason=	et_Reason.getText().toString().trim();
 					syncIntent.putExtra("whereTo", "9");
 					syncIntent.putStringArrayListExtra("mSelectedItems", mSelectedItemsConfornInvoiceOrders);
 					syncIntent.putExtra("imei", imei);
+					 syncIntent.putExtra("activityFrom", activityFrom);
+
 					syncIntent.putExtra("currSysDate", currSysDate);
 					syncIntent.putExtra("pickerDate", pickerDate);
 

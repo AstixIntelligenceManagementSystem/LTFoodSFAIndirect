@@ -114,7 +114,7 @@ public class AllButtonActivity extends BaseActivity implements LocationListener,
     public ProgressDialog pDialogGetStores;
     public boolean serviceException=false;
     public String passDate;
-    SharedPreferences sharedPref,sharedPrefReport;
+    SharedPreferences sharedPref,sharedPrefReport,spref;
     public String[] storeList;
     public String[] storeCloseStatus;
     public String[] storeNextDayStatus;
@@ -324,7 +324,7 @@ String ButtonClick="";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_button);
 
-
+        spref=getSharedPreferences(CommonInfo.Preference, MODE_PRIVATE);
         sharedPrefReport = getSharedPreferences("Report", MODE_PRIVATE);
         sharedPrefForRegistration=getSharedPreferences("RegistrationValidation", MODE_PRIVATE);
 
@@ -514,6 +514,7 @@ catch (Exception e){
                 }
                   else
                 {
+
                     dialogLogout();
 
                 }
@@ -697,6 +698,7 @@ catch (Exception e){
 
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
                 if (mSelectedItems.size() == 0) {
 
                     DayEnd();
@@ -726,16 +728,10 @@ catch (Exception e){
 
                         whatTask = 2;
                         // -- Route Info Exec()
-                        try {
 
-                            new bgTasker().execute().get();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            //System.out.println(e);
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                            //System.out.println(e);
-                        }
+
+                            new bgTasker().execute();
+
                         // --
                     }
 
@@ -905,10 +901,22 @@ catch (Exception e){
 
             Log.i("bgTasker", "bgTasker Execution cycle completed");
             pDialog2.dismiss();
+            if(isOnline())
+            {
+                UploadImageFromFolder(0);
+
+            }
+            else
+            {
+                showNoConnAlert();
+            }
             whatTask = 0;
+
 
         }
     }
+
+
 
     public void SyncNow()
     {
@@ -971,15 +979,7 @@ catch (Exception e){
 
             flgChangeRouteOrDayEnd=valDayEndOrChangeRoute;
 
-            if(isOnline())
-            {
-                UploadImageFromFolder(0);
 
-            }
-            else
-            {
-                showNoConnAlert();
-            }
         }
         catch (IOException e)
         {
@@ -1016,16 +1016,7 @@ catch (Exception e){
 
                 whatTask = 2;
                 // -- Route Info Exec()
-                try {
-
-                    new bgTasker().execute().get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    //System.out.println(e);
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                    //System.out.println(e);
-                }
+                new bgTasker().execute();
                 // --
 
 
@@ -1096,16 +1087,7 @@ catch (Exception e){
 
                     whatTask = 3;
                     // -- Route Info Exec()
-                    try {
-
-                        new bgTasker().execute().get();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        //System.out.println(e);
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                        //System.out.println(e);
-                    }
+                    new bgTasker().execute();
                     // --
                 }
                 else {
@@ -1113,18 +1095,12 @@ catch (Exception e){
                     // show dialog for clear..clear + tranx to launcher
 
                     // -- Route Info Exec()
-                    try {
+
                         dbengine.close();
                         //System.out.println("Day end before whatTask");
                         whatTask = 1;
-                        new bgTasker().execute().get();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        //System.out.println(e);
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                        //System.out.println(e);
-                    }
+                    new bgTasker().execute();
+
                     // --
 
 							/*dbengine.open();
@@ -1167,6 +1143,15 @@ catch (Exception e){
         dbengine.close();
 
         SyncNow();
+        if(isOnline())
+        {
+            UploadImageFromFolder(0);
+
+        }
+        else
+        {
+            showNoConnAlert();
+        }
 
     }
 
@@ -1183,9 +1168,9 @@ catch (Exception e){
             public void onClick(DialogInterface dialog,int which)
             {
 
-                CommonInfo.AnyVisit=0;
+                /*CommonInfo.AnyVisit=0;
                 CommonInfo.ActiveRouteSM="0";
-               /* File OrderXMLFolder = new File(Environment.getExternalStorageDirectory(), CommonInfo.OrderXMLFolder);
+               *//* File OrderXMLFolder = new File(Environment.getExternalStorageDirectory(), CommonInfo.OrderXMLFolder);
                 if (!OrderXMLFolder.exists())
                 {
                     OrderXMLFolder.mkdirs();
@@ -1210,7 +1195,7 @@ catch (Exception e){
                 }
 
                 File del2 = new File(Environment.getExternalStorageDirectory(),  CommonInfo.TextFileFolder);
-                deleteNon_EmptyDir(del2);*/
+                deleteNon_EmptyDir(del2);*//*
                 try {
 
 
@@ -1221,7 +1206,7 @@ catch (Exception e){
                 catch(Exception e)
                 {
 
-                }
+                }*/
 
 
 
@@ -1729,10 +1714,17 @@ catch (Exception e){
             public void onClick(View view)
             {
 
-                        int checkDataNotSync = dbengine.CheckUserDoneGetStoreOrNotDonotNewStore();
+                        int checkDataNotSync=0;// = dbengine.CheckUserDoneGetStoreOrNotDonotNewStore();
                         Date date1 = new Date();
                         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
                         fDate = sdf.format(date1).toString().trim();
+                        if(spref.contains("ExecutedData"))
+                        {
+                            if(spref.getBoolean("ExecutedData", false))
+                            {
+                                checkDataNotSync=1;
+                            }
+                        }
                         if (checkDataNotSync == 1)
                         {
                             dbengine.open();
@@ -3222,7 +3214,11 @@ catch (Exception e){
             String getServerDate=dbengine.fnGetServerDate();
 
 
+            SharedPreferences.Editor editor = spref.edit();
 
+            editor.putBoolean("ExecutedData", false);
+
+            editor.commit();
             dbengine.close();
 
             //System.out.println("Checking  Oncreate Date PDA GetStoresForDay:"+getPDADate);
@@ -3747,6 +3743,12 @@ catch (Exception e){
                         {
                             pDialogGetStores.dismiss();
                         }
+
+                        SharedPreferences.Editor editor = spref.edit();
+
+                        editor.putBoolean("ExecutedData", true);
+
+                        editor.commit();
                         Intent storeIntent = new Intent(AllButtonActivity.this, StoreSelection.class);
                         storeIntent.putExtra("imei", imei);
                         storeIntent.putExtra("userDate", currSysDate);

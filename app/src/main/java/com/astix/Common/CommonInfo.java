@@ -11,7 +11,7 @@ public class CommonInfo
 	// Its for Live Path on 194 Server
 
 
-	  /*  public static File imageF_savedInstance=null;
+	  public static File imageF_savedInstance=null;
 	    public static String imageName_savedInstance=null;
 	    public static String clickedTagPhoto_savedInstance=null;
 	    public static Uri uriSavedImage_savedInstance=null;
@@ -35,8 +35,8 @@ public class CommonInfo
 
 		public static int AnyVisit = 0;
 
-		public static int DATABASE_VERSIONID = 75;      // put this field value based on value in table on the server
-		public static String AppVersionID = "1.17";   // put this field value based on value in table on the server
+		public static int DATABASE_VERSIONID = 78;      // put this field value based on value in table on the server
+		public static String AppVersionID = "1.18";   // put this field value based on value in table on the server
 		public static int Application_TypeID = 2; //1=Parag Store Mapping,2=Parag SFA Indirect,3=Parag SFA Direct
 
 		public static String OrderSyncPath="http://103.20.212.194/ReadXML_LTFoodsLive/DefaultSFA.aspx";
@@ -57,7 +57,7 @@ public class CommonInfo
 		public static String FinalLatLngJsonFile="LTACESFAFinalLatLngJson";
 
 		public static String AppLatLngJsonFile="LTACESFALatLngJson";
-public static String CompetitorImagesFolder="CompetitorSFAImages";
+public static String CompetitorImagesFolder=".CompetitorSFAImages";
 		public static int DistanceRange=3000;
 	    public static String SalesPersonTodaysTargetMsg="";
 	    public static final String Preference="LTFoodsPrefrence";
@@ -69,7 +69,7 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 
 
-*/
+
 
 
 
@@ -127,7 +127,7 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 		public static String FinalLatLngJsonFile="LTACESFAFinalLatLngJson";
 
 		public static String AppLatLngJsonFile="LTACESFALatLngJson";
-public static String CompetitorImagesFolder="CompetitorSFAImages";
+public static String CompetitorImagesFolder=".CompetitorSFAImages";
 		public static int DistanceRange=3000;
 	    public static String SalesPersonTodaysTargetMsg="";
 	    public static final String Preference="LTFoodsPrefrence";
@@ -190,7 +190,7 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 	    public static String DistributorSyncPath="http://103.20.212.194/ReadXML_LTFoodsSFADistributionTest/Default.aspx";
 
-public static String CompetitorImagesFolder="CompetitorSFAImages";
+public static String CompetitorImagesFolder=".CompetitorSFAImages";
 		public static String OrderXMLFolder="LTACESFAXml";
 		public static String ImagesFolder="LTACESFAImages";
 			public static String ImagesFolderServer="LTACESFAImagesServer";
@@ -221,6 +221,7 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 
 /*
+
 
 
 
@@ -266,7 +267,7 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 		public static String OrderXMLFolder="LTACESFAXml";
 		public static String ImagesFolder="LTACESFAImages";
-	public static String CompetitorImagesFolder="CompetitorSFAImages";
+	public static String CompetitorImagesFolder=".CompetitorSFAImages";
 	    public static String ImagesFolderServer="LTACESFAImagesServer";
 	    public static String VideoFolder="VideoLTFOODS";
 	    public static String TextFileFolder="LTACETextFile";
@@ -284,6 +285,7 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 
 	    public static String ActiveRouteSM="0";
+
 
 */
 
@@ -303,12 +305,7 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 // Its for Test Release  Path on 194 server for SFA
 
-
-
-
-
-
-
+/*
 
 	public static File imageF_savedInstance=null;
 	public static String imageName_savedInstance=null;
@@ -335,8 +332,8 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 	public static int AnyVisit = 0;
 
-	public static int DATABASE_VERSIONID = 121;      // put this field value based on value in table on the server
-	public static String AppVersionID = "1.43";   // put this field value based on value in table on the server
+	public static int DATABASE_VERSIONID = 131;      // put this field value based on value in table on the server
+	public static String AppVersionID = "1.44";   // put this field value based on value in table on the server
 	public static int Application_TypeID = 2; //1=Parag Store Mapping,2=Parag SFA Indirect,3=Parag SFA Direct
 
 	public static String OrderSyncPath="http://103.20.212.194/ReadXML_LTFoodsTestRelease/DefaultSFA.aspx";
@@ -357,7 +354,7 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 	public static String FinalLatLngJsonFile="LTACESFAFinalLatLngJson";
 
 	public static String AppLatLngJsonFile="LTACESFALatLngJson";
-	public static String CompetitorImagesFolder="CompetitorSFAImages";
+	public static String CompetitorImagesFolder=".CompetitorSFAImages";
 	public static int DistanceRange=3000;
 	public static String SalesPersonTodaysTargetMsg="";
 	public static final String Preference="LTFoodsPrefrence";
@@ -369,9 +366,7 @@ public static String CompetitorImagesFolder="CompetitorSFAImages";
 
 
 
-
-
-
+*/
 
 
 

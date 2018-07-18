@@ -87,6 +87,10 @@ import java.util.regex.Pattern;
 
 public class AddNewStore_DynamicSectionWise extends FragmentActivity implements InterfaceClass,LocationListener,GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener,SearchListCommunicator,OnMapReadyCallback,CategoryCommunicatorCityState
 {
+
+    public ProgressDialog pDialog2STANDBYabhi;
+
+    Thread myThread;
     public static String activityFrom="";
     public String strGlobalOrderID="0";
     public String flgGSTCapture="1";
@@ -352,6 +356,14 @@ public class AddNewStore_DynamicSectionWise extends FragmentActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newstoredynamicsectionwise);
+
+        disableAllCheckBox("Loading Data");
+
+
+    }
+
+    public void addviewsinBackground()
+    {
         refreshCount=0;
         channelOptId="0";
         locationManager=(LocationManager) this.getSystemService(LOCATION_SERVICE);
@@ -368,27 +380,27 @@ public class AddNewStore_DynamicSectionWise extends FragmentActivity implements 
         accuracyToSave="";
         FLAG_NEW_UPDATE="";
 
-         LattitudeFromLauncher="NA";
-           LongitudeFromLauncher="NA";
-         AccuracyFromLauncher="NA";
+        LattitudeFromLauncher="NA";
+        LongitudeFromLauncher="NA";
+        AccuracyFromLauncher="NA";
 
-         ProviderFromLauncher="NA";
-         GpsLatFromLauncher="NA";
-         GpsLongFromLauncher="NA";
-         GpsAccuracyFromLauncher="NA";
-         NetworkLatFromLauncher="NA";
-         NetworkLongFromLauncher="NA";
-         NetworkAccuracyFromLauncher="NA";
-         FusedLatFromLauncher="NA";
-         FusedLongFromLauncher="NA";
-         FusedAccuracyFromLauncher="NA";
+        ProviderFromLauncher="NA";
+        GpsLatFromLauncher="NA";
+        GpsLongFromLauncher="NA";
+        GpsAccuracyFromLauncher="NA";
+        NetworkLatFromLauncher="NA";
+        NetworkLongFromLauncher="NA";
+        NetworkAccuracyFromLauncher="NA";
+        FusedLatFromLauncher="NA";
+        FusedLongFromLauncher="NA";
+        FusedAccuracyFromLauncher="NA";
 
         fnAddressFromLauncher="NA";
-         AllProvidersLocationFromLauncher="NA";
-         GpsAddressFromLauncher="NA";
-         NetwAddressFromLauncher="NA";
-         FusedAddressFromLauncher="NA";
-         FusedLocationLatitudeWithFirstAttemptFromLauncher="NA";
+        AllProvidersLocationFromLauncher="NA";
+        GpsAddressFromLauncher="NA";
+        NetwAddressFromLauncher="NA";
+        FusedAddressFromLauncher="NA";
+        FusedLocationLatitudeWithFirstAttemptFromLauncher="NA";
         FusedLocationLongitudeWithFirstAttemptFromLauncher="NA";
         FusedLocationAccuracyWithFirstAttemptFromLauncher="NA";
 
@@ -401,8 +413,8 @@ public class AddNewStore_DynamicSectionWise extends FragmentActivity implements 
         long  syncTIMESTAMP1 = System.currentTimeMillis();
         Date dateobj1 = new Date(syncTIMESTAMP1);
         SimpleDateFormat df1 = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss",Locale.ENGLISH);
-         VisitStartTS = df1.format(dateobj1);
-int flgCheckNewOldStore=0;
+        VisitStartTS = df1.format(dateobj1);
+        int flgCheckNewOldStore=0;
         if(!isGPSok)
         {
             isGPSok = false;
@@ -415,7 +427,7 @@ int flgCheckNewOldStore=0;
         {
             try
             {
-              //  showSettingsAlert();
+                //  showSettingsAlert();
             }
             catch(Exception e)
             {
@@ -488,20 +500,20 @@ int flgCheckNewOldStore=0;
         }
         checkHighAccuracyLocationMode(AddNewStore_DynamicSectionWise.this);
         helperDb.open();
-      String allLoctionDetails=  helperDb.getLocationDetails();
+        String allLoctionDetails=  helperDb.getLocationDetails();
         helperDb.close();
 
         prvsStoreId=helperDb.getPreviousStoreId();
 
         if(helperDb.fnCheckIfStoreIDExistsIn_tblStoreDeatils(selStoreID)==0)
         {
-             LattitudeFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[0];
-               LongitudeFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[1];
-             AccuracyFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[2];
-               AddressFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[3];
-             CityFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[4];
-               PincodeFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[5];
-             StateFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[6];
+            LattitudeFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[0];
+            LongitudeFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[1];
+            AccuracyFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[2];
+            AddressFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[3];
+            CityFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[4];
+            PincodeFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[5];
+            StateFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[6];
 
             ProviderFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[7];
             GpsLatFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[8];
@@ -571,7 +583,7 @@ int flgCheckNewOldStore=0;
 		    	m.setApplicationEnabledSetting(PackageManager.FEATURE_LOCATION,PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 0);
 		    }*/
         mResultReceiver = new AddressResultReceiver(new Handler());
-     //   ll_allData=(LinearLayout) findViewById(R.id.ll_allData);
+        //   ll_allData=(LinearLayout) findViewById(R.id.ll_allData);
 
         ll_back=(LinearLayout) findViewById(R.id.ll_back);
         ll_next=(LinearLayout) findViewById(R.id.ll_next);
@@ -583,10 +595,10 @@ int flgCheckNewOldStore=0;
         rg_yes_no= (RadioGroup) findViewById(R.id.rg_yes_no);
         rb_yes= (RadioButton) findViewById(R.id.rb_yes);
         rb_no=(RadioButton)findViewById(R.id.rb_no);
-         btn_refresh= (Button) findViewById(R.id.btn_refresh);
+        btn_refresh= (Button) findViewById(R.id.btn_refresh);
         txt_rfrshCmnt= (TextView) findViewById(R.id.txt_rfrshCmnt);
         ll_refresh= (LinearLayout) findViewById(R.id.ll_refresh);
-      //  rl_sectionQuest=(RelativeLayout) findViewById(R.id.rl_sectionQuest);
+        //  rl_sectionQuest=(RelativeLayout) findViewById(R.id.rl_sectionQuest);
 
 
         fillHmapData();
@@ -646,7 +658,7 @@ int flgCheckNewOldStore=0;
                     manager= getFragmentManager();
                     mapFrag = (MapFragment)manager.findFragmentById(
                             R.id.map);
-                   // mapFrag.getMapAsync(AddNewStore_DynamicSectionWise.this);
+                    // mapFrag.getMapAsync(AddNewStore_DynamicSectionWise.this);
                     mapFrag.getView().setVisibility(View.GONE);
                    /* FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.hide(mapFrag);*/
@@ -751,9 +763,9 @@ int flgCheckNewOldStore=0;
 
                     //NewStoreForm recFragment = (NewStoreForm)getFragmentManager().findFragmentByTag("NewStoreFragment");
                     NewStoreForm recFragment = (NewStoreForm)getFragmentManager().findFragmentByTag("NewStoreFragment");
-                   if(recFragment!=null)
-                   {
-                       StoreName=recFragment.currentStoreName;
+                    if(recFragment!=null)
+                    {
+                        StoreName=recFragment.currentStoreName;
                       /* if(channelOptId.equals("0-2-80") || channelOptId.equals("0-3-80"))
                        {
                            if(recFragment.validate() && recFragment.validatePaymentStageID())
@@ -763,12 +775,12 @@ int flgCheckNewOldStore=0;
                        }
                       else
                        {*/
-                           if(recFragment.validate())
-                           {
-                               showSubmitConfirm();
+                        if(recFragment.validate())
+                        {
+                            showSubmitConfirm();
 //28.4866451,77.1022041,10.0
-                              // 28.4866037     77.1021193   24.066999435424805
-                             //  if(!checkLastFinalLoctionIsRepeated("28.4866037","77.1021193","24.066999435424805"))
+                            // 28.4866037     77.1021193   24.066999435424805
+                            //  if(!checkLastFinalLoctionIsRepeated("28.4866037","77.1021193","24.066999435424805"))
                           /*    if(!checkLastFinalLoctionIsRepeated(LattitudeFromLauncher,LongitudeFromLauncher,AccuracyFromLauncher))
                                {
                                    fnCreateLastKnownFinalLocation(LattitudeFromLauncher,LongitudeFromLauncher,AccuracyFromLauncher);
@@ -808,10 +820,10 @@ int flgCheckNewOldStore=0;
                                }*/
 
 
-                           }
-                      // }
+                        }
+                        // }
 
-                   }
+                    }
 
                  /*   if(recFragment.validate() && recFragment.validatePaymentStageID())
                     {
@@ -896,46 +908,6 @@ int flgCheckNewOldStore=0;
         mapFrag.getMapAsync(AddNewStore_DynamicSectionWise.this);
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.show(mapFrag);
-
-if(flgCheckNewOldStore==1)
-{
-    flgCheckNewOldStore=0;
-    // 28.4869721   77.1023821  13.229
-   // if(!checkLastFinalLoctionIsRepeated("28.4866314","77.101591","100.0"))
-    if(!checkLastFinalLoctionIsRepeated(LattitudeFromLauncher,LongitudeFromLauncher,AccuracyFromLauncher))
-    {
-
-        fnCreateLastKnownFinalLocation(LattitudeFromLauncher,LongitudeFromLauncher,AccuracyFromLauncher);
-
-    }
-    else
-    {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(AddNewStore_DynamicSectionWise.this);
-
-        // Setting Dialog Title
-        alertDialog.setTitle("Information");
-        alertDialog.setIcon(R.drawable.error_info_ico);
-        alertDialog.setCancelable(false);
-        // Setting Dialog Message
-        alertDialog.setMessage("Your current location is same as previous, so please turn off your location services then turn on, it back again.");
-
-        // On pressing Settings button
-        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                countSubmitClicked++;
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-        });
-
-        // Showing Alert Message
-        alertDialog.show();
-
-
-
-    }
-}
-
     }
     public void hideSoftKeyboard(View view){
         InputMethodManager imm =(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -1132,12 +1104,12 @@ if(flgCheckNewOldStore==1)
                             helperDb.saveSOAPdataStoreListDetailsInNewTable(selStoreID, hmapStoreAddress.get("2"), hmapStoreAddress.get("1"), hmapStoreAddress.get("3"),1);
                             helperDb.close();
 
-                            LocationRetreivingGlobal llaaa=new LocationRetreivingGlobal();
+                           /* LocationRetreivingGlobal llaaa=new LocationRetreivingGlobal();
                             llaaa.locationRetrievingAndDistanceCalculating(AddNewStore_DynamicSectionWise.this ,true,20);
+*/
 
-
-                           // FullSyncDataNow task = new FullSyncDataNow(AddNewStore_DynamicSectionWise.this);
-                           // task.execute();
+                            FullSyncDataNow task = new FullSyncDataNow(AddNewStore_DynamicSectionWise.this);
+                           task.execute();
                         }
                         catch (Exception e) {
                             // TODO Autouuid-generated catch block
@@ -1217,8 +1189,8 @@ if(flgCheckNewOldStore==1)
             dbengine.open();
             dbengine.UpdateStoreActualLatLongi(selStoreID,String.valueOf(fnLati), String.valueOf(fnLongi), "" + finalAccuracy,fnAccurateProvider,flgLocationServicesOnOff,flgGPSOnOff,flgNetworkOnOff,flgFusedOnOff,flgInternetOnOffWhileLocationTracking,flgRestart,flgStoreOrder);
             dbengine.close();
-            FullSyncDataNow task = new FullSyncDataNow(AddNewStore_DynamicSectionWise.this);
-            task.execute();
+         /*   FullSyncDataNow task = new FullSyncDataNow(AddNewStore_DynamicSectionWise.this);
+            task.execute();*/
         }
         else
         {
@@ -1254,8 +1226,8 @@ if(flgCheckNewOldStore==1)
                 dbengine.open();
                 dbengine.UpdateStoreActualLatLongi(selStoreID,String.valueOf(fnLati), String.valueOf(fnLongi), "" + finalAccuracy,fnAccurateProvider,flgLocationServicesOnOff,flgGPSOnOff,flgNetworkOnOff,flgFusedOnOff,flgInternetOnOffWhileLocationTracking,flgRestart,flgStoreOrder);
                 dbengine.close();
-                FullSyncDataNow task = new FullSyncDataNow(AddNewStore_DynamicSectionWise.this);
-                task.execute();
+               /* FullSyncDataNow task = new FullSyncDataNow(AddNewStore_DynamicSectionWise.this);
+                task.execute();*/
             }
 
 
@@ -2713,7 +2685,14 @@ if(flgCheckNewOldStore==1)
                     this.state=state;
                 }
 
+                if(addresses.get(0).getAddressLine(0)!=null && addr.equals("NA")){
+                    String countryname="NA";
+                    if(addresses.get(0).getCountryName()!=null){
+                        countryname=addresses.get(0).getCountryName();
+                    }
 
+                    address=  getAddressNewWay(addresses.get(0).getAddressLine(0),city,state,zipcode,countryname);
+                }
                 for(int i=0 ;i<addresses.size();i++){
                     addressTemp = addresses.get(i);
                     if(addressTemp.getPostalCode()!=null){
@@ -2722,14 +2701,7 @@ if(flgCheckNewOldStore==1)
                         break;
                     }
 
-                    if(addresses.get(0).getAddressLine(0)!=null && addr.equals("NA")){
-                        String countryname="NA";
-                        if(addresses.get(0).getCountryName()!=null){
-                            countryname=addresses.get(0).getCountryName();
-                        }
 
-                        address=  getAddressNewWay(addresses.get(0).getAddressLine(0),city,state,zipcode,countryname);
-                    }
 
 
                 }
@@ -2983,40 +2955,45 @@ if(flgCheckNewOldStore==1)
     @Override
     protected void onResume() {
         super.onResume();
-        boolean isGPSokCheckInResume = false;
-        boolean isNWokCheckInResume=false;
-        isGPSokCheckInResume = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        isNWokCheckInResume = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-        if(!isGPSokCheckInResume && !isNWokCheckInResume)
+        if(locationManager!=null)
         {
-            try
+            boolean isGPSokCheckInResume = false;
+            boolean isNWokCheckInResume=false;
+            isGPSokCheckInResume = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            isNWokCheckInResume = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if(!isGPSokCheckInResume && !isNWokCheckInResume)
             {
-                showSettingsAlert();
-            }
-            catch(Exception e)
-            {
-
-            }
-            isGPSokCheckInResume = false;
-            isNWokCheckInResume=false;
-        }
-        else
-        {
-
-
-                if(countSubmitClicked==1)
+                try
+                {
+                    showSettingsAlert();
+                }
+                catch(Exception e)
                 {
 
-                        locationRetrievingAndDistanceCalculating();
-                        countSubmitClicked++;
+                }
+                isGPSokCheckInResume = false;
+                isNWokCheckInResume=false;
+            }
+            else
+            {
+
+
+                if(countSubmitClicked==2)
+                {
+
+                    locationRetrievingAndDistanceCalculating();
+                    countSubmitClicked++;
 
 
                 }
 
 
 
+
+            }
         }
+
     }
 
     public String getAddressOfProviders(String latti, String longi){
@@ -3406,5 +3383,115 @@ if(flgCheckNewOldStore==1)
 
 
         }
+    }
+
+
+
+    public void disableAllCheckBox(String message)
+    {
+
+        pDialog2STANDBYabhi=ProgressDialog.show(AddNewStore_DynamicSectionWise.this,getText(R.string.genTermPleaseWaitNew) ,message, false,true);
+        myThread = new Thread(myRunnable);
+        myThread.setPriority(Thread.MAX_PRIORITY);
+        myThread.start();
+
+
+    }
+    Runnable myRunnable = new Runnable(){
+
+        @Override
+        public void run() {
+
+            runOnUiThread(new Runnable(){
+
+                @Override
+                public void run() {
+
+
+                    new CountDownTimer(2000, 1000) {
+
+                        public void onTick(long millisUntilFinished) {
+                            if(pDialog2STANDBYabhi != null && pDialog2STANDBYabhi.isShowing())
+                            {
+                                pDialog2STANDBYabhi.setCancelable(false);
+
+                            }
+                        }
+
+                        public void onFinish() {
+
+                            new IAmABackgroundTask().execute();
+
+                        }
+                    }.start();
+
+
+
+
+
+
+
+                }
+
+            });
+
+        }
+    };
+
+    class IAmABackgroundTask extends
+            AsyncTask<String, Integer, Boolean> {
+
+
+        @SuppressWarnings("static-access")
+        @Override
+        protected void onPreExecute() {
+            addviewsinBackground();
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+
+
+            fnAbhinav(1000);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+
+
+            return true;
+
+        }
+
+    }
+
+    public void countUp(int start)
+    {
+
+        if(pDialog2STANDBYabhi != null && pDialog2STANDBYabhi.isShowing())
+        {
+
+            pDialog2STANDBYabhi.setTitle("My Name Abhinav");
+            pDialog2STANDBYabhi.setCancelable(true);
+            pDialog2STANDBYabhi.cancel();
+            pDialog2STANDBYabhi.dismiss();
+         if(countSubmitClicked==0)
+        {
+            locationRetrievingAndDistanceCalculating();
+            countSubmitClicked++;
+        }
+        }
+
+        else
+        {
+            countUp(start + 1);
+        }
+    }
+
+
+    public void fnAbhinav(int mytimeval)
+    {
+        countUp(1);
     }
 }

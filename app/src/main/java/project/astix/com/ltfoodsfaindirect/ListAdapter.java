@@ -236,6 +236,8 @@ public class ListAdapter extends ArrayAdapter<String>  {
             	intent.putExtra("StoreName", hmapStoreIdName1.get(viewHolder.butInvoice.getTag()));
             	intent.putExtra("currSysDate", currSysDate1);
             	intent.putExtra("pickerDate", pickerDate1);
+                intent.putExtra("activityFrom", InvoiceStoreSelection.activityFrom);
+
             	intent.putExtra("spinnerSlctd", spinnerRouteSlctd);
             	intent.putExtra("spnrDistSlctd", spinnerDistSlctd);
             	
