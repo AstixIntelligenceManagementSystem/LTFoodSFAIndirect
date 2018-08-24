@@ -102,6 +102,7 @@ public class LocationRetreivingGlobal implements LocationListener,GoogleApiClien
     public  int flgFusedOnOff=0;
     public  int flgInternetOnOffWhileLocationTracking=0;
     public  int flgRestart=0;
+
     public String address,pincode,city,state,latitudeToSave,longitudeToSave,accuracyToSave;
     Location mCurrentLocation;
     String mLastUpdateTime;
