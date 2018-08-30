@@ -14,7 +14,7 @@
 
     <RelativeLayout 
    
-    android:layout_height="46dp" 
+    android:layout_height="40dp"
     android:layout_width="fill_parent" 
     android:background="@drawable/custom_header"
     android:paddingLeft="16dp"
@@ -55,10 +55,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rtv_hdr"
-     
+
         android:visibility="gone">
-        
-     
+
+
 
                 <TextView
                     android:id="@+id/textView1_battstat2"
@@ -71,8 +71,8 @@
                     android:textSize="14dp"
                     android:textStyle="bold" />
 
-                
-                
+
+
                 <Spinner  android:id="@+id/competition_spinner"
                           android:layout_width="match_parent"
                           android:layout_height="40dp"
@@ -80,31 +80,31 @@
                           android:textSize="12dp"
                           android:background="@drawable/invoice_spinner_bckground"
                           android:layout_toRightOf="@id/textView1_battstat2"/>
-                   
-                
-                
-                
-            
+
+
+
+
+
     </LinearLayout>
 
     <LinearLayout
-       
+
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
       android:layout_above="@+id/ll_buttons"
       android:layout_below="@+id/ll_second"
-        
+
         >
-       
-        
-        
+
+
+
         <RelativeLayout
             android:id="@+id/relativeLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            
+
             >
 
             <TextView
@@ -113,20 +113,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text="Distributor Name : "
-                android:textSize="@dimen/ProductClassHeadingTextSize"
-                android:textStyle="bold" 
+
+                android:textSize="13sp"
+                android:textStyle="bold"
                />
 
             <TextView
                 android:id="@+id/textView1_schemeVAL1111"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/textView1_scheme"
+                android:layout_alignBaseline="@id/textView1_scheme1111"
+                android:layout_toRightOf="@id/textView1_scheme1111"
                 android:paddingBottom="10dp"
                 android:text="Sunil"
-                android:layout_marginLeft="30dp"
-                 
-                android:textSize="@dimen/ProductClassHeadingTextSize" />
+                android:layout_marginLeft="5dp"
+
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/textView1_scheme"
@@ -135,25 +137,28 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="15dp"
                 android:text="Store Name :"
-                android:textSize="@dimen/ProductClassHeadingTextSize"
+                android:textSize="13sp"
+
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView1_schemeVAL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/textView1_scheme"
-                android:paddingBottom="10dp"
-                android:text="Anand Store"
-                
-                android:textSize="@dimen/ProductClassHeadingTextSize" />
+                android:paddingBottom="5dp"
+                android:text=""
+android:layout_alignBaseline="@+id/textView1_scheme"
+                android:textSize="13sp" />
+
             </RelativeLayout>
-            
+
         <RelativeLayout
             android:id="@+id/Rl1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_centerInParent="true"
             >
              <TableLayout
@@ -164,7 +169,7 @@
                 android:background="#000000"
                android:stretchColumns="*" >
 
-                <TableRow 
+                <TableRow
                     android:id="@+id/trHeader"
                     android:layout_margin="0.2dp"
                      >
@@ -181,7 +186,7 @@
                         android:textSize="@dimen/ProductClassTableHeadingTextSize"
                         android:textStyle="bold" />
 
-                    
+
                     <TextView
                         android:layout_margin="0.2dp"
                         android:background="#d8e2ee"
@@ -194,7 +199,7 @@
                         android:textSize="@dimen/ProductClassTableHeadingTextSize"
                         android:textStyle="bold" />
 
-                    
+
 
                     <TextView
                         android:layout_margin="0.2dp"
@@ -241,66 +246,199 @@
                         android:text="D.Val"
                         android:textSize="@dimen/ProductClassTableHeadingTextSize"
                         android:textStyle="bold" />
-                    
+
                 </TableRow>
             </TableLayout>
-            
+
             </RelativeLayout>
-        <ScrollView
-                android:id="@+id/View134"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_invoiceNo"
+
                 android:layout_width="wrap_content"
-              	android:layout_height="wrap_content"
-                 >
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="Invoice No :"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+            <EditText
+                android:id="@+id/Et_invoiceNo"
+
+                android:layout_alignBaseline="@id/tv_invoiceNo"
+
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="2dp"
+                android:digits="@string/invoiceNumber"
+                android:background="@drawable/et_boundary_retrun"
+                android:layout_marginBottom="2dp"
+                android:text=""
+                android:textSize="11sp"
+                />
+            <TextView
+                android:id="@+id/tv_Date"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/Et_invoiceNo"
+                android:layout_alignBaseline="@id/Et_invoiceNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="0dp"
+                android:drawableRight="@drawable/calendar32"
+                android:text="Invoice Date:"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_invoiceDate"
+                android:layout_toRightOf="@id/tv_Date"
+                android:layout_alignBaseline="@id/tv_Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="0dp"
+
+                android:textColor="#000"
+                android:layout_marginBottom="2dp"
+
+                android:textSize="11sp"
+                />
+        </LinearLayout>
+     <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/shadow_with_5dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#e77c1d">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Product"
+            android:padding="1dp"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Rate"
+            android:padding="1dp"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="O.Qty"
+            android:padding="1dp"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Del.Qty"
+            android:padding="1dp"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1.3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="L.Value"
+            android:padding="1dp"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+         <ScrollView
+
+             android:layout_width="match_parent"
+             android:layout_height="150dp"
+             >
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:id="@+id/ll_parentOfAllProduct"
+                 android:orientation="vertical"
+                 android:layout_height="wrap_content">
+
+             </LinearLayout>
+             </ScrollView>
+
+
+    </LinearLayout>
         <LinearLayout
             android:id="@+id/relativeLayout2345"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-        
-                     
             <ScrollView
-                android:id="@+id/verticalScrollView1"
-                android:layout_width="match_parent"
-              	android:layout_below="@id/tabLayoutHeader"
-                android:layout_centerInParent="true"
-                android:layout_height="wrap_content"
-              
-                 >
-
-                <TableLayout
+                android:id="@+id/View134"
+                android:layout_width="wrap_content"
+                android:layout_height="140dp"
+                android:visibility="gone"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+            <TableLayout
                     android:id="@+id/dynprodtable"
                   	android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                   	android:stretchColumns="*" 
-                   	android:background="#000000" >
+                   	android:stretchColumns="*"
+                   	android:background="#fff" >
 
                 </TableLayout>
-           </ScrollView>
-           
-         
-    
-            
-            <LinearLayout 
+                </LinearLayout>
+            </ScrollView>
+
+
+
+            <LinearLayout
                  android:id="@+id/additionalDiscount"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
+                android:visibility="gone"
     android:orientation="horizontal"
-    android:layout_marginTop="20dp"
-    
+    android:layout_marginTop="2dp"
+
      >
- 
+
     <TextView
                     android:id="@+id/tvadditionalDiscount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                   
-                    
+
+
                     android:layout_marginLeft="50dp"
-                    android:paddingTop="5dp"
+                    android:paddingTop="1dp"
                     android:text="Additional Discount"
                     android:textSize="14dp"
                     android:textStyle="bold" />
-                
+
                 <EditText
                             android:id="@+id/tvadditionalDiscountValue"
                             android:background="#d8e2ee"
@@ -309,7 +447,7 @@
                             android:singleLine="true"
                              android:layout_width="wrap_content"
                      		android:layout_marginLeft="65dp"
-                    		
+
                             android:scrollHorizontally="true"
                             android:hint="000"
                             android:inputType="number"
@@ -318,20 +456,20 @@
                            android:clickable="true"
                             android:focusable="true"
                             android:focusableInTouchMode="true" />
-    
+
     </LinearLayout>
-            
-                
+
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:id="@+id/relativeINvoice"
                 android:layout_height="wrap_content"
-            
-                android:layout_below="@id/verticalScrollView1"
+
+                android:layout_below="@id/additionalDiscount"
                 android:paddingTop="1dp"
                 android:background="@drawable/my_main_border"
                 android:visibility="gone" >
-                  
+
                  <TextView
                     android:id="@+id/textView1_CredAmtblankheader"
                     android:layout_width="wrap_content"
@@ -354,7 +492,7 @@
                     android:textStyle="bold"
                     android:textSize="8sp"
                     android:visibility="gone" />
-    
+
     <TextView
                     android:id="@+id/textView1_CredAmtVALheader22"
                     android:layout_width="wrap_content"
@@ -366,7 +504,7 @@
                     android:textStyle="bold"
                     android:textSize="8sp"
                     android:visibility="gone" />
-     
+
    <TextView
                     android:id="@+id/textView1_INafterCredVALheader"
                     android:layout_width="wrap_content"
@@ -378,7 +516,7 @@
                     android:textStyle="bold"
                     android:textSize="8sp"
                      android:visibility="gone" />
-                
+
                 <TextView
                     android:id="@+id/textView1_CredAmt"
                     android:layout_width="wrap_content"
@@ -401,7 +539,7 @@
                     android:text="0.00"
                     android:textSize="12sp"
                      android:visibility="gone" />
-    
+
     <TextView
                             android:id="@+id/textView1_CredAmtVAL_new"
                             android:textSize="12sp"
@@ -412,7 +550,7 @@
                             android:layout_alignLeft="@id/textView1_CredAmtVALheader22"
                             android:text="0.00"
                             android:visibility="gone" />
-     
+
    <TextView
                     android:id="@+id/textView1_INafterCredVAL"
                     android:layout_width="wrap_content"
@@ -434,7 +572,7 @@
                     android:text="@string/productlist_productleveldiscount"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:visibility="gone" 
+                    android:visibility="gone"
                      />
 
                 <TextView
@@ -442,14 +580,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/textView1_discount"
-                    
+
                     android:layout_toRightOf="@id/textView1_discount"
                     android:layout_marginLeft="65dp"
                     android:gravity="right"
                     android:text="0.00"
                     android:textSize="12sp"
                     android:visibility="gone"  />
-                
+
                 <TextView
                     android:id="@+id/textView1_freeTotal"
                     android:layout_width="wrap_content"
@@ -471,8 +609,8 @@
                     android:layout_toRightOf="@id/textView1_freeTotal"
                     android:text="0"
                     android:textSize="12sp" />
-                
-                
+
+
                 <TextView
                     android:id="@+id/textView1_total"
                     android:layout_width="wrap_content"
@@ -491,11 +629,11 @@
                      android:layout_marginLeft="65dp"
                     android:gravity="right"
                     android:layout_alignBaseline="@id/textView1_total"
-                    
+
                     android:layout_toRightOf="@id/textView1_total"
                     android:text="0.00"
                     android:textSize="12sp" />
-                
+
                 <TextView
                     android:id="@+id/textView1_AdditionalDiscount"
                     android:layout_width="wrap_content"
@@ -510,7 +648,7 @@
 
                 <TextView
                     android:id="@+id/textView1_AdditionalDiscountVAL"
-                   
+
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/textView1_AdditionalDiscount"
                      android:layout_width="match_parent"
@@ -520,7 +658,7 @@
                     android:text="0.00"
                     android:textSize="12sp"
                     android:visibility="gone"  />
-                
+
                 <TextView
                     android:id="@+id/textView1_INvalOFtaDIS"
                     android:layout_width="wrap_content"
@@ -544,7 +682,7 @@
                     android:text="0.00"
                     android:textSize="12sp"
                     android:visibility="gone"  />
-                
+
 
                 <TextView
                     android:id="@+id/textView1_tax"
@@ -568,7 +706,7 @@
                     android:text="0.00"
                     android:textSize="12sp" />
 
-                
+
 
                 <TextView
                     android:id="@+id/textView1_invoice"
@@ -591,33 +729,33 @@
                     android:layout_toRightOf="@id/textView1_invoice"
                     android:text="0.00"
                     android:textSize="12sp" />
-                
-                
-                <RelativeLayout 
+
+
+                <RelativeLayout
                               android:id="@+id/coupon_layout"
                               android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
                               android:layout_below="@id/textView1_invoice"
                               android:visibility="gone">
-                
-                
-                
-                
-                
-                
-                
+
+
+
+
+
+
+
                 <TextView
                     android:id="@+id/tvNoOfCoupon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                   
+
                      android:layout_marginLeft="5dp"
-                    
+
                     android:paddingTop="5dp"
                     android:text="@string/productlist_noofcoupons"
                     android:textSize="12sp"
                     android:textStyle="bold" />
-                
+
                 <EditText
                             android:id="@+id/tvNoOfCouponValue"
                             android:background="#d8e2ee"
@@ -637,7 +775,7 @@
                            android:clickable="true"
                             android:focusable="true"
                             android:focusableInTouchMode="true" />
-                
+
                 <TextView
                     android:id="@+id/tvCouponAmount"
                     android:layout_width="wrap_content"
@@ -648,7 +786,7 @@
                     android:text="@string/productlist_totalcouponamount"
                     android:textSize="12sp"
                     android:textStyle="bold" />
-                
+
                 <EditText
                             android:id="@+id/tvCouponAmountValue"
                             android:background="#d8e2ee"
@@ -668,14 +806,14 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:focusableInTouchMode="true" />
-                
-                
-                 
-                
+
+
+
+
                 </RelativeLayout>
-                
-                
-                
+
+
+
                 <TextView
                     android:id="@+id/tvAmtPrevDue"
                     android:layout_width="wrap_content"
@@ -685,7 +823,7 @@
                     android:paddingTop="5dp"
                     android:text="Amount Prev. Due: "
                     android:textSize="@dimen/ProductClassHeadingTextSize"
-                    android:textStyle="bold" 
+                    android:textStyle="bold"
                      android:visibility="gone"/>
 
                 <TextView
@@ -698,7 +836,7 @@
                     android:text="0.00"
                      android:visibility="gone"
                     android:textSize="@dimen/ProductClassHeadingTextSize" />
-                
+
                   <TextView
                     android:id="@+id/tvAmtColl"
                     android:layout_width="wrap_content"
@@ -710,7 +848,7 @@
                     android:visibility="gone"
                     android:textSize="@dimen/ProductClassHeadingTextSize"
                     android:textStyle="bold" />
- 
+
                 <EditText
                             android:id="@+id/etAmtCollVAL"
                             android:background="#d8e2ee"
@@ -730,8 +868,8 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:focusableInTouchMode="true" />
-                
-                
+
+
                 <TextView
                     android:id="@+id/tvAmtOutstanding"
                     android:layout_width="wrap_content"
@@ -755,13 +893,13 @@
                     android:visibility="gone"
                     android:textSize="@dimen/ProductClassHeadingTextSize" />
 
-                
-            </RelativeLayout>
-                   
 
-              </LinearLayout> 
-        
-         </ScrollView>
+            </RelativeLayout>
+
+
+              </LinearLayout>
+
+
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -797,7 +935,7 @@
                     android:text="Please provide reason if Order Canceled or Delivery Qty. changed:"
                     android:gravity="center_vertical"
                     android:layout_marginTop="1dp"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     android:textColor="#201359"/>
 
@@ -812,11 +950,41 @@
             <EditText
                 android:id="@+id/et_CancelationReason"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+             android:layout_margin="3dp"
+                android:padding="3dp"
                 android:gravity="top|left"
                 android:background="@drawable/et_boundary_retrun"
                 />
+            <Button
+                android:layout_width="wrap_content"
+                android:background="#e77c1d"
+                android:layout_gravity="center"
+                android:id="@+id/btn_clickImage"
+                android:text="Click Invoice Photo"
+                android:padding="5dp"
+                android:visibility="visible"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/camera_icon"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:layout_height="30dp" />
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:background="@drawable/shadow_with_5dp"
+
+                android:layout_height="130dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:id="@+id/ll_ParentOfImages"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:layout_height="match_parent">
+
+                </LinearLayout>
+            </HorizontalScrollView>
         </LinearLayout>
     </LinearLayout>
 
@@ -826,7 +994,7 @@
 
    <LinearLayout
     android:id="@+id/ll_buttons"
-    
+
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -836,14 +1004,14 @@
     android:layout_alignParentBottom="true"
  	android:paddingLeft="16dp"
  	android:paddingRight="16dp"
-    android:layout_marginBottom="10dp"
-    
+    android:layout_marginBottom="5dp"
+
     >
-    
-    
-    <Button  
-    android:id="@+id/But_Conform_Select_Invoice"  
-   android:layout_height="wrap_content"
+
+
+    <Button
+    android:id="@+id/But_Conform_Select_Invoice"
+   android:layout_height="30dp"
         android:layout_width="0dip"
         android:layout_weight="1"
         android:background="@drawable/custom_button"
@@ -851,13 +1019,13 @@
          android:gravity="center"
          android:paddingTop="5dp"
         android:paddingBottom="5dp"
-         
-        android:text="Execute Order" >  
-</Button> 
 
-    <Button  
-    android:id="@+id/But_Cancel_Select"  
-     android:layout_height="match_parent"
+        android:text="Execute Order" >
+</Button>
+
+    <Button
+    android:id="@+id/But_Cancel_Select"
+     android:layout_height="30dp"
         android:layout_width="0dip"
         android:layout_weight="1"
         android:background="@drawable/custom_button"
@@ -866,12 +1034,12 @@
         android:layout_marginLeft="5dp"
         android:text="Cancel Order"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp">  
-</Button> 
- 
+        android:paddingBottom="5dp">
+</Button>
 
-    
-    
+
+
+
 </LinearLayout>
-    
+
 </RelativeLayout>

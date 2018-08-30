@@ -156,7 +156,7 @@
          android:gravity="center"
          android:paddingTop="5dp"
         android:paddingBottom="5dp"
-         
+         android:visibility="gone"
         android:text="Execute Orders" >  
 </Button> 
 
@@ -170,6 +170,7 @@
         android:gravity="center"
         android:layout_marginLeft="5dp"
         android:text="Cancel Orders"
+        android:visibility="gone"
         android:paddingTop="5dp"
         android:paddingBottom="5dp">  
 </Button> 
@@ -177,8 +178,8 @@
     <Button  
     android:id="@+id/But_Submit"  
      android:layout_height="match_parent"
-        android:layout_width="0dip"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_weight="3"
         android:background="@drawable/custom_button"
         android:textColor="#ffffff"
         android:layout_marginLeft="5dp"

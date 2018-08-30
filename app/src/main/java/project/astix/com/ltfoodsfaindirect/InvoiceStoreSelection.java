@@ -396,7 +396,7 @@ public class InvoiceStoreSelection extends Activity implements OnItemSelectedLis
 		List<String> dataTemp = Arrays.asList(StoreIDOrderID);  
 	    dataItems.addAll(dataTemp); 
 	    final ListView areaLV = (ListView)findViewById(R.id.list_view);
-		 adapter = new ListAdapter(InvoiceStoreSelection.this, dataItems,StoreIDOrderID,StoreSstat,StorenameOther,pickerDate,hmap,imei,currSysDate,StorenameList,listRouteValue,listDistValue,hmapStoreIdName,hmapStoreIdAndInvoiceOtherDetails);  
+		 adapter = new ListAdapter(InvoiceStoreSelection.this, dataItems,StoreIDOrderID,StoreSstat,StorenameOther,pickerDate,hmap,imei,currSysDate,StorenameList,listRouteValue,listDistValue,hmapStoreIdName,hmapStoreIdAndInvoiceOtherDetails,activityFrom);
 	     adapter.setCustomButtonListner(InvoiceStoreSelection.this);  
 	     areaLV.setAdapter(adapter);
 	   editText.addTextChangedListener(new TextWatcher() {
@@ -846,7 +846,7 @@ public class InvoiceStoreSelection extends Activity implements OnItemSelectedLis
                {
               	/* dbengine.saveInvoiceButtonStoreTransac("NA",pickerDate,TagStoreID,"NA","NA",0.0, 0,
               			 0, 0,TagOrderID,"","7",1);*/
-					if(!strReason.equals(""))
+					/*if(!strReason.equals(""))
 					{
 						dbengine.saveInvoiceButtonStoreTransac("NA",TagDate,TagStoreID,"0","0",0.0, 0,
 								0, 0,TagOrderID,"","10",0,0.0,TagRouteID,"0",strReason,idSelectedRsn);
@@ -855,7 +855,7 @@ public class InvoiceStoreSelection extends Activity implements OnItemSelectedLis
 					{
 						dbengine.saveInvoiceButtonStoreTransac("NA",TagDate,TagStoreID,"0","0",0.0, 0,
 								0, 0,TagOrderID,"","10",0,0.0,TagRouteID,"0","",idSelectedRsn);
-					}
+					}*/
 
                }
                else
@@ -1450,7 +1450,7 @@ strReason=	et_Reason.getText().toString().trim();
 				DA.open();
 				DA.export(dbengine.DATABASE_NAME, fullFileName1,9,OrderListing);
 				DA.close();
-				
+				dbengine.UpdatetblExecutionImages(5);
 
 			} catch (IOException e) {
 

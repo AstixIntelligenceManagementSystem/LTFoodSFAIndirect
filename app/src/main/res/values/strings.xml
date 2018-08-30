@@ -1,8 +1,8 @@
 <resources>
 
- <string name="app_name">GTFieldOperations</string>
+     <string name="app_name">GTFieldOperations</string>
     <!-- <string name="app_name">GTFieldOperations Stagging</string>-->
-    <!-- <string name="app_name">GTFieldOperations Test</string>-->
+     <!--<string name="app_name">GTFieldOperations Test</string>-->
     <!--  <string name="app_name">GTFieldOperations Dev</string>-->
     ,
   <!--  <string name="app_name">GTFieldOperations Test Release</string>-->
@@ -168,6 +168,7 @@
     <string name="internetProb" translatable="false">Internet connection is required to view location on map.</string>
     <string name="spinner_route">Routes </string>
     <string name="remarks">.,/- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890</string>
+   <string name="invoiceNumber">./- abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890</string>
     <string name="spinner_store_type">Store Type </string>
     <string name="spinner_trade_channel">Trade Channel </string>
     <string name="spinner_store_Category">Store Category </string>
@@ -210,7 +211,7 @@
     <string name="battAlertErrMsg"><small>Your device is low on battery. \nPlease Charge your device\'s battery to Continue.</small></string>
     <string name="syncAlertOKMsg"><small>Order submission was successful</small></string>
     <string name="syncAlertStoreQuotationOKMsg"><small>Store Quotation submission was successful</small></string>
-    <string name="syncAlertInvoiceOKMsg"><small>Delivery details submitted!</small></string>
+    <string name="syncAlertInvoiceOKMsg"><small>Details submitted!</small></string>
     <string name="submitConfirmAlert"><small>Store Order details will be Synced! \nDo you want to Submit Order Details?</small></string>
     <string name="returnsConfirmAlert"><small>Store Stock Data will be Saved! \nDo you want to make Returns?</small></string>
     <string name="returnsConfirmAlert2"><small>No Stock was taken! \nDo you want to Continue ?</small></string>
@@ -437,6 +438,7 @@
     <string name="txtReason">Reason :</string>
 
     <string name="SubmittingDataMsg">Submitting Data…</string>
+    <string name="SubmittingExeImgMsg">Submitting Execution Image…</string>
 
     <string name="ValidatingMsg">Validating User</string>
 

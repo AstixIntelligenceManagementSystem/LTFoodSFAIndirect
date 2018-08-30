@@ -783,7 +783,7 @@ private static final String DATABASE_TABLE_MAIN101 = "tblFirstOrderDetailsOnLast
 	private static final String DATABASE_CREATE_TABLE_114 = "create table tblInvoiceButtonTransac (IMEIno text not null, " +
 				"TransDate string not null, StoreID text not null, ProdID text not null, OrderQty integer not null, " +
 				"DelQty integer not null,FreeQty integer not null,Sstat integer not null,ProductShortName text null, ProductPrice real null," +
-				"RouteID int null,OrderID text  null,CatID text null,flgCancel int null,DiscountVal real null,additionalDiscount text null,CancelRemarks text null,CancelReasonId text null);";
+				"RouteID int null,OrderID text  null,CatID text null,flgCancel int null,DiscountVal real null,additionalDiscount text null,CancelRemarks text null,CancelReasonId text null,InvNumber text null,InvDate text null,LineValue text null);";
 		
 		//private static final String DATABASE_CREATE_TABLE_115 = "create table tblPdaDate (PdaDate text null);";
 		
@@ -845,9 +845,12 @@ private static final String DATABASE_TABLE_tblProductListLastVisitStockOrOrderMs
 
 	private static final String TABLE_tblDSMRegDetailsFromServer = "tblDSMRegDetailsFromServer";
 	private static final String DATABASE_CREATE_TABLE_tblDSMRegDetailsFromServer = "create table tblDSMRegDetailsFromServer (PersonNodeId text null,  PersonNodeType text null,Name text null,ContactNo text null,DOB text null,SelfieName text null,SignImgName text null,BankAccountnumber text null,BankID text null,IFSCCode text null,flgUPIID text null,UPIID text null,SelfieNameURL text null,EmailID text null);";
+//execution image table
+    private static final String DATABASE_TABLE_tblExecutionImages = "tblExecutionImages";
+    private static final String DATABASE_CREATE_TABLE_tblExecutionImages= "create table tblExecutionImages (OrderID text null,StoreID text null, ImageName integer not null, ImagePath integer not null,Sstat integer not null,InvNumber text null,InvDate text null);";
 
 
-	private final Context context;
+    private final Context context;
 
 	private DatabaseHelper DBHelper;
 	private SQLiteDatabase db;
@@ -1106,6 +1109,7 @@ private static final String DATABASE_TABLE_tblProductListLastVisitStockOrOrderMs
 				db.execSQL(DATABASE_CREATE_TABLE_tblOrderInPcsOrKg);
 				db.execSQL(DATABASE_CREATE_TABLE_tblInstrumentMaster);
 				db.execSQL(DATABASE_CREATE_TABLE_tblAllCollectionData);
+                db.execSQL(DATABASE_CREATE_TABLE_tblExecutionImages);
 
 
 
@@ -1296,6 +1300,7 @@ private static final String DATABASE_TABLE_tblProductListLastVisitStockOrOrderMs
 				db.execSQL("DROP TABLE IF EXISTS tblBankMaster");
 				db.execSQL("DROP TABLE IF EXISTS tblInstrumentMaster");
 				db.execSQL("DROP TABLE IF EXISTS tblAllCollectionData");
+                db.execSQL("DROP TABLE IF EXISTS tblExecutionImages");
 
 
 				onCreate(db);
@@ -4533,7 +4538,7 @@ db.execSQL("Update tblStoreProductClassificationTypeListMstr Set SubCategoryValu
 	public long saveInvoiceButtonStoreTransac(String IMEIno, String TransDate,
 			String StoreID, String ProdID,String ProductShortName,Double ProductRate,int OrderQty,
 			int DelQty, int FreeQty,String OrderID,String CatID,String Sstat,int flgCancel,Double DiscountVal,String RutID
-			,String additionalDiscount,String CancelRemarks,String cancelReasonId) {
+			,String additionalDiscount,String CancelRemarks,String cancelReasonId,String InvNumber,String InvDate,String LineValue) {
 		
 		
 		ContentValues initialValues = new ContentValues();
@@ -4559,7 +4564,9 @@ db.execSQL("Update tblStoreProductClassificationTypeListMstr Set SubCategoryValu
 		initialValues.put("additionalDiscount", additionalDiscount);
 		initialValues.put("CancelRemarks", CancelRemarks);
 		initialValues.put("CancelReasonId", cancelReasonId);
-
+        initialValues.put("InvNumber", InvNumber);
+        initialValues.put("InvDate", InvDate);
+        initialValues.put("LineValue", LineValue);
 		//initialValues.put("CancelRemarks", CancelRemarks);
 		
 		//initialValues.put(Key_DisplayUnit, DisplayUnit);
@@ -5846,7 +5853,7 @@ open();
         db.execSQL("DELETE FROM  tblFeedbackCompetitr");
         db.execSQL("DELETE FROM tblFeedbackCompetitrMstr");
         db.execSQL("DELETE FROM tblCompetitrPrdctMstr");
-
+        db.execSQL("DELETE FROM tblExecutionImages");
         //nititshdubey
 
 		Log.w(TAG, "Table re-creation completed..");
@@ -21555,7 +21562,31 @@ open();
 								}
 
 							}
-						 
+    public void updateExecutionImageRecordsSyncd()
+    {
+
+        try
+        {
+
+
+            final ContentValues values = new ContentValues();
+            values.put("Sstat", "4");
+									/*int affected = db.update("tblUserLoginMstr", values, "Sstat=?",
+											new String[] { "3" });*/
+
+            int affected5 = db.update("tblExecutionImages", values, "Sstat=?",
+                    new String[] { "5" });
+
+
+
+
+        }
+        catch (Exception ex)
+        {
+            Log.e(TAG, ex.toString());
+        }
+
+    }
 
 							
 						 public void deleteAllXmlDataTable(String Sstat) 
@@ -28324,12 +28355,12 @@ public void insertReasonCanclOrder(String reasonCodeId, String reasonDescr)
 	db.insert(DATABASE_TABLE_REASON_ORDER_CANCEL,null,values);
 	close();
 }
-public void delTblReasonOrderCncl()
-{
-	open();
-	db.execSQL("DELETE FROM tblMessageTextFileContainer");
-	close();
-}
+    public void delTblReasonOrderCncl()
+    {
+        //open();
+        db.execSQL("DELETE FROM tblReasonOrderCncl");
+        //close();
+    }
 public LinkedHashMap<String,String> getReasonToCancel()
 {
 	LinkedHashMap<String,String> hmapRsnForCncl=new LinkedHashMap<String,String>();
@@ -31382,6 +31413,220 @@ public String  fnRetrieveCollectionDataBasedOnStoreID(String StoreID,String Orde
 
         //Log.w(TAG, "UpdateStoreActualLatLongi added..");
         return imageNameToBeDeleted;
+    }
+    public void insertExecutionImagesTable(String StoreID,String OrderID,String ImageName,String ImagePath,int Sstat,String InvNumber,String InvDate)
+    {
+        // "create table tblMinDeliverQntty (PrdId text null,StoreID text null,QPBT text null,QPTaxAmount text null,MinDlvrQty int null,UOMID text null,Sstat text null);";
+        ContentValues values=new ContentValues();
+
+        values.put("StoreID", StoreID);
+        values.put("OrderID", OrderID);
+        values.put("ImageName", ImageName);
+        values.put("ImagePath", ImagePath);
+        values.put("Sstat", Sstat);
+        values.put("InvNumber", InvNumber);
+        values.put("InvDate", InvDate);
+
+
+        db.insert(DATABASE_TABLE_tblExecutionImages, null, values);
+    }
+    public LinkedHashMap<String,String> fnGetImageDataFrom_tblExecutionImages(String StoreID,String OrderID)
+    {
+        LinkedHashMap<String,String> hashMapImages=new LinkedHashMap<String,String>();
+        open();
+        Cursor cursor=null;
+
+        try {
+            cursor = db.rawQuery("SELECT  ImageName, ImagePath FROM  tblExecutionImages where StoreID='"+ StoreID +"' And OrderID='"+ OrderID +"'", null);
+            if(cursor.getCount()>0)
+            {
+                if (cursor.moveToFirst())
+                {
+                    for (int i = 0; i <= (cursor.getCount() - 1); i++) {
+                        hashMapImages.put(cursor.getString(0),cursor.getString(1));
+                        cursor.moveToNext();
+                    }
+                }
+            }
+
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+        finally {
+            if(cursor!=null) {
+                cursor.close();
+            }
+            close();
+            return hashMapImages;
+        }
+    }
+    public void deletetblExecutionImages(String StoreID,String OrderID)
+    {
+       // db.execSQL("DELETE FROM tblStoreEdit where StoreID='"+StoreID+"'");
+        db.execSQL("DELETE FROM tblExecutionImages where StoreID='"+StoreID+"' And OrderID='"+OrderID+"' ");
+
+    }
+    public void UpdatetblExecutionImages(int flag2set)
+    {
+        open();
+        try
+        {
+
+            final ContentValues values = new ContentValues();
+            values.put("Sstat", flag2set);
+
+           // int affected2 = db.update("tblExecutionImages", values,"Sstat=? And StoreID='"+StoreID+"' And OrderID='"+OrderID+"'", new String[] { "3" });
+            int affected2 = db.update("tblExecutionImages", values,"Sstat=? ", new String[] { "3" });
+
+
+
+
+        }
+        catch (Exception ex)
+        {
+            Log.e(TAG, ex.toString());
+        }
+        close();
+
+    }
+    public void updatetblExecutionImages(String PhotoName)
+    {
+
+        try
+        {
+            open();
+            System.out.println("Sunil Doing Testing Response after sending Image inside BD" + PhotoName);
+            final ContentValues values = new ContentValues();
+            values.put("Sstat", 4);
+            ////tableStoreSctnImage(StoreID text null,imageName text null,imagePath text null,ImageClicktime text null,flgSectionPic text null,Sstat integer null);";
+            int affected3 = db.update("tblExecutionImages", values, "ImageName=?",new String[] { PhotoName });
+        }
+        catch (Exception ex)
+        {
+            Log.e(TAG, ex.toString());
+        }
+        finally
+        {
+            close();
+        }
+
+
+    }
+    public String[] getAllStoreIdOftblExecutionImages()
+    {
+
+        int SnamecolumnIndex1 = 0;
+
+
+        Cursor cursor = db.rawQuery("SELECT DISTINCT(StoreID) FROM tblExecutionImages where Sstat=5 ", null);
+        //Cursor cursor = db.rawQuery("SELECT StoreID FROM tblStoreMaterialPhotoDetail", null);
+        try
+        {
+            String StoreName[] = new String[cursor.getCount()];
+            if(cursor.getCount()>0)
+            {
+                if (cursor.moveToFirst())
+                {
+                    for (int i = 0; i <= (cursor.getCount() - 1); i++)
+                    {
+                        StoreName[i] = (String) cursor.getString(SnamecolumnIndex1).toString();
+                        cursor.moveToNext();
+                    }
+                }
+
+            }
+
+            return StoreName;
+        }
+        finally
+        {
+            cursor.close();
+        }
+
+    }
+    public int getImageCOunt(String StoreID) {
+
+        int ScodecolumnIndex = 0;
+
+        Cursor cursor = db.rawQuery("SELECT Count(StoreID) FROM tblExecutionImages where StoreID='" + StoreID + "'", null);
+        try {
+            int strProdStockQty = 0;
+            if (cursor.moveToFirst()) {
+
+                for (int i = 0; i <= (cursor.getCount() - 1); i++) {
+                    if (!cursor.isNull(ScodecolumnIndex)) {
+                        strProdStockQty = Integer.parseInt(cursor.getString(ScodecolumnIndex).toString());
+                        cursor.moveToNext();
+                    }
+
+                }
+            }
+            return strProdStockQty;
+        } finally {
+            cursor.close();
+        }
+    }
+    public String[] getImgsCount(String StoreID)
+    {
+
+        int SnamecolumnIndex1 = 0;
+
+        Cursor cursor = db.rawQuery("SELECT ImageName FROM tblExecutionImages WHERE StoreID ='"+ StoreID + "'", null);
+        try {
+
+            String StoreName[] = new String[cursor.getCount()];
+
+            if (cursor.moveToFirst()) {
+
+                for (int i = 0; i <= (cursor.getCount() - 1); i++) {
+
+                    StoreName[i] = (String) cursor.getString(SnamecolumnIndex1)
+                            .toString();
+
+                    cursor.moveToNext();
+                }
+            }
+            return StoreName;
+        } finally {
+            cursor.close();
+        }
+
+    }
+
+
+
+
+
+
+    public String fnGetOrderAlreadySaved(String StoreID,String OrderID)
+    //public String[] FetchInvoiceButtonStoreStatus()
+    {
+
+        int ScodecolumnIndex = 0;
+
+        Cursor cursor = db.rawQuery("SELECT Sstat FROM tblInvoiceButtonTransac WHERE StoreID ='"+ StoreID.trim()  + "' and  OrderID ='"+ OrderID.trim()  + "'", null);
+        //Cursor cursor = db.rawQuery("SELECT Sstat FROM tblInvoiceButtonStoreMstr", null);
+        // // System.out.println("Arjun cursor.getCount() :"+cursor.getCount());
+        try
+        {
+            String StoreName ="0";// new String[cursor.getCount()];
+
+            if (cursor.moveToFirst())
+            {
+
+                for (int i = 0; i <= (cursor.getCount() - 1); i++)
+                {
+                    StoreName = (String) cursor.getString(ScodecolumnIndex).toString();
+                    cursor.moveToNext();
+                }
+            }
+            return StoreName;
+        }
+        finally
+        {
+            cursor.close();
+        }
     }
 }
 

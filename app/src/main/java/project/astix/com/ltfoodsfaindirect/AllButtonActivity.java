@@ -2136,7 +2136,7 @@ catch (Exception e){
                 HashMap<String,String> hmapInvoiceOrderIDandStatus=new HashMap<String, String>();
                 hmapInvoiceOrderIDandStatus=dbengine.fetchHmapInvoiceOrderIDandStatus();
 
-                for(int mm = 1; mm < 5  ; mm++)
+                for(int mm = 1; mm < 6  ; mm++)
                 {
                     if(mm==1)
                     {
@@ -2181,7 +2181,21 @@ catch (Exception e){
                         }
                     }
 
+                    if(mm==5)
+                    {
 
+                        newservice = newservice.getCancelReasonsExecution(getApplicationContext(), fDate, rID, imei);
+
+                        if(!newservice.director.toString().trim().equals("1"))
+                        {
+                            if(chkFlgForErrorToCloseApp==0)
+                            {
+                                chkFlgForErrorToCloseApp=1;
+                            }
+
+                        }
+
+                    }
 
                 }
 
@@ -2207,6 +2221,7 @@ catch (Exception e){
             super.onPostExecute(result);
 
             dismissProgress();
+            ll_execution.setEnabled(true);
             Intent storeIntent = new Intent(AllButtonActivity.this, InvoiceStoreSelection.class);
             storeIntent.putExtra("imei", imei);
             storeIntent.putExtra("userDate", currSysDate);
@@ -2217,7 +2232,7 @@ catch (Exception e){
             {
                 chkFlgForErrorToCloseApp=0;
                 startActivity(storeIntent);
-               // finish();
+                finish();
             }
             else
             {

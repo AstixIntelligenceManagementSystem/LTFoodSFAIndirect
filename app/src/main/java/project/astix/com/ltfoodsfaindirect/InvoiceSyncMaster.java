@@ -8,7 +8,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -28,7 +31,10 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.app.Activity;
@@ -47,13 +53,18 @@ import com.astix.Common.CommonInfo;
 
 public class InvoiceSyncMaster extends Activity
 {
-
-	
+	public String routeID="0";
+	private File[] listFile;
+	public  File fileintial;
+	public String fnameIMG;
+	private String FilePathStrings;
+	public String UploadingImageName;
+	SyncImageData task1;
 	public String imei;
 	public String StoreName;
 	public String currSysDate;
-	public String pickerDate; 
-	
+	public String pickerDate;
+
 	public String[] xmlForWeb = new String[1];
 	
 	//public TextView chkString;
@@ -72,6 +83,7 @@ public class InvoiceSyncMaster extends Activity
 	public static String activityFrom="";
 	//ProgressDialog pDialog2;
 	InputStream inputStream;
+	ProgressDialog pDialogGetStores;
 	ArrayList mSelectedItems = new ArrayList();
 	ArrayList mSelectedItemsConfornInvoiceOrders= new ArrayList();
 	
@@ -617,7 +629,7 @@ private class SyncImgTasker extends AsyncTask<String, Void, Void> {
 	            */
 	            
 	            pDialogGetStores.setTitle(getText(R.string.genTermPleaseWaitNew));
-				pDialogGetStores.setMessage("Submitting Delivery Details...");
+				pDialogGetStores.setMessage("Submitting Details...");
 				pDialogGetStores.setIndeterminate(false);
 				pDialogGetStores.setCancelable(false);
 				pDialogGetStores.setCanceledOnTouchOutside(false);
@@ -896,8 +908,9 @@ private class SyncImgTasker extends AsyncTask<String, Void, Void> {
 		chkString.setText(xmlForWeb);*/
 		try {
 			//new SyncPROdata().execute().get();
-			SyncPROdata task = new SyncPROdata(InvoiceSyncMaster.this);
-			 task.execute();
+			task1 = new SyncImageData(InvoiceSyncMaster.this);
+			task1.execute();
+
 		} 
 		catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -911,5 +924,442 @@ private class SyncImgTasker extends AsyncTask<String, Void, Void> {
 		getMenuInflater().inflate(R.menu.activity_launcher, menu);
 		return true;
 	}*/
+	private class SyncImageData extends AsyncTask<Void, Void, Void>
+	{
+		String[] fp2s;
+		String[] NoOfOutletID;
 
+		public SyncImageData(InvoiceSyncMaster activity)
+		{
+			pDialogGetStores = new ProgressDialog(activity);
+		}
+
+		@Override
+		protected void onPreExecute()
+		{
+			super.onPreExecute();
+
+			//db.open();
+			routeID="0";//db.GetActiveRouteID();
+			//db.close();
+
+
+			pDialogGetStores.setTitle(getText(R.string.genTermPleaseWaitNew));
+			pDialogGetStores.setMessage(getResources().getString(R.string.SubmittingExeImgMsg));
+			pDialogGetStores.setIndeterminate(false);
+			pDialogGetStores.setCancelable(false);
+			pDialogGetStores.setCanceledOnTouchOutside(false);
+			pDialogGetStores.show();
+
+
+			if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+			{
+
+			}
+			else
+			{
+				// Locate the image folder in your SD Card
+				fileintial = new File(Environment.getExternalStorageDirectory()+ File.separator + CommonInfo.ImagesFolder);
+				// Create a new folder if no folder named SDImageTutorial exist
+				fileintial.mkdirs();
+
+
+					/*// Locate the image folder in your SD Card
+					fileintial = new File(Environment.getExternalStorageDirectory()+ File.separator + CommonInfo.ImagesFolder);
+					// Create a new folder if no folder named SDImageTutorial exist
+					fileintial.mkdirs();*/
+			}
+
+
+			if (fileintial.isDirectory())
+			{
+				listFile = fileintial.listFiles();
+			}
+
+
+
+
+
+		}
+
+		@Override
+		protected Void doInBackground(Void... params)
+		{
+
+
+
+
+
+			// Sync Execution Images
+
+			try
+			{
+
+				try
+				{
+
+					db.open();
+					NoOfOutletID = db.getAllStoreIdOftblExecutionImages();
+					db.close();
+
+				} catch (Exception e)
+				{
+					// TODO Auto-generated catch block
+					db.close();
+					e.printStackTrace();
+				}
+				if(NoOfOutletID.length>0)
+				{
+					for(int chkCountstore=0; chkCountstore < NoOfOutletID.length;chkCountstore++)
+					{
+						db.open();
+						int NoOfImages = db.getImageCOunt(NoOfOutletID[chkCountstore].toString());
+						String[] NoOfImgsPath = db.getImgsCount(NoOfOutletID[chkCountstore].toString());
+						db.close();
+
+						fp2s = new String[2];
+
+						for(int syCOUNT = 0; syCOUNT < NoOfImages; syCOUNT++)
+						{
+							fp2s[0] = NoOfImgsPath[syCOUNT];
+							fp2s[1] = NoOfOutletID[chkCountstore];
+
+							// New Way
+
+							fnameIMG = fp2s[0];
+							UploadingImageName=fp2s[0];
+
+
+							String stID = fp2s[1];
+							String currentImageFileName=fnameIMG;
+
+							boolean isImageExist=false;
+							for (int i = 0; i < listFile.length; i++)
+							{
+								FilePathStrings = listFile[i].getAbsolutePath();
+								if(listFile[i].getName().equals(fnameIMG))
+								{
+									fnameIMG=listFile[i].getAbsolutePath();
+									isImageExist=true;
+									break;
+								}
+							}
+							if(isImageExist)
+							{
+				/*Bitmap bmp = BitmapFactory.decodeFile(fnameIMG);
+				ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+				String image_str=  BitMapToStringDSSelfiAndSignature(bmp);
+				ArrayList<NameValuePair> nameValuePairs = new  ArrayList<NameValuePair>();
+*/
+								ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+								String image_str= compressImage(fnameIMG);// BitMapToString(bmp);
+								ArrayList<NameValuePair> nameValuePairs = new  ArrayList<NameValuePair>();
+
+								try
+								{
+									stream.flush();
+								}
+								catch (IOException e1)
+								{
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+								try
+								{
+									stream.close();
+								}
+								catch (IOException e1)
+								{
+									// TODO Auto-generated catch block
+									e1.printStackTrace();
+								}
+
+								long syncTIMESTAMP = System.currentTimeMillis();
+								Date datefromat = new Date(syncTIMESTAMP);
+								SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss.SSS",Locale.ENGLISH);
+								String onlyDate=df.format(datefromat);
+
+
+								nameValuePairs.add(new BasicNameValuePair("image", image_str));
+								nameValuePairs.add(new BasicNameValuePair("FileName",currentImageFileName));
+								nameValuePairs.add(new BasicNameValuePair("comment","NA"));
+								nameValuePairs.add(new BasicNameValuePair("storeID",stID));
+								nameValuePairs.add(new BasicNameValuePair("date",onlyDate));
+								nameValuePairs.add(new BasicNameValuePair("routeID",routeID));
+
+								try
+								{
+
+									HttpParams httpParams = new BasicHttpParams();
+									HttpConnectionParams.setSoTimeout(httpParams, 0);
+									HttpClient httpclient = new DefaultHttpClient(httpParams);
+									HttpPost httppost = new HttpPost(CommonInfo.ImageSyncPath.trim());
+
+
+									httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+									HttpResponse response = httpclient.execute(httppost);
+									String the_string_response = convertResponseToString(response);
+
+									System.out.println("Sunil Doing Testing Response after sending Image" + the_string_response);
+
+									//  if(serverResponseCode == 200)
+									if(the_string_response.equals("Abhinav"))
+									{
+
+										System.out.println("Sunil Doing Testing Response after sending Image inside if" + the_string_response);
+										db.updatetblExecutionImages(UploadingImageName.toString().trim());
+										// String file_dj_path = Environment.getExternalStorageDirectory() + "/RSPLSFAImages/"+UploadingImageName.toString().trim();
+										String file_dj_path = Environment.getExternalStorageDirectory() + "/" + CommonInfo.ImagesFolder + "/" +UploadingImageName.toString().trim();
+
+										File fdelete = new File(file_dj_path);
+										if (fdelete.exists())
+										{
+											if (fdelete.delete())
+											{
+												Log.e("-->", "file Deleted :" + file_dj_path);
+												callBroadCast();
+											}
+											else
+											{
+												Log.e("-->", "file not Deleted :" + file_dj_path);
+											}
+										}
+						            	/* File file = new File(UploadingImageName.toString().trim());
+							         	    file.delete();  */
+									}
+
+								}catch(Exception e)
+								{
+									IMGsyOK = 1;
+
+								}
+							}
+
+
+						}
+
+
+					}
+				}
+
+
+			}
+			catch(Exception e)
+			{
+				IMGsyOK = 1;
+
+			}
+
+
+
+
+
+
+			return null;
+		}
+
+		@Override
+		protected void onCancelled()
+		{
+			Log.i("SvcMgr", "Service Execution Cancelled");
+		}
+
+		@Override
+		protected void onPostExecute(Void result)
+		{
+			super.onPostExecute(result);
+			if(pDialogGetStores.isShowing())
+			{
+				pDialogGetStores.dismiss();
+			}
+
+			if(IMGsyOK == 1)
+			{
+				IMGsyOK = 0;
+
+
+				showSyncErrorStart();
+			}
+			else
+			{
+				db.open();
+
+				db.updateExecutionImageRecordsSyncd();
+				db.close();
+
+				//showSyncSuccess();
+
+				//showSyncSuccessStart();
+
+
+				try
+				{
+					SyncPROdata task = new SyncPROdata(InvoiceSyncMaster.this);
+					task.execute();
+				}
+				catch (Exception e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+	}
+	public String compressImage(String imageUri) {
+		String filePath = imageUri;//getRealPathFromURI(imageUri);
+		Bitmap scaledBitmap=null;
+		BitmapFactory.Options options = new BitmapFactory.Options();
+
+//      by setting this field as true, the actual bitmap pixels are not loaded in the memory. Just the bounds are loaded. If
+//      you try the use the bitmap here, you will get null.
+		options.inJustDecodeBounds = true;
+		Bitmap bmp = BitmapFactory.decodeFile(filePath, options);
+
+		int actualHeight = options.outHeight;
+		int actualWidth = options.outWidth;
+
+//      max Height and width values of the compressed image is taken as 816x612
+
+		float maxHeight = 1024.0f;
+		float maxWidth = 768.0f;
+		float imgRatio = actualWidth / actualHeight;
+		float maxRatio = maxWidth / maxHeight;
+
+//      width and height values are set maintaining the aspect ratio of the image
+
+		if (actualHeight > maxHeight || actualWidth > maxWidth) {
+			if (imgRatio < maxRatio) {
+				imgRatio = maxHeight / actualHeight;
+				actualWidth = (int) (imgRatio * actualWidth);
+				actualHeight = (int) maxHeight;
+			} else if (imgRatio > maxRatio) {
+				imgRatio = maxWidth / actualWidth;
+				actualHeight = (int) (imgRatio * actualHeight);
+				actualWidth = (int) maxWidth;
+			} else {
+				actualHeight = (int) maxHeight;
+				actualWidth = (int) maxWidth;
+
+			}
+		}
+
+//      setting inSampleSize value allows to load a scaled down version of the original image
+
+		options.inSampleSize = calculateInSampleSize(options, actualWidth, actualHeight);
+
+//      inJustDecodeBounds set to false to load the actual bitmap
+		options.inJustDecodeBounds = false;
+
+//      this options allow android to claim the bitmap memory if it runs low on memory
+		options.inPurgeable = true;
+		options.inInputShareable = true;
+		options.inTempStorage = new byte[768*1024];
+
+		//bmp
+  /*try {
+//          load the bitmap from its path
+
+
+  } catch (OutOfMemoryError exception) {
+   exception.printStackTrace();
+
+  }
+*/
+
+
+  /*if(actualWidth > 768 || h1 > 1024)
+  {
+   bitmap=Bitmap.createScaledBitmap(bitmap,1024,768,true);
+  }
+  else
+  {
+
+   bitmap=Bitmap.createScaledBitmap(bitmap,w1,h1,true);
+  }*/
+		//Bitmap bitmap=Bitmap.createScaledBitmap(bmp,actualWidth,actualHeight,true);
+		//  bmp =BitmapFactory.decodeFile(filePath, options);//Bitmap.createScaledBitmap(bmp,actualWidth,actualHeight,true);;//
+
+		try {
+//          load the bitmap from its path
+			bmp = BitmapFactory.decodeFile(filePath, options);
+
+			//bmp=Bitmap.createScaledBitmap(bmp,actualWidth,actualHeight,true);
+			//scaledBitmap=Bitmap.createBitmap(actualWidth, actualHeight,Bitmap.Config.ARGB_8888);
+			// bmp=Bitmap.createScaledBitmap(bmp,actualWidth,actualHeight,true);
+		} catch (OutOfMemoryError exception) {
+			exception.printStackTrace();
+
+		}
+
+		//Bitmap scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight,Bitmap.Config.ARGB_8888);
+		//bmp=Bitmap.createScaledBitmap(bmp,actualWidth,actualHeight,true);
+		ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+		//scaledBitmap.compress(Bitmap.CompressFormat.JPEG,100, baos);
+		bmp.compress(Bitmap.CompressFormat.JPEG,100, baos);
+
+		byte [] arr=baos.toByteArray();
+		String result= android.util.Base64.encodeToString(arr, android.util.Base64.DEFAULT);
+		return result;
+
+  /*try {
+//          load the bitmap from its path
+   bmp = BitmapFactory.decodeFile(filePath, options);
+  } catch (OutOfMemoryError exception) {
+   exception.printStackTrace();
+
+  }
+  try {
+   scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight,Bitmap.Config.ARGB_8888);
+  } catch (OutOfMemoryError exception) {
+   exception.printStackTrace();
+  }*/
+
+  /*float ratioX = actualWidth / (float) options.outWidth;
+  float ratioY = actualHeight / (float) options.outHeight;
+  float middleX = actualWidth / 2.0f;
+  float middleY = actualHeight / 2.0f;*/
+
+
+		//return filename;
+
+	}
+	public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+
+		if (height > reqHeight || width > reqWidth) {
+			final int heightRatio = Math.round((float) height/ (float) reqHeight);
+			final int widthRatio = Math.round((float) width / (float) reqWidth);
+			inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;      }
+		final float totalPixels = width * height;
+		final float totalReqPixelsCap = reqWidth * reqHeight * 2;
+		while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
+			inSampleSize++;
+		}
+
+		return inSampleSize;
+	}
+	public void callBroadCast() {
+		if (Build.VERSION.SDK_INT >= 14) {
+			Log.e("-->", " >= 14");
+			MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+
+				public void onScanCompleted(String path, Uri uri) {
+
+				}
+			});
+		} else {
+			Log.e("-->", " < 14");
+			sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
+					Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+		}
+
+
+
+	}
 }
