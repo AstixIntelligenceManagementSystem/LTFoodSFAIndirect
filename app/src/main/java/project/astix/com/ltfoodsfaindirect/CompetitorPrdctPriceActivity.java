@@ -87,7 +87,7 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
     public String fnAccurateProvider="";
     public String fnLati="0";
     public String fnLongi="0";
-    public Double fnAccuracy=0.0;
+    public String fnAccuracy="0";
 
 
     DatabaseAssistant DA = new DatabaseAssistant(this);
@@ -616,7 +616,7 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
 
             fnLati=String.valueOf(fnLati);
             fnLongi=String.valueOf(fnLongi);
-            fnAccuracy=Double.parseDouble(finalAccuracy);
+            fnAccuracy=""+finalAccuracy;
 
             fnCreateLastKnownFinalLocation(String.valueOf(fnLati), String.valueOf(fnLongi), String.valueOf(finalAccuracy));
             UpdateLocationAndProductAllData();
@@ -657,7 +657,7 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
 
                 fnLati=String.valueOf(fnLati);
                 fnLongi=String.valueOf(fnLongi);
-                fnAccuracy=Double.parseDouble(finalAccuracy);
+                fnAccuracy=""+finalAccuracy;
 
                 UpdateLocationAndProductAllData();
 
