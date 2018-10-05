@@ -2028,15 +2028,7 @@ public class SyncMaster extends Activity
 
 						 String newzipfile = Environment.getExternalStorageDirectory() + "/" + CommonInfo.OrderXMLFolder + "/" + xmlFileName + ".zip";
 						 xmlForWeb[0] = Environment.getExternalStorageDirectory() + "/" + CommonInfo.OrderXMLFolder + "/" + xmlFileName + ".xml";
-
-
-						 try {
-							 zip(xmlForWeb, newzipfile);
-						 } catch (Exception e1) {
-							 // TODO Auto-generated catch block
-							 e1.printStackTrace();
-						 }
-
+						zip(xmlForWeb, newzipfile);
 						 HttpURLConnection conn = null;
 						 DataOutputStream dos = null;
 						 String lineEnd = "\r\n";
@@ -2058,7 +2050,7 @@ public class SyncMaster extends Activity
 						 String urlString = CommonInfo.OrderSyncPath.trim() + "?CLIENTFILENAME=" + xmlFileName+".xml";
 
 
-						 try {
+
 
 							 // open a URL connection to the Servlet
 							 FileInputStream fileInputStream = new FileInputStream(file2send);
@@ -2140,30 +2132,12 @@ public class SyncMaster extends Activity
 								 });
 							 }
 
+
 							 //close the streams //
 							 fileInputStream.close();
 							 dos.flush();
 							 dos.close();
 							 index++;
-						 } catch (MalformedURLException ex) {
-
-							 pDialogGetStores.dismiss();
-							 ex.printStackTrace();
-
-	               /* runOnUiThread(new Runnable() {
-	                    public void run() {
-	                    // messageText.setText("MalformedURLException Exception : check script url.");
-	                        Toast.makeText(SyncMaster.this, "MalformedURLException", Toast.LENGTH_SHORT).show();
-	                    }
-	                });*/
-							 // Log.e("Upload file to server", "error: " + ex.getMessage(), ex);
-						 } catch (Exception e) {
-
-							 pDialogGetStores.dismiss();
-
-						 }
-
-						 // pDialogGetInvoiceForDay.dismiss();
 
 
 					 }
@@ -2174,7 +2148,8 @@ public class SyncMaster extends Activity
 				 }
 			 }
 	     catch (Exception e) {
-
+			 serverResponseCode=-1;
+			 pDialogGetStores.dismiss();
 	      e.printStackTrace();
 	     }
 	     return serverResponseCode;

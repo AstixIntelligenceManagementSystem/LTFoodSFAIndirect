@@ -2,6 +2,7 @@
 package project.astix.com.ltfoodsfaindirect;
 
 import android.app.Activity;
+import android.content.Context;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
@@ -160,7 +161,14 @@ class CustomKeyboard {
     public void showCustomKeyboard( View v ) {
         mKeyboardView.setVisibility(View.VISIBLE);
         mKeyboardView.setEnabled(true);
-        if( v!=null ) ((InputMethodManager)mHostActivity.getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
+        final View view = mHostActivity.getCurrentFocus();
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                InputMethodManager keyboard = (InputMethodManager)mHostActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        },1);
     }
 
     /** Make the CustomKeyboard invisible. */
