@@ -132,9 +132,11 @@ public class RegistrationActivity extends AppCompatActivity implements DatePicke
     private LinearLayout cameraPreview,recycler_view_images;
     // Creating Separate Directory for saving Generated Images
     String DIRECTORY = Environment.getExternalStorageDirectory().getPath() +  "/" + CommonInfo.ImagesFolder + "/";
-    String pic_name = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
+    String timeStamp = new SimpleDateFormat("yyyyMMMdd_HHmmss", Locale.ENGLISH).format(new Date());
+    String pic_name="IMG_" + CommonInfo.imei+ timeStamp;
+    String StoredPath = DIRECTORY + pic_name + ".png";
     String personName="0";
-    String StoredPath = DIRECTORY + pic_name +CommonInfo.imei+ ".png";
+   // String StoredPath = DIRECTORY + pic_name +CommonInfo.imei+ ".png";
     LinearLayout mContent,llCamera;
     Button  mClear, mGetSign, mCancel,BtnNotYou;
     boolean signOrNot=false;

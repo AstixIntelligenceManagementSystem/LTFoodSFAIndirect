@@ -75,7 +75,7 @@ import android.widget.Toast;
 import com.astix.Common.CommonInfo;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-public class InvoiceProductList  extends Activity implements OnItemSelectedListener, DatePickerDialog.OnDateSetListener
+public class InvoiceProductList  extends Activity implements OnItemSelectedListener, DatePickerDialog.OnDateSetListener,InterfaceClass
 {
 LinearLayout ll_cancleremakrs;
 	LinkedHashMap<String,String> hmapRsnForCncl=new LinkedHashMap<String,String>();
@@ -337,6 +337,7 @@ LinearLayout ll_cancleremakrs;
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_invoice_productlist);
+
 		Intent passedvals = getIntent();
 		imei = passedvals.getStringExtra("imei");
 		StoreName = passedvals.getStringExtra("StoreName");
@@ -2082,6 +2083,11 @@ if((hashMapImages!=null) && (hashMapImages.size()>0)){
 		alertDialogNoConn.setIcon(R.drawable.info_icon);
 		AlertDialog alert = alertDialogNoConn.create();
 		alert.show();
+
+	}
+
+	@Override
+	public void testFunctionOne(String fnLati, String fnLongi, String finalAccuracy, String fnAccurateProvider, String GpsLat, String GpsLong, String GpsAccuracy, String NetwLat, String NetwLong, String NetwAccuracy, String FusedLat, String FusedLong, String FusedAccuracy, String AllProvidersLocation, String GpsAddress, String NetwAddress, String FusedAddress, String FusedLocationLatitudeWithFirstAttempt, String FusedLocationLongitudeWithFirstAttempt, String FusedLocationAccuracyWithFirstAttempt, int flgLocationServicesOnOff, int flgGPSOnOff, int flgNetworkOnOff, int flgFusedOnOff, int flgInternetOnOffWhileLocationTracking, String address, String pincode, String city, String state) {
 
 	}
 }
