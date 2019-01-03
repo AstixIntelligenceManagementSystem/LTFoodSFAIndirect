@@ -1478,7 +1478,13 @@ private static final String DATABASE_TABLE_tblProductListLastVisitStockOrOrderMs
 	      db.execSQL("DELETE FROM tblViewOutletNameAndId");
 	      close();
 	}
-	
+
+	public void fndeleteOldAddressDetailsofVisitedStore(String StoreID)
+    {
+        open();
+        db.execSQL("DELETE FROM tblLatLongDetails where  StoreID='"+StoreID+"'");
+        close();
+    }
 	 public void deleteAllSingleCallWebServiceTable() 
      {
       open();
