@@ -89,7 +89,8 @@ public class DisplayItemPics extends AppCompatActivity implements InterfaceClass
     private Context myContext;
     private LinearLayout cameraPreview;
     private boolean cameraFront = false;
-
+    public static int flgRestart=0;
+    public static int flgStoreOrder=0;
     DBAdapterKenya dbengine=new DBAdapterKenya(DisplayItemPics.this);
     public AppLocationService appLocationService;
     int countSubmitClicked=0;
@@ -463,8 +464,7 @@ public class DisplayItemPics extends AppCompatActivity implements InterfaceClass
                 FusedAddress,AllProvidersLocation,GpsAddress,NetwAddress,FusedAddress,FusedLocationLatitudeWithFirstAttempt
                 ,FusedLocationLongitudeWithFirstAttempt,FusedLocationAccuracyWithFirstAttempt);
         dbengine.open();
-        dbengine.UpdateStoreActualLatLongi(storeID, String.valueOf(fnLati), String.valueOf(fnLongi), "" + finalAccuracy, fnAccurateProvider, flgLocationServicesOnOffOrderReview, flgGPSOnOffOrderReview, flgNetworkOnOffOrderReview, flgFusedOnOffOrderReview, flgInternetOnOffWhileLocationTrackingOrderReview, flgRestartOrderReview, flgStoreOrderOrderReview);
-
+        dbengine.UpdateStoreActualLatLongi(storeID,String.valueOf(fnLati), String.valueOf(fnLongi), "" + finalAccuracy,fnAccurateProvider,flgLocationServicesOnOff,flgGPSOnOff,flgNetworkOnOff,flgFusedOnOff,flgInternetOnOffWhileLocationTracking,flgRestart,flgStoreOrder);
 
         dbengine.close();
 

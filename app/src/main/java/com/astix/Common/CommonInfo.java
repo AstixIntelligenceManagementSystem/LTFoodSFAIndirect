@@ -38,8 +38,8 @@ public class CommonInfo
 
 		public static int AnyVisit = 0;
 
-		public static int DATABASE_VERSIONID = 89;      // put this field value based on value in table on the server
-		public static String AppVersionID = "1.23";   // put this field value based on value in table on the server
+		public static int DATABASE_VERSIONID = 92;      // put this field value based on value in table on the server
+		public static String AppVersionID = "1.24";   // put this field value based on value in table on the server
 		public static int Application_TypeID = 2; //1=Parag Store Mapping,2=Parag SFA Indirect,3=Parag SFA Direct
 
 		public static String OrderSyncPath="http://103.20.212.194/ReadXML_LTFoodsLive/DefaultSFA.aspx";
@@ -156,10 +156,9 @@ public static String CompetitorImagesFolder=".CompetitorSFAImages";
 
 
 
-/*
 
 
-	public static File imageF_savedInstance = null;
+	/*public static File imageF_savedInstance = null;
 	public static String imageName_savedInstance = null;
 	public static String clickedTagPhoto_savedInstance = null;
 	public static Uri uriSavedImage_savedInstance = null;
@@ -183,8 +182,8 @@ public static String CompetitorImagesFolder=".CompetitorSFAImages";
 
 	public static int AnyVisit = 0;
 
-	public static int DATABASE_VERSIONID = 61;      // put this field value based on value in table on the server
-	public static String AppVersionID = "1.15";   // put this field value based on value in table on the server
+	public static int DATABASE_VERSIONID = 65;      // put this field value based on value in table on the server
+	public static String AppVersionID = "1.16";   // put this field value based on value in table on the server
 
 	public static int Application_TypeID = 2; //1=Parag Store Mapping,2=Parag SFA Indirect,3=Parag SFA Direct
 
@@ -222,7 +221,6 @@ public static String CompetitorImagesFolder=".CompetitorSFAImages";
 
 
 
-
 	// Its for Development  Path on 194 server for SFA
 
 
@@ -230,13 +228,12 @@ public static String CompetitorImagesFolder=".CompetitorSFAImages";
 
 
 
-/*
 
 
 
 
 
-   	    public static File imageF_savedInstance=null;
+   	 /*   public static File imageF_savedInstance=null;
 	    public static String imageName_savedInstance=null;
 	    public static String clickedTagPhoto_savedInstance=null;
 	    public static Uri uriSavedImage_savedInstance=null;
@@ -294,7 +291,6 @@ public static String CompetitorImagesFolder=".CompetitorSFAImages";
 
 
 	    public static String ActiveRouteSM="0";
-
 
 
 
