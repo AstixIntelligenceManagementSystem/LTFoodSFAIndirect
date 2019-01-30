@@ -67,7 +67,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class CompetitorPrdctPriceActivity extends AppCompatActivity implements InterfaceClass,MinMaxValidationCompttr{
-
+    public static int flgRestart=0;
+    public static int flgStoreOrder=0;
     LinkedHashMap<String,String> hmapPrdctunitInGram;
     LinkedHashMap<String,String> hmapPrdctMinMax;
     Button btn_submit;
@@ -610,7 +611,17 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
                                 String city, String state)
     {
 
-        //System.out.println("SHIVA"+fnLati+","+fnLongi+","+finalAccuracy+","+fnAccurateProvider+","+GpsLat+","+GpsLong+","+GpsAccuracy+","+NetwLat+","+NetwLong+","+NetwAccuracy+","+FusedLat+","+FusedLong+","+FusedAccuracy+","+AllProvidersLocation+","+GpsAddress+","+NetwAddress+","+FusedAddress+","+FusedLocationLatitudeWithFirstAttempt+","+FusedLocationLongitudeWithFirstAttempt+","+FusedLocationAccuracyWithFirstAttempt+","+fnLongi+","+flgLocationServicesOnOff+","+flgGPSOnOff+","+flgNetworkOnOff+","+flgFusedOnOff+","+flgInternetOnOffWhileLocationTracking+","+address+","+pincode+","+city+","+state);
+        dbengine.fndeleteOldAddressDetailsofVisitedStore(storeID);
+        dbengine.saveLatLngToTxtFile(storeID,fnLati, fnLongi,finalAccuracy,fnAccurateProvider,GpsLat,GpsLong,GpsAccuracy,NetwLat,NetwLong,NetwAccuracy,FusedLat,FusedLong,FusedAccuracy,3,"0",
+                FusedAddress,AllProvidersLocation,GpsAddress,NetwAddress,FusedAddress,FusedLocationLatitudeWithFirstAttempt
+                ,FusedLocationLongitudeWithFirstAttempt,FusedLocationAccuracyWithFirstAttempt);
+        dbengine.open();
+        dbengine.UpdateStoreActualLatLongi(storeID,String.valueOf(fnLati), String.valueOf(fnLongi), "" + finalAccuracy,fnAccurateProvider,flgLocationServicesOnOff,flgGPSOnOff,flgNetworkOnOff,flgFusedOnOff,flgInternetOnOffWhileLocationTracking,flgRestart,flgStoreOrder);
+
+        dbengine.close();
+
+
+               //System.out.println("SHIVA"+fnLati+","+fnLongi+","+finalAccuracy+","+fnAccurateProvider+","+GpsLat+","+GpsLong+","+GpsAccuracy+","+NetwLat+","+NetwLong+","+NetwAccuracy+","+FusedLat+","+FusedLong+","+FusedAccuracy+","+AllProvidersLocation+","+GpsAddress+","+NetwAddress+","+FusedAddress+","+FusedLocationLatitudeWithFirstAttempt+","+FusedLocationLongitudeWithFirstAttempt+","+FusedLocationAccuracyWithFirstAttempt+","+fnLongi+","+flgLocationServicesOnOff+","+flgGPSOnOff+","+flgNetworkOnOff+","+flgFusedOnOff+","+flgInternetOnOffWhileLocationTracking+","+address+","+pincode+","+city+","+state);
         if(!checkLastFinalLoctionIsRepeated(String.valueOf(fnLati), String.valueOf(fnLongi), String.valueOf(finalAccuracy)))
         {
 
@@ -640,7 +651,7 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
                 // On pressing Settings button
                 alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        countSubmitClicked++;
+                       // countSubmitClicked++;
                         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         startActivity(intent);
                     }
@@ -1095,12 +1106,12 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
     }
 
     public void UpdateLocationAndProductAllData() {
-        checkHighAccuracyLocationMode(CompetitorPrdctPriceActivity.this);
-        dbengine.open();
+        //checkHighAccuracyLocationMode(CompetitorPrdctPriceActivity.this);
+      /*  dbengine.open();
         dbengine.UpdateStoreActualLatLongi(storeID, String.valueOf(fnLati), String.valueOf(fnLongi), "" + fnAccuracy, fnAccurateProvider, flgLocationServicesOnOffOrderReview, flgGPSOnOffOrderReview, flgNetworkOnOffOrderReview, flgFusedOnOffOrderReview, flgInternetOnOffWhileLocationTrackingOrderReview, flgRestartOrderReview, flgStoreOrderOrderReview);
 
 
-        dbengine.close();
+        dbengine.close();*/
 
         FullSyncDataNow task = new FullSyncDataNow(CompetitorPrdctPriceActivity.this);
         task.execute();
@@ -1191,5 +1202,54 @@ public class CompetitorPrdctPriceActivity extends AppCompatActivity implements I
         alertDialogNoConn.setIcon(R.drawable.info_ico);
         AlertDialog alert = alertDialogNoConn.create();
         alert.show();
+    }
+    @Override
+    protected void onResume()
+    {
+        // TODO Auto-generated method stub
+        super.onResume();
+
+
+        if(locationManager!=null)
+        {
+            boolean isGPSokCheckInResume = false;
+            boolean isNWokCheckInResume=false;
+            isGPSokCheckInResume = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            isNWokCheckInResume = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if(!isGPSokCheckInResume && !isNWokCheckInResume)
+            {
+                try
+                {
+                    showSettingsAlert();
+                }
+                catch(Exception e)
+                {
+
+                }
+                isGPSokCheckInResume = false;
+                isNWokCheckInResume=false;
+            }
+            else
+            {
+
+
+                if(countSubmitClicked==1)
+                {
+
+                    LocationRetreivingGlobal llaaa=new LocationRetreivingGlobal();
+                    llaaa.locationRetrievingAndDistanceCalculating(CompetitorPrdctPriceActivity.this,false,50);
+
+                    countSubmitClicked++;
+
+
+                }
+
+
+
+
+            }
+        }
+        //new GetData().execute();
     }
 }
