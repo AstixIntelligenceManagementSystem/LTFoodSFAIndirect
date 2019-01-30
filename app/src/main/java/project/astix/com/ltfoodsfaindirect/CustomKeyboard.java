@@ -7,6 +7,7 @@ import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.os.Build;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputType;
 import android.view.MotionEvent;
@@ -18,7 +19,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-class CustomKeyboard {
+public class CustomKeyboard {
 
       private KeyboardView mKeyboardView,mKeyboardViewNum,mKeyboardViewNumWithoutDecimal;
       private Activity mHostActivity;

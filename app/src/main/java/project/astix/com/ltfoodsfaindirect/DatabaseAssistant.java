@@ -107,7 +107,7 @@ public class DatabaseAssistant
 			exportTable("tblOutletQuestAnsMstr");
 			exportTableStoreMaterialDetail("tblStoreMaterialDetail");
 			exportTable("tblStoreMaterialPhotoDetail");
-			
+			exportTable("tblAttandanceDetails");
 			exportTable("tblNoVisitStoreDetails");
 			
 			exportTableForRouteType("tblRouteMstr",ActiveRouteID);

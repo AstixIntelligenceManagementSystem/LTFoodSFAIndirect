@@ -6,5 +6,5 @@ package project.astix.com.ltfoodsfaindirect;
 
 public interface CheckedUnchekedCmpttrProduct {
 
-    public void checkedUncheckedPrdct(boolean isChecked,String tagPrdct);
+    public void checkedUncheckedPrdct(boolean isChecked,String tagPrdct, String quantity);
 }

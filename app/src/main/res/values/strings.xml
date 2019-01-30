@@ -2,7 +2,7 @@
 
      <string name="app_name">GTFieldOperations</string>
     <!-- <string name="app_name">GTFieldOperations Stagging</string>-->
-    <!-- <string name="app_name">GTFieldOperations Test</string>-->
+     <!--<string name="app_name">GTFieldOperations Test</string>-->
     <!--  <string name="app_name">GTFieldOperations Dev</string>-->
     ,
   <!--  <string name="app_name">GTFieldOperations Test Release</string>-->
@@ -19,7 +19,31 @@
     <string name="Details">Details</string>
     <string name="LastOrderDate">Last Invoice Date : </string>
     <string name="ExecutionSummary">Execution Summary : </string>
+    <string name="dsr_profile">DSR Profile</string>
+    <string name="DSR_Profile">DSR Profile</string>
+    <string name="Coverage_Area">Coverage Area</string>
+    <string name="Contact_No">Contact No</string>
+    <string name="DOB">DOB</string>
 
+    <string name="DayStartButtonText">Day Start</string>
+    <string name="ExitButtonText">Exit</string>
+    <string name="submittingDayStart">Submitting Day Start Details...</string>
+    <string name="working">Working</string>
+    <string name="not_working">Not Working</string>
+    <string name="DistbtrName">Distributor Name : </string>
+    <string name="today_working">Today Working</string>
+    <string name="today_Notworking">Not Working</string>
+    <string name="other_loc">Please Specify : </string>
+    <string name="selectReasonForLate">To proceed, please select a reason why you were late.</string>
+    <string name="selectOtherReasonForLate">To proceed, please specify other reason why you were late.</string>
+    <string name="selectDistributorProceeds">Please select Distributor to Proceed.</string>
+    <string name="selectAtleastOneOption">Please Select atleast one option to proceed.</string>
+    <string name="AlertSameLoc">Your current location is same as previous, so please turn off your location services then turn on, it back again.</string>
+    <string name="txtErrRetrieving">Error while Retrieving Data!\n Please Retry</string>
+    <string name="genTermFetchingTime">Fetching Current Time..</string>
+    <string name="specifyDBRName">Please Specify Distributor Name, to proceed.</string>
+    <string name="specifyLocatione">Please Specify Other Location, to proceed.</string>
+    <string name="selectAtleastOneOptionwithedittext">Please Specify the reason first to proceed.</string>
 
     <!--All button Activity-->
     <string name="Dashboard">Dashboard</string>
@@ -543,6 +567,7 @@
     <string name="CategoryName">Category Name</string>
     <string name="txtProductName">Product Name</string>
     <string name="Stock">Stock</string>
+    <string name="Unit">Unit</string>
     <string name="AlertFilter">No data found please filter with appropriate word</string>
     <string name="txtEnterManagerName">Please Enter Manager Name</string>
     <string name="StockQty">Stock.Qty</string>

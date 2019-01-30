@@ -177,7 +177,7 @@ LinearLayout ll_cancleremakrs;
 		String activityFrom="";
 		public String SelectStoreTag;
 		
-		
+
 		public String TagStoreID;
 		public String TagOrderID;
 		public String TagDistID;

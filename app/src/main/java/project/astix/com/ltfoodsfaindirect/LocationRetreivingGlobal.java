@@ -233,6 +233,11 @@ public class LocationRetreivingGlobal implements LocationListener,GoogleApiClien
         public void onTick(long millisUntilFinished) {
             System.out.println("Shivam"+FusedLocationAccuracy);
             if(FusedLocationAccuracy!=null){
+                if(FusedLocationAccuracy==null || FusedLocationAccuracy.equals("NA"))
+                {
+                    FusedLocationAccuracy="0.0";
+                }
+
                 if(Double.parseDouble(FusedLocationAccuracy)<checkAccuracy && (!FusedLocationAccuracy.equals("0"))){
                     System.out.println("Shivam"+"ontickFInish "+millisUntilFinished+":"+ FusedLocationAccuracy);
 
@@ -626,8 +631,14 @@ else{
       List<Address> addresses;
       geocoder = new Geocoder(context,  Locale.ENGLISH);
 
-
-
+if(latti==null || latti.equals("NA"))
+{
+    latti="0.0";
+}
+      if(longi==null || longi.equals("NA"))
+      {
+          longi="0.0";
+      }
       try {
           addresses = geocoder.getFromLocation(Double.parseDouble(latti), Double.parseDouble(longi), 1);
 
@@ -751,6 +762,14 @@ else{
             CityFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[4];
             PincodeFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[5];
             StateFromLauncher = allLoctionDetails.split(Pattern.quote("^"))[6];*/
+           if(latti==null || latti.equals("NA"))
+           {
+               latti="0.0";
+           }
+            if(longi==null || longi.equals("NA"))
+            {
+                longi="0.0";
+            }
             List<Address> addresses = geocoder.getFromLocation(Double.parseDouble(latti), Double.parseDouble(longi), 1);
             if (addresses != null && addresses.size() > 0){
                 if(addresses.get(0).getAddressLine(1)!=null){

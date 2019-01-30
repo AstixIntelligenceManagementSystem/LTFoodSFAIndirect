@@ -15,10 +15,10 @@ import android.media.MediaScannerConnection;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -35,7 +35,6 @@ import android.widget.Toast;
 import com.astix.Common.CommonFunction;
 import com.astix.Common.CommonInfo;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -51,24 +50,24 @@ import java.util.regex.Pattern;
 
 public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
 
-    LinkedHashMap<String ,Integer> hmapCtgry_Imageposition=new LinkedHashMap<String,Integer>();
-    LinkedHashMap<String ,String> hmapPhotoDetailsForSaving=new LinkedHashMap<>();
-    LinkedHashMap<String ,ArrayList<String>> hmapCtgryPhotoSection=new LinkedHashMap<String,ArrayList<String>>();
+    LinkedHashMap<String, Integer> hmapCtgry_Imageposition = new LinkedHashMap<String, Integer>();
+    LinkedHashMap<String, String> hmapPhotoDetailsForSaving = new LinkedHashMap<>();
+    LinkedHashMap<String, ArrayList<String>> hmapCtgryPhotoSection = new LinkedHashMap<String, ArrayList<String>>();
     ImageAdapter adapterImage;
-    DBAdapterKenya dbengine=new DBAdapterKenya(PicClkBfrStock.this);
+    DBAdapterKenya dbengine = new DBAdapterKenya(PicClkBfrStock.this);
     public String storeID;
     public String imei;
     public String date;
     public String pickerDate;
     public String selStoreName;
 
-    int isStockAvlbl=0;
-    int isCmpttrAvlbl=0;
+    int isStockAvlbl = 0;
+    int isCmpttrAvlbl = 0;
 
-    int picAddPosition=0;
-    int removePicPositin=0;
+    int picAddPosition = 0;
+    int removePicPositin = 0;
     ExpandableHeightGridView expandable_gridview;
-    Button btn_camera,btn_next;
+    Button btn_camera, btn_next;
     ImageView img_back_Btn;
     String imageName;
     File imageF;
@@ -76,13 +75,13 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
     Dialog dialog;
     Uri uriSavedImage;
     ImageView flashImage;
-    float mDist=0;
+    float mDist = 0;
     private boolean isLighOn = false;
-    ArrayList<Object> arrImageData=new ArrayList<Object>();
+    ArrayList<Object> arrImageData = new ArrayList<Object>();
     private Camera mCamera;
     private CameraPreview mPreview;
     private Camera.PictureCallback mPicture;
-    private Button capture,cancelCam, switchCamera;
+    private Button capture, cancelCam, switchCamera;
     private Context myContext;
     private LinearLayout cameraPreview;
     private boolean cameraFront = false;
@@ -90,38 +89,35 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
-        if(keyCode==KeyEvent.KEYCODE_BACK)
-        {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             return true;
         }
-        if(keyCode==KeyEvent.KEYCODE_HOME)
-        {
+        if (keyCode == KeyEvent.KEYCODE_HOME) {
             // finish();
             return true;
         }
-        if(keyCode==KeyEvent.KEYCODE_MENU)
-        {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
             return true;
         }
-        if(keyCode==KeyEvent.KEYCODE_SEARCH)
-        {
+        if (keyCode == KeyEvent.KEYCODE_SEARCH) {
             return true;
         }
 
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pic_clk_bfr_stock);
 
 
-        chkBox_Rtailer= (CheckBox) findViewById(R.id.chkBox_Rtailer);
-         expandable_gridview= (ExpandableHeightGridView) findViewById(R.id.expandable_gridview);
-          btn_camera= (Button) findViewById(R.id.btn_camera);
+        chkBox_Rtailer = (CheckBox) findViewById(R.id.chkBox_Rtailer);
+        expandable_gridview = (ExpandableHeightGridView) findViewById(R.id.expandable_gridview);
+        btn_camera = (Button) findViewById(R.id.btn_camera);
 
-          btn_next= (Button) findViewById(R.id.btn_next);
-        img_back_Btn= (ImageView) findViewById(R.id.img_back_Btn);
+        btn_next = (Button) findViewById(R.id.btn_next);
+        img_back_Btn = (ImageView) findViewById(R.id.img_back_Btn);
         getDataFromIntent();
         btn_camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,12 +130,9 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
         chkBox_Rtailer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(chkBox_Rtailer.isChecked())
-                {
+                if (chkBox_Rtailer.isChecked()) {
                     btn_camera.setEnabled(false);
-                }
-                else
-                {
+                } else {
                     btn_camera.setEnabled(true);
                 }
 
@@ -149,17 +142,18 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
             @Override
             public void onClick(View v) {
 
-                    Intent ready4GetLoc = new Intent(PicClkBfrStock.this,StockCheckAndCmpttrAvilable.class);
-                    //enableGPSifNot();
+                Intent ready4GetLoc = new Intent(PicClkBfrStock.this, LastVisitDetails.class);
+                //enableGPSifNot();
 
-                    ready4GetLoc.putExtra("storeID", storeID);
-                    ready4GetLoc.putExtra("selStoreName", selStoreName);
-                    ready4GetLoc.putExtra("imei", imei);
-                    ready4GetLoc.putExtra("userDate", date);
-                    ready4GetLoc.putExtra("pickerDate", pickerDate);
+                ready4GetLoc.putExtra("storeID", storeID);
+                ready4GetLoc.putExtra("SN", selStoreName);
+                ready4GetLoc.putExtra("bck", 1);
+                ready4GetLoc.putExtra("imei", imei);
+                ready4GetLoc.putExtra("userDate", date);
+                ready4GetLoc.putExtra("pickerDate", pickerDate);
 
-                    startActivity(ready4GetLoc);
-                    finish();
+                startActivity(ready4GetLoc);
+                finish();
 
 
             }
@@ -167,14 +161,11 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!chkBox_Rtailer.isChecked())
-                {
-                    dbengine.updateStockRetailerAllowed(storeID,1);
-                    if((hmapCtgryPhotoSection!=null) && (hmapCtgryPhotoSection.size()>0) )
-                    {
-                        if(saveImageSection1())
-                        {
-                            Intent nxtP4 = new Intent(PicClkBfrStock.this,ActualVisitStock.class);
+                if (!chkBox_Rtailer.isChecked()) {
+                    dbengine.updateStockRetailerAllowed(storeID, 1);
+                    if ((hmapCtgryPhotoSection != null) && (hmapCtgryPhotoSection.size() > 0)) {
+                        if (saveImageSection1()) {
+                            Intent nxtP4 = new Intent(PicClkBfrStock.this, ActualVisitStock.class);
 
                             nxtP4.putExtra("storeID", storeID);
                             nxtP4.putExtra("SN", selStoreName);
@@ -188,18 +179,13 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                             finish();
                         }
 
+                    } else {
+                        Toast.makeText(PicClkBfrStock.this, "Click atleast one pic", Toast.LENGTH_SHORT).show();
                     }
-                    else
-                    {
-                        Toast.makeText(PicClkBfrStock.this,"Click atleast one pic",Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else
-                {
-                    dbengine.updateStockRetailerAllowed(storeID,0);
-                    if(isCmpttrAvlbl==1)
-                    {
-                        Intent nxtP4 = new Intent(PicClkBfrStock.this,FeedbackCompetitorActivity.class);
+                } else {
+                    dbengine.updateStockRetailerAllowed(storeID, 0);
+                    if (isCmpttrAvlbl == 1) {
+                        Intent nxtP4 = new Intent(PicClkBfrStock.this, FeedbackCompetitorActivity.class);
                         //Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
                         nxtP4.putExtra("storeID", storeID);
                         nxtP4.putExtra("SN", selStoreName);
@@ -211,13 +197,10 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                         nxtP4.putExtra("isCmpttrAvlbl", isCmpttrAvlbl);
                         startActivity(nxtP4);
                         finish();
-                    }
-                    else
-                    {
+                    } else {
                         VideoPageOpenOrProductOrderPageOpen();
                     }
                 }
-
 
 
             }
@@ -227,62 +210,51 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
     }
 
 
-
-
-    public void setSavedImage()
-    {
-        if((hmapPhotoDetailsForSaving!=null) && (hmapPhotoDetailsForSaving.size()>0))
-        {
-            for(Map.Entry<String,String> entry:hmapPhotoDetailsForSaving.entrySet())
-            {
-                Bitmap bitmap= ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(entry.getValue().split(Pattern.quote("^"))[0]),180,180);
-               String valueOfKey=entry.getValue().split(Pattern.quote("^"))[0]+"~"+entry.getValue().split(Pattern.quote("^"))[1];
-                String clkTagPic=entry.getValue().split(Pattern.quote("^"))[2];
-                setSavedImageToScrollView(bitmap,entry.getKey(),valueOfKey,clkTagPic,true);
+    public void setSavedImage() {
+        if ((hmapPhotoDetailsForSaving != null) && (hmapPhotoDetailsForSaving.size() > 0)) {
+            for (Map.Entry<String, String> entry : hmapPhotoDetailsForSaving.entrySet()) {
+                Bitmap bitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(entry.getValue().split(Pattern.quote("^"))[0]), 180, 180);
+                String valueOfKey = entry.getValue().split(Pattern.quote("^"))[0] + "~" + entry.getValue().split(Pattern.quote("^"))[1];
+                String clkTagPic = entry.getValue().split(Pattern.quote("^"))[2];
+                setSavedImageToScrollView(bitmap, entry.getKey(), valueOfKey, clkTagPic, true);
             }
         }
     }
+
     private void getDataFromIntent() {
 
 
         Intent passedvals = getIntent();
 
-        if(passedvals!=null){
+        if (passedvals != null) {
 
             storeID = passedvals.getStringExtra("storeID");
             imei = passedvals.getStringExtra("imei");
             date = passedvals.getStringExtra("userdate");
             pickerDate = passedvals.getStringExtra("pickerDate");
             selStoreName = passedvals.getStringExtra("SN");
-            isStockAvlbl=passedvals.getIntExtra("isStockAvlbl",0);
-            isCmpttrAvlbl=passedvals.getIntExtra("isCmpttrAvlbl",0);
+            isStockAvlbl = passedvals.getIntExtra("isStockAvlbl", 0);
+            isCmpttrAvlbl = passedvals.getIntExtra("isCmpttrAvlbl", 0);
         }
-        hmapPhotoDetailsForSaving=dbengine.getImageData(storeID,"1");
-        if(dbengine.getStockRetailerAllowed(storeID)==0)
-        {
+        hmapPhotoDetailsForSaving = dbengine.getImageData(storeID, "1");
+        if (dbengine.getStockRetailerAllowed(storeID) == 0) {
             chkBox_Rtailer.setChecked(true);
             btn_camera.setEnabled(false);
         }
     }
 
     //custom camera
-    public void openCustomCamara()
-    {
-        if(dialog!=null)
-        {
-            if(!dialog.isShowing())
-            {
+    public void openCustomCamara() {
+        if (dialog != null) {
+            if (!dialog.isShowing()) {
                 openCamera();
             }
-        }
-        else
-        {
+        } else {
             openCamera();
         }
     }
 
-    private void handleZoom(MotionEvent event, Camera.Parameters params)
-    {
+    private void handleZoom(MotionEvent event, Camera.Parameters params) {
         int maxZoom = params.getMaxZoom();
         int zoom = params.getZoom();
         float newDist = getFingerSpacing(event);
@@ -323,11 +295,11 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
     @Override
     public void onStop() {
         super.onStop();
-        if(mCamera!=null){
+        if (mCamera != null) {
             mCamera.release();
-            mCamera=null;
-            if(dialog!=null){
-                if(dialog.isShowing()){
+            mCamera = null;
+            if (dialog != null) {
+                if (dialog.isShowing()) {
                     dialog.dismiss();
 
                 }
@@ -339,7 +311,7 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
         // ...
         float x = event.getX(0) - event.getX(1);
         float y = event.getY(0) - event.getY(1);
-        return (float)Math.sqrt(x * x + y * y);
+        return (float) Math.sqrt(x * x + y * y);
     }
 
     private void setCameraDisplayOrientation(Activity activity, int cameraId, Camera camera) {
@@ -350,10 +322,18 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                 .getRotation();
         int degrees = 0;
         switch (rotation) {
-            case Surface.ROTATION_0: degrees = 0; break;
-            case Surface.ROTATION_90: degrees = 90; break;
-            case Surface.ROTATION_180: degrees = 180; break;
-            case Surface.ROTATION_270: degrees = 270; break;
+            case Surface.ROTATION_0:
+                degrees = 0;
+                break;
+            case Surface.ROTATION_90:
+                degrees = 90;
+                break;
+            case Surface.ROTATION_180:
+                degrees = 180;
+                break;
+            case Surface.ROTATION_270:
+                degrees = 270;
+                break;
         }
 
         int result;
@@ -382,31 +362,29 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                 if (pictureFile == null) {
                     return;
                 }
-                try
-                {
+                try {
                     //write the file
                     FileOutputStream fos = new FileOutputStream(pictureFile);
                     fos.write(data);
                     fos.close();
 
-                    arrImageData.add(0,pictureFile);
-                    arrImageData.add(1,pictureFile.getName());
+                    arrImageData.add(0, pictureFile);
+                    arrImageData.add(1, pictureFile.getName());
                     dialog.dismiss();
-                    if(pictureFile!=null)
-                    {
-                        File file=pictureFile;
-                        System.out.println("File +++"+pictureFile);
+                    if (pictureFile != null) {
+                        File file = pictureFile;
+                        System.out.println("File +++" + pictureFile);
 
-                        imageName=pictureFile.getName();
-                        CommonFunction.normalizeImageForUri(PicClkBfrStock.this,Uri.fromFile(pictureFile));
-                        Bitmap bitmap= ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()),120,120);
+                        imageName = pictureFile.getName();
+                        CommonFunction.normalizeImageForUri(PicClkBfrStock.this, Uri.fromFile(pictureFile));
+                        Bitmap bitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(file.getAbsolutePath()), 120, 120);
 
                         long syncTIMESTAMP = System.currentTimeMillis();
                         Date dateobj = new Date(syncTIMESTAMP);
                         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
                         String clkdTime = df.format(dateobj);
-                        	String valueOfKey=file.getAbsolutePath()+"~"+clkdTime;
-                            setSavedImageToScrollView(bitmap,imageName,valueOfKey,"1",false);
+                        String valueOfKey = file.getAbsolutePath() + "~" + clkdTime;
+                        setSavedImageToScrollView(bitmap, imageName, valueOfKey, "1", false);
 
                     }
 //Show dialog here
@@ -420,9 +398,9 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                 //refresh camera to continue preview--------------------------------------------------------------
                 //	mPreview.refreshCamera(mCamera);
                 //if want to release camera
-                if(mCamera!=null){
+                if (mCamera != null) {
                     mCamera.release();
-                    mCamera=null;
+                    mCamera = null;
                 }
             }
         };
@@ -436,17 +414,13 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             cancelCam.setEnabled(false);
             flashImage.setEnabled(false);
-            if(cameraPreview!=null)
-            {
+            if (cameraPreview != null) {
                 cameraPreview.setEnabled(false);
             }
 
-            if(mCamera!=null)
-            {
+            if (mCamera != null) {
                 mCamera.takePicture(null, null, mPicture);
-            }
-            else
-            {
+            } else {
                 dialog.dismiss();
             }
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -496,8 +470,7 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
         return cameraId;
     }
 
-    private static File getOutputMediaFile()
-    {
+    private static File getOutputMediaFile() {
         //make a new file directory inside the "sdcard" folder
         File mediaStorageDir = new File("/sdcard/", CommonInfo.ImagesFolder);
 
@@ -510,16 +483,15 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
         }
 
         //take the current timeStamp
-        String timeStamp = new SimpleDateFormat("yyyyMMMdd_HHmmss.SSS",Locale.ENGLISH).format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMMdd_HHmmss.SSS", Locale.ENGLISH).format(new Date());
         File mediaFile;
         //and make a media file:
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator +CommonInfo.imei+ "IMG_" + timeStamp + ".jpg");
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + CommonInfo.imei + "IMG_" + timeStamp + ".jpg");
 
         return mediaFile;
     }
 
-    public void openCamera()
-    {
+    public void openCamera() {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         arrImageData.clear();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -533,9 +505,9 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
         dialog.setContentView(R.layout.activity_main);
         WindowManager.LayoutParams parms = dialog.getWindow().getAttributes();
 
-        parms.height=parms.MATCH_PARENT;
-        parms.width=parms.MATCH_PARENT;
-        cameraPreview = (LinearLayout)dialog. findViewById(R.id.camera_preview);
+        parms.height = parms.MATCH_PARENT;
+        parms.width = parms.MATCH_PARENT;
+        cameraPreview = (LinearLayout) dialog.findViewById(R.id.camera_preview);
 
         mPreview = new CameraPreview(PicClkBfrStock.this, mCamera);
         cameraPreview.addView(mPreview);
@@ -558,23 +530,22 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
 				mCamera.release();
 				mCamera=null;
 			}*/
-            mCamera=Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+            mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
 			/*if(mCamera==null){
 				mCamera=Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
 			}*/
 
-            boolean isParameterSet=false;
+            boolean isParameterSet = false;
             try {
-                Camera.Parameters params= mCamera.getParameters();
+                Camera.Parameters params = mCamera.getParameters();
 
 
                 List<Camera.Size> sizes = params.getSupportedPictureSizes();
                 Camera.Size size = sizes.get(0);
                 //Camera.Size size1 = sizes.get(0);
-                for(int i=0;i<sizes.size();i++)
-                {
+                for (int i = 0; i < sizes.size(); i++) {
 
-                    if(sizes.get(i).width > size.width)
+                    if (sizes.get(i).width > size.width)
                         size = sizes.get(i);
                 }
 
@@ -589,15 +560,12 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                 //	params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
 
                 isLighOn = false;
-                int minExpCom=params.getMinExposureCompensation();
-                int maxExpCom=params.getMaxExposureCompensation();
+                int minExpCom = params.getMinExposureCompensation();
+                int maxExpCom = params.getMaxExposureCompensation();
 
-                if( maxExpCom > 4 && minExpCom < 4)
-                {
+                if (maxExpCom > 4 && minExpCom < 4) {
                     params.setExposureCompensation(4);
-                }
-                else
-                {
+                } else {
                     params.setExposureCompensation(0);
                 }
 
@@ -607,20 +575,17 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                 // String newVAlue = params.get("iso");
                 //  params.set("iso","1600");
                 params.setColorEffect("none");
-                params.set("scene-mode","auto");
+                params.set("scene-mode", "auto");
                 params.setPictureFormat(ImageFormat.JPEG);
                 params.setJpegQuality(70);
                 params.setRotation(90);
 
                 mCamera.setParameters(params);
-                isParameterSet=true;
-            }
-            catch (Exception e)
-            {
+                isParameterSet = true;
+            } catch (Exception e) {
 
             }
-            if(!isParameterSet)
-            {
+            if (!isParameterSet) {
                 Camera.Parameters params2 = mCamera.getParameters();
                 params2.setPictureFormat(ImageFormat.JPEG);
                 params2.setJpegQuality(70);
@@ -629,19 +594,18 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                 mCamera.setParameters(params2);
             }
 
-            setCameraDisplayOrientation(PicClkBfrStock.this, Camera.CameraInfo.CAMERA_FACING_BACK,mCamera);
+            setCameraDisplayOrientation(PicClkBfrStock.this, Camera.CameraInfo.CAMERA_FACING_BACK, mCamera);
             mPicture = getPictureCallback();
             mPreview.refreshCamera(mCamera);
         }
 
-        capture = (Button)dialog.  findViewById(R.id.button_capture);
+        capture = (Button) dialog.findViewById(R.id.button_capture);
 
-        flashImage= (ImageView)dialog.  findViewById(R.id.flashImage);
+        flashImage = (ImageView) dialog.findViewById(R.id.flashImage);
         flashImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isLighOn)
-                {
+                if (isLighOn) {
                     // turn off flash
                     Camera.Parameters params = mCamera.getParameters();
 
@@ -652,10 +616,8 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                     params.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
                     mCamera.setParameters(params);
                     flashImage.setImageResource(R.drawable.flash_off);
-                    isLighOn=false;
-                }
-                else
-                {
+                    isLighOn = false;
+                } else {
                     // turn on flash
                     Camera.Parameters params = mCamera.getParameters();
 
@@ -668,13 +630,13 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                     flashImage.setImageResource(R.drawable.flash_on);
                     mCamera.setParameters(params);
 
-                    isLighOn=true;
+                    isLighOn = true;
                 }
             }
         });
 
-        final Button cancleCamera= (Button)dialog.  findViewById(R.id.cancleCamera);
-        cancelCam=cancleCamera;
+        final Button cancleCamera = (Button) dialog.findViewById(R.id.cancleCamera);
+        cancelCam = cancleCamera;
         cancleCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -727,63 +689,50 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
     }
 
 
+    public void setSavedImageToScrollView(Bitmap bitmap, String imageName, String valueOfKey, String clickedTagPhoto, boolean isSavedImage) {
 
-    public void setSavedImageToScrollView(Bitmap bitmap,String imageName,String valueOfKey,String clickedTagPhoto,boolean isSavedImage)
-    {
-
-        if(hmapCtgry_Imageposition!=null && hmapCtgry_Imageposition.size()>0)
-        {
-            if(hmapCtgry_Imageposition.containsKey(clickedTagPhoto))
-            {
-                picAddPosition= hmapCtgry_Imageposition.get(clickedTagPhoto);
+        if (hmapCtgry_Imageposition != null && hmapCtgry_Imageposition.size() > 0) {
+            if (hmapCtgry_Imageposition.containsKey(clickedTagPhoto)) {
+                picAddPosition = hmapCtgry_Imageposition.get(clickedTagPhoto);
+            } else {
+                picAddPosition = 0;
             }
-            else
-            {
-                picAddPosition=0;
-            }
-        }
-        else
-        {
-            picAddPosition=0;
+        } else {
+            picAddPosition = 0;
             chkBox_Rtailer.setEnabled(false);
         }
-        removePicPositin=picAddPosition;
-        ArrayList<String> listClkdPic=new ArrayList<String>();
-        if(hmapCtgryPhotoSection!=null && hmapCtgryPhotoSection.containsKey(clickedTagPhoto))
-        {
-            listClkdPic=hmapCtgryPhotoSection.get(clickedTagPhoto);
+        removePicPositin = picAddPosition;
+        ArrayList<String> listClkdPic = new ArrayList<String>();
+        if (hmapCtgryPhotoSection != null && hmapCtgryPhotoSection.containsKey(clickedTagPhoto)) {
+            listClkdPic = hmapCtgryPhotoSection.get(clickedTagPhoto);
         }
 
         listClkdPic.add(imageName);
-        hmapCtgryPhotoSection.put(clickedTagPhoto,listClkdPic);
+        hmapCtgryPhotoSection.put(clickedTagPhoto, listClkdPic);
 
-        adapterImage.add(picAddPosition,bitmap,imageName+"^"+clickedTagPhoto);
-        System.out.println("Picture Adapter"+picAddPosition);
+        adapterImage.add(picAddPosition, bitmap, imageName + "^" + clickedTagPhoto);
+        System.out.println("Picture Adapter" + picAddPosition);
         picAddPosition++;
-        hmapCtgry_Imageposition.put(clickedTagPhoto,picAddPosition);
-        if(!isSavedImage)
-        {
-            hmapPhotoDetailsForSaving.put(imageName,valueOfKey.split(Pattern.quote("~"))[0]+"^"+valueOfKey.split(Pattern.quote("~"))[1]+"^"+clickedTagPhoto);
+        hmapCtgry_Imageposition.put(clickedTagPhoto, picAddPosition);
+        if (!isSavedImage) {
+            hmapPhotoDetailsForSaving.put(imageName, valueOfKey.split(Pattern.quote("~"))[0] + "^" + valueOfKey.split(Pattern.quote("~"))[1] + "^" + clickedTagPhoto);
         }
 
 
     }
 
-    public boolean saveImageSection1()
-    {
-        boolean isPicSaved=false;
-        dbengine.deletePicSectionImage(storeID,"1");
-        if((hmapPhotoDetailsForSaving!=null) && (hmapPhotoDetailsForSaving.size()>0))
-        {
-            for(Map.Entry<String,String> entry:hmapPhotoDetailsForSaving.entrySet())
-            {
-                String imageNameToSave=entry.getKey();
-                String imagePath=entry.getValue().split(Pattern.quote("^"))[0];
-                String dateTime=entry.getValue().split(Pattern.quote("^"))[1];
-                String clkdTagPic=entry.getValue().split(Pattern.quote("^"))[2];
+    public boolean saveImageSection1() {
+        boolean isPicSaved = false;
+        dbengine.deletePicSectionImage(storeID, "1");
+        if ((hmapPhotoDetailsForSaving != null) && (hmapPhotoDetailsForSaving.size() > 0)) {
+            for (Map.Entry<String, String> entry : hmapPhotoDetailsForSaving.entrySet()) {
+                String imageNameToSave = entry.getKey();
+                String imagePath = entry.getValue().split(Pattern.quote("^"))[0];
+                String dateTime = entry.getValue().split(Pattern.quote("^"))[1];
+                String clkdTagPic = entry.getValue().split(Pattern.quote("^"))[2];
                 //(String StoreID,String imageName,String imagePath,String ImageClicktime,String flgSctnPic,int Sstat)
-                        dbengine.savePicSectionImage(storeID,imageNameToSave,imagePath,dateTime,clkdTagPic,1);
-                isPicSaved=true;
+                dbengine.savePicSectionImage(storeID, imageNameToSave, imagePath, dateTime, clkdTagPic, 1);
+                isPicSaved = true;
 
             }
         }
@@ -793,64 +742,52 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
     @Override
     public void delPic(Bitmap bmp, String imageNameToDel) {
 
-        String  imageNameToDelVal=imageNameToDel.split(Pattern.quote("^"))[0];
-        String tagPhoto=imageNameToDel.split(Pattern.quote("^"))[1];
+        String imageNameToDelVal = imageNameToDel.split(Pattern.quote("^"))[0];
+        String tagPhoto = imageNameToDel.split(Pattern.quote("^"))[1];
 
-        picAddPosition= hmapCtgry_Imageposition.get(tagPhoto);
-        if(picAddPosition>1)
-        {
-            removePicPositin=picAddPosition-1;
-        }
-        else
-        {
-            removePicPositin=picAddPosition;
+        picAddPosition = hmapCtgry_Imageposition.get(tagPhoto);
+        if (picAddPosition > 1) {
+            removePicPositin = picAddPosition - 1;
+        } else {
+            removePicPositin = picAddPosition;
         }
 
-        removePicPositin=removePicPositin-1;
-        picAddPosition=picAddPosition-1;
-        hmapCtgry_Imageposition.put(tagPhoto,picAddPosition);
+        removePicPositin = removePicPositin - 1;
+        picAddPosition = picAddPosition - 1;
+        hmapCtgry_Imageposition.put(tagPhoto, picAddPosition);
         //	String photoToBeDletedFromPath=dbengine.getPdaPhotoPath(imageNameToDel);
 
         // dbengine.updatePhotoValidation("0", imageNameToDel);
-        ArrayList<String> listClkdPic=new ArrayList<String>();
-        if(hmapCtgryPhotoSection!=null && hmapCtgryPhotoSection.containsKey(tagPhoto))
-        {
-            listClkdPic=hmapCtgryPhotoSection.get(tagPhoto);
+        ArrayList<String> listClkdPic = new ArrayList<String>();
+        if (hmapCtgryPhotoSection != null && hmapCtgryPhotoSection.containsKey(tagPhoto)) {
+            listClkdPic = hmapCtgryPhotoSection.get(tagPhoto);
         }
 
-        if(listClkdPic.contains(imageNameToDelVal))
-        {
+        if (listClkdPic.contains(imageNameToDelVal)) {
             listClkdPic.remove(imageNameToDelVal);
-        //  ImageAdapter adapterImage=hmapImageAdapter.get(tagPhoto);
+            //  ImageAdapter adapterImage=hmapImageAdapter.get(tagPhoto);
             adapterImage.remove(bmp);
-            hmapCtgryPhotoSection.put(tagPhoto,listClkdPic);
-            if(listClkdPic.size()<1)
-            {
+            hmapCtgryPhotoSection.put(tagPhoto, listClkdPic);
+            if (listClkdPic.size() < 1) {
                 hmapCtgryPhotoSection.remove(tagPhoto);
             }
         }
-       if(hmapPhotoDetailsForSaving.containsKey(imageNameToDelVal))
-        {
+        if (hmapPhotoDetailsForSaving.containsKey(imageNameToDelVal)) {
             hmapPhotoDetailsForSaving.remove(imageNameToDelVal);
-            dbengine.deleteSinglePicSectionImage(storeID,"1",imageNameToDelVal);
+            dbengine.deleteSinglePicSectionImage(storeID, "1", imageNameToDelVal);
 
         }
-        if(hmapPhotoDetailsForSaving.size()<1)
-        {
+        if (hmapPhotoDetailsForSaving.size() < 1) {
             chkBox_Rtailer.setEnabled(true);
         }
         //  String file_dj_path = Environment.getExternalStorageDirectory() + "/RSPLSFAImages/"+imageNameToDel;
-        String file_dj_path = Environment.getExternalStorageDirectory() + "/" + CommonInfo.ImagesFolder + "/" +imageNameToDelVal;
-       // dbengine.validateAndDelPic(storeId,businessUnitID,tagPhoto,imageNameToDelVal);
+        String file_dj_path = Environment.getExternalStorageDirectory() + "/" + CommonInfo.ImagesFolder + "/" + imageNameToDelVal;
+        // dbengine.validateAndDelPic(storeId,businessUnitID,tagPhoto,imageNameToDelVal);
         File fdelete = new File(file_dj_path);
-        if (fdelete.exists())
-        {
-            if (fdelete.delete())
-            {
+        if (fdelete.exists()) {
+            if (fdelete.delete()) {
                 callBroadCast();
-            }
-            else
-            {
+            } else {
             }
         }
     }
@@ -870,47 +807,47 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                     Uri.parse("file://" + Environment.getExternalStorageDirectory())));
         }
     }
+
     @Override
     public void getProductPhotoDetail(String productIdTag) {
 
     }
 
 
-    public void VideoPageOpenOrProductOrderPageOpen(){
+    public void VideoPageOpenOrProductOrderPageOpen() {
         dbengine.open();
-        String VideoData=      dbengine.getVideoNameByStoreID(storeID,"2");
+        String VideoData = dbengine.getVideoNameByStoreID(storeID, "2");
         dbengine.close();
-        int flagPlayVideoForStore=0;
-        String Video_Name="0";
-        String VIDEO_PATH="0";
-        String VideoViewed="0";
-        String Contentype="0";
-        if(!VideoData.equals("0") && VideoData.contains("^")){
-            Video_Name=   VideoData.toString().split(Pattern.quote("^"))[0];
-            flagPlayVideoForStore=   Integer.parseInt( VideoData.toString().split(Pattern.quote("^"))[1]);
-            VideoViewed=    VideoData.toString().split(Pattern.quote("^"))[2];
-            Contentype=    VideoData.toString().split(Pattern.quote("^"))[3];
+        int flagPlayVideoForStore = 0;
+        String Video_Name = "0";
+        String VIDEO_PATH = "0";
+        String VideoViewed = "0";
+        String Contentype = "0";
+        if (!VideoData.equals("0") && VideoData.contains("^")) {
+            Video_Name = VideoData.toString().split(Pattern.quote("^"))[0];
+            flagPlayVideoForStore = Integer.parseInt(VideoData.toString().split(Pattern.quote("^"))[1]);
+            VideoViewed = VideoData.toString().split(Pattern.quote("^"))[2];
+            Contentype = VideoData.toString().split(Pattern.quote("^"))[3];
         }
 
                 /*  VIDEO_PATH= "/sdcard/WhatsApp/Media/WhatsApp Video/VID-20180303-WA0030.mp4";
                 VIDEO_PATH= "/sdcard/VideoLTFOODS/SampleVideo5mb.mp4";*/
-        VIDEO_PATH=   Environment.getExternalStorageDirectory() + "/" + CommonInfo.VideoFolder + "/"+Video_Name;
+        VIDEO_PATH = Environment.getExternalStorageDirectory() + "/" + CommonInfo.VideoFolder + "/" + Video_Name;
         Uri intentUri;
         //if videoShown check
-        if(flagPlayVideoForStore==1 && !(VIDEO_PATH.equals("0")) && VideoViewed.equals("0")&& Contentype.equals("2")){
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+        if (flagPlayVideoForStore == 1 && !(VIDEO_PATH.equals("0")) && VideoViewed.equals("0") && Contentype.equals("2")) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 File file = new File(VIDEO_PATH);
                 intentUri = FileProvider.getUriForFile(getBaseContext(), getApplicationContext().getPackageName() + ".provider", file);
-            }
-            else{
+            } else {
                 intentUri = Uri.parse(VIDEO_PATH);
             }
 
 
-            if(intentUri!=null) {
-                Intent intent = new Intent(PicClkBfrStock.this,VideoPlayerActivityForStore.class);
-                intent.putExtra("FROM","FeedbackCompetitorActivity");
-                intent.putExtra("STRINGPATH",VIDEO_PATH);
+            if (intentUri != null) {
+                Intent intent = new Intent(PicClkBfrStock.this, VideoPlayerActivityForStore.class);
+                intent.putExtra("FROM", "FeedbackCompetitorActivity");
+                intent.putExtra("STRINGPATH", VIDEO_PATH);
                 intent.putExtra("storeID", storeID);
                 intent.putExtra("SN", selStoreName);
                 intent.putExtra("imei", imei);
@@ -921,21 +858,19 @@ public class PicClkBfrStock extends AppCompatActivity implements DeletePic {
                 finish();
                 // openVideoPlayerDialog(VIDEO_PATH);
 
-            }
-            else{
+            } else {
                 Toast.makeText(PicClkBfrStock.this, "No video Found", Toast.LENGTH_LONG).show();
                 passIntentToProductOrderFilter();
             }
 
-        }
-        else{
+        } else {
 
             passIntentToProductOrderFilter();
         }
     }
 
-    public void passIntentToProductOrderFilter(){
-        Intent nxtP4 = new Intent(PicClkBfrStock.this,ProductOrderFilterSearch.class);
+    public void passIntentToProductOrderFilter() {
+        Intent nxtP4 = new Intent(PicClkBfrStock.this, ProductOrderFilterSearch.class);
         //Intent nxtP4 = new Intent(LastVisitDetails.this,ProductOrderFilterSearch_RecycleView.class);
         nxtP4.putExtra("storeID", storeID);
         nxtP4.putExtra("SN", selStoreName);

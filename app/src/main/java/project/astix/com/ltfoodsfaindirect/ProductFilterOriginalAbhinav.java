@@ -103,6 +103,7 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9382,7 +9383,7 @@ public class ProductFilterOriginalAbhinav extends Activity implements OnItemSele
         final EditText ed_search=(AutoCompleteTextView) listDialog.findViewById(R.id.ed_search);
         ed_search.setVisibility(View.GONE);
         final ListView list_store=(ListView) listDialog.findViewById(R.id.list_store);
-        final CardArrayAdapterCategory cardArrayAdapter = new CardArrayAdapterCategory(ProductFilterOriginalAbhinav.this,listOption,listDialog,previousSlctdCtgry);
+        final CardArrayAdapterCategory cardArrayAdapter = new CardArrayAdapterCategory(ProductFilterOriginalAbhinav.this,listOption,listDialog,previousSlctdCtgry,0);
 
 
 
@@ -9419,7 +9420,7 @@ public class ProductFilterOriginalAbhinav extends Activity implements OnItemSele
 
 
     @Override
-    public void selectedOption(String selectedCategory, Dialog dialog) {
+    public void selectedOption(String selectedCategory, Dialog dialog,int flgCompanyCompetitorProducts) {
         dialog.dismiss();
         previousSlctdCtgry=selectedCategory;
         String lastTxtSearch=ed_search.getText().toString().trim();

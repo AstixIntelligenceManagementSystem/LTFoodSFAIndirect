@@ -121,6 +121,9 @@ public class IncentiveActivity extends Activity
                 @Override
                 public void onClick(View v)
                 {
+                   /* Intent i=new Intent(IncentiveActivity.this,AllButtonActivity.class);
+                    startActivity(i);
+                    finish();*/
                    /* String serverDateForSPref;
                     dbengine.open();
                     serverDateForSPref=	dbengine.fnGetServerDate();
@@ -133,12 +136,13 @@ public class IncentiveActivity extends Activity
                     SharedPreferences.Editor editor=sPref.edit();
                     editor.clear();
                     editor.commit();
-                    sPref.edit().putString("DatePref", serverDateForSPref).commit();*/
-                    // fnShowAlertBeforeRedirectingToLauncher();
-                    Intent i=new Intent(IncentiveActivity.this,RegistrationActivity.class);
+                    sPref.edit().putString("DatePref", serverDateForSPref).commit();
+                     fnShowAlertBeforeRedirectingToLauncher();*/
+               /*     Intent i=new Intent(IncentiveActivity.this,RegistrationActivity.class);
                     i.putExtra("IntentFrom", "SPLASH");
                     startActivity(i);
-                    finish();
+                    finish();*/
+                    callDayStartActivity();
                 }
             });
         }
@@ -161,7 +165,29 @@ public class IncentiveActivity extends Activity
         }
 
     }
-
+    public void callDayStartActivity()
+    {
+        /*Intent intent=new Intent(this,DayStartActivity.class);
+        startActivity(intent);
+        finish();*/
+        /*dbengine.open();
+        int flgPersonTodaysAtt=dbengine.FetchflgPersonTodaysAtt();
+        dbengine.close();
+        if(flgPersonTodaysAtt==0)
+        {
+            Intent intent=new Intent(this,DayStartActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+        */
+            Intent intent = new Intent(IncentiveActivity.this, AllButtonActivity.class);
+            intent.putExtra("imei", imei);
+            IncentiveActivity.this.startActivity(intent);
+            finish();
+        //}
+    }
     void getDataFromDatabase()
     {
         arrLstObjct=dbengine.fetchIncentiveData();

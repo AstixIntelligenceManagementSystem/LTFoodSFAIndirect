@@ -86,9 +86,10 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class RegistrationActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+    SharedPreferences sPrefAttandance;
     View viewStoreLocDetail;
     LinearLayout ll_ImageToSet;
-    EditText ET_mobile_credential,ET_firstname,ET_lastname ,ET_contact_no,editText_emailID,ed_EmailID;
+    EditText ET_mobile_credential,ET_firstname,ET_lastname ,ET_contact_no,editText_emailID,ed_EmailID, edAadhaarNo;
     public int chkFlgForErrorToCloseApp=0;
     public String newfullFileName;
    ScrollView scrollViewParentOfMap;
@@ -138,6 +139,10 @@ public class RegistrationActivity extends AppCompatActivity implements DatePicke
     String personName="0";
    // String StoredPath = DIRECTORY + pic_name +CommonInfo.imei+ ".png";
     LinearLayout mContent,llCamera;
+
+    public String userDate;
+    public String pickerDate;
+
     Button  mClear, mGetSign, mCancel,BtnNotYou;
     boolean signOrNot=false;
     public static String imei="";
@@ -207,6 +212,10 @@ public class RegistrationActivity extends AppCompatActivity implements DatePicke
            ButtonClick= intent.getStringExtra("Button");
 
         }
+
+        userDate = getDateInMonthTextFormat();
+        pickerDate=userDate;
+        sPrefAttandance=getSharedPreferences(CommonInfo.AttandancePreference, MODE_PRIVATE);
         sharedPrefForRegistration=getSharedPreferences("RegistrationValidation", MODE_PRIVATE);
         profile_image=(ImageView)findViewById(R.id.profile_image);
         getDataFromDataBase();
@@ -1505,6 +1514,12 @@ if(Totalfiles.length>0) {
             Toast.makeText(getApplicationContext(), "Please Enter Proper UPI ID", Toast.LENGTH_SHORT).show();
             return false;
         }
+        else if(edAadhaarNo.getText().toString().trim().length() != 12)
+        {
+            //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
+            Toast.makeText(getApplicationContext(), "Please Enter Proper Aadhaar Number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         else  if(ll_ImageToSet==null )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
@@ -1640,7 +1655,7 @@ if(Totalfiles.length>0) {
                     finish();
                 }
                 else {
-                    Intent i;
+                   /* Intent i;
                     if(FROM.equals("SPLASH")){
                          i=new Intent(RegistrationActivity.this,AllButtonActivity.class);
                     }
@@ -1650,7 +1665,45 @@ if(Totalfiles.length>0) {
 
                     i.putExtra("IntentFrom", 0);
                     startActivity(i);
-                    finish();
+                    finish();*/
+
+                    if(FROM.equals("DAYEND"))
+                    {
+                        Intent trans2storeList = new Intent(RegistrationActivity.this, StoreSelection.class);
+                        trans2storeList.putExtra("imei", imei);
+                        trans2storeList.putExtra("userDate", userDate);
+                        trans2storeList.putExtra("pickerDate", pickerDate);
+
+                        startActivity(trans2storeList);
+                        finish();
+                    }
+                    else if(FROM.equals("AllButtonActivity")){
+                        Intent trans2storeList = new Intent(RegistrationActivity.this, AllButtonActivity.class);
+                        trans2storeList.putExtra("imei", imei);
+                        trans2storeList.putExtra("userDate", userDate);
+                        trans2storeList.putExtra("pickerDate", pickerDate);
+
+                        startActivity(trans2storeList);
+                        finish();
+                    }
+                    else
+                    {
+                        if(!sPrefAttandance.contains("AttandancePref"))
+                        {
+                            callDayStartActivity();
+
+                        }
+                        else{
+                            Intent i=new Intent(RegistrationActivity.this,SalesValueTarget.class);
+                            i.putExtra("IntentFrom", 0);
+                            startActivity(i);
+                            finish();
+                        }
+          /* Intent i=new Intent(DSR_Registration.this,SalesValueTarget.class);
+           i.putExtra("IntentFrom", 0);
+           startActivity(i);
+           finish();*/
+                    }
                 }
 
 
@@ -1829,7 +1882,7 @@ if(Totalfiles.length>0) {
         text_Daystart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i;
+                /*Intent i;
                 if(FROM.equals("SPLASH")){
 
                     String serverDateForSPref;
@@ -1852,7 +1905,19 @@ if(Totalfiles.length>0) {
                 }
                 i.putExtra("IntentFrom", 0);
                 startActivity(i);
-                finish();
+                finish();*/
+
+                if(!sPrefAttandance.contains("AttandancePref"))
+                {
+                    callDayStartActivity();
+
+                }
+                else {
+                    Intent i = new Intent(RegistrationActivity.this, SalesValueTarget.class);
+                    i.putExtra("IntentFrom", 0);
+                    startActivity(i);
+                    finish();
+                }
 
             }
         });
@@ -1976,17 +2041,18 @@ if(Totalfiles.length>0) {
             @Override
             public void onClick(View v) {
 
-                Intent i;
                 if(FROM.equals("SPLASH")){
-                    i=new Intent(RegistrationActivity.this,AllButtonActivity.class);
+                    Intent in = new Intent(RegistrationActivity.this, RegistrationActivity.class);
+                    in.putExtra("IntentFrom", "SPLASH");
+                    startActivity(in);
+                    finish();
                 }
                 else{
-                    i=new Intent(RegistrationActivity.this,AllButtonActivity.class);
+                    Intent i=new Intent(RegistrationActivity.this,AllButtonActivity.class);
+                    i.putExtra("IntentFrom", 0);
+                    startActivity(i);
+                    finish();
                 }
-
-                i.putExtra("IntentFrom", 0);
-                startActivity(i);
-                finish();
 
             }
         });
@@ -2032,6 +2098,7 @@ if(Totalfiles.length>0) {
                     String NAME_String="0";
                     String ContactNo_string="0";
                     String EmailID_string="NA";
+                    String AadhaarNo_string = "0";
                     String DOB_string="0";
                     String AccNO_string="0";
                     String BankID="0";
@@ -2046,6 +2113,7 @@ if(Totalfiles.length>0) {
                     if(!ed_EmailID.getText().toString().trim().equals("")){
                         EmailID_string=ed_EmailID.getText().toString().trim();
                     }
+                    AadhaarNo_string = edAadhaarNo.getText().toString().trim();
                     DOB_string=Text_Dob.getText().toString().trim();
                     AccNO_string=ed_AccNo.getText().toString().trim();
                     if(hashmapBank!=null && hashmapBank.containsKey(spinner_Bank.getText().toString().trim())){
@@ -2065,12 +2133,12 @@ if(Totalfiles.length>0) {
                     //-------*******************************************************
                     dbengine.open();
                     // dbengine.deletetblRegistrationDetail();
-                    dbengine.inserttblProfilePhotoSignDetail(RecordId,photoClickedDateTime,globalImageName,globalImagePath,SignName_string,SignPath_string,NAME_String,ContactNo_string,DOB_string,AccNO_string,BankID,IFSC_string,UPI_ID_YesNO,UPIID_string,IMEI_string,PersonNodeId_string,PersonNodeType_string,EmailID_string);
+                    dbengine.inserttblProfilePhotoSignDetail(RecordId,photoClickedDateTime,globalImageName,globalImagePath,SignName_string,SignPath_string,NAME_String,ContactNo_string,DOB_string,AccNO_string,BankID,IFSC_string,UPI_ID_YesNO,UPIID_string,IMEI_string,PersonNodeId_string,PersonNodeType_string,EmailID_string,AadhaarNo_string);
                   //  int count=    dbengine.CheckDataInRegistration();
 
                     dbengine.Delete_tblDsrRegDetails();
 
-                    dbengine.savetblDsrRegDetails(PersonNodeId_string,PersonNodeType_string,NAME_String,ContactNo_string,DOB_string,globalImageName,SignName_string,AccNO_string,BankID,IFSC_string,UPI_ID_YesNO,UPIID_string, SelfieNameURL,EmailID_string);
+                    dbengine.savetblDsrRegDetails(PersonNodeId_string,PersonNodeType_string,NAME_String,ContactNo_string,DOB_string,globalImageName,SignName_string,AccNO_string,BankID,IFSC_string,UPI_ID_YesNO,UPIID_string, SelfieNameURL,EmailID_string, AadhaarNo_string);
                     dbengine.close();
 
                     String serverDateForSPref;
@@ -2086,8 +2154,49 @@ if(Totalfiles.length>0) {
                     editor.clear();
                     editor.commit();
                     sPref.edit().putString("DatePref", serverDateForSPref).commit();
-                    FullSyncDataNow task = new FullSyncDataNow(RegistrationActivity.this);
-                    task.execute();
+                   /* FullSyncDataNow task = new FullSyncDataNow(RegistrationActivity.this);
+                    task.execute();*/
+
+                    if(FROM.equals("DAYEND"))
+                    {
+                        Intent trans2storeList = new Intent(RegistrationActivity.this, StoreSelection.class);
+                        trans2storeList.putExtra("imei", imei);
+                        trans2storeList.putExtra("userDate", userDate);
+                        trans2storeList.putExtra("pickerDate", pickerDate);
+
+                        startActivity(trans2storeList);
+                        finish();
+                    }
+                    else if(FROM.equals("AllButtonActivity")){
+                       /* Intent trans2storeList = new Intent(RegistrationActivity.this, AllButtonActivity.class);
+                        trans2storeList.putExtra("imei", imei);
+                        trans2storeList.putExtra("userDate", userDate);
+                        trans2storeList.putExtra("pickerDate", pickerDate);
+
+                        startActivity(trans2storeList);
+                        finish();*/
+                        FullSyncDataNow task = new FullSyncDataNow(RegistrationActivity.this);
+                        task.execute();
+                    }
+                    else
+                    {
+                        if(!sPrefAttandance.contains("AttandancePref"))
+                        {
+                            callDayStartActivity();
+
+                        }
+                        else{
+                            Intent i=new Intent(RegistrationActivity.this,SalesValueTarget.class);
+                            i.putExtra("IntentFrom", 0);
+                            startActivity(i);
+                            finish();
+                        }
+          /* Intent i=new Intent(DSR_Registration.this,SalesValueTarget.class);
+           i.putExtra("IntentFrom", 0);
+           startActivity(i);
+           finish();*/
+                    }
+
                     //-------*******************************************************
 
                 }
@@ -2182,7 +2291,7 @@ if(Totalfiles.length>0) {
         ed_UPIID=(EditText) findViewById(R.id.ed_UPIID);
         ed_ContactNo=(EditText) findViewById(R.id.ed_ContactNo);
         ed_EmailID=(EditText) findViewById(R.id.ed_EmailID);
-
+        edAadhaarNo = (EditText) findViewById(R.id.ed_aadhaar_no);
     }
     public void  RadioButtonInitialization(){
         rb_yes=(RadioButton) findViewById(R.id.rb_yes);
@@ -2325,10 +2434,22 @@ if(Totalfiles.length>0) {
                         {
                             dialog.dismiss();
 
-                            Intent i=new Intent(RegistrationActivity.this,AllButtonActivity.class);
+                         /*   Intent i=new Intent(RegistrationActivity.this,AllButtonActivity.class);
                             i.putExtra("IntentFrom", 0);
                             startActivity(i);
-                            finish();
+                            finish();*/
+
+                            if(!sPrefAttandance.contains("AttandancePref"))
+                            {
+                                callDayStartActivity();
+
+                            }
+                            else{
+                                Intent i=new Intent(RegistrationActivity.this,SalesValueTarget.class);
+                                i.putExtra("IntentFrom", 0);
+                                startActivity(i);
+                                finish();
+                            }
 
                         }
                     });
@@ -2358,6 +2479,28 @@ if(Totalfiles.length>0) {
 
         }
     }
+    public void callDayStartActivity()
+    {
+        dbengine.open();
+        int flgPersonTodaysAtt=dbengine.FetchflgPersonTodaysAtt();
+        dbengine.close();
+
+        if(flgPersonTodaysAtt==0)
+        {
+            Intent intent=new Intent(this,DayStartActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        else
+        {
+            Intent intent = new Intent(RegistrationActivity.this, AllButtonActivity.class);
+            intent.putExtra("imei", imei);
+            RegistrationActivity.this.startActivity(intent);
+            finish();
+        }
+
+
+    }
 
     public void FillDsrDetailsToLayout()
     {
@@ -2372,7 +2515,6 @@ if(Totalfiles.length>0) {
             String ContactNo=   DSR_All_DATA.split(Pattern.quote("^"))[1];
             String DOB=   DSR_All_DATA.split(Pattern.quote("^"))[2];
 
-
             String BankAccountnumber=   DSR_All_DATA.split(Pattern.quote("^"))[5];
             String BankID=   DSR_All_DATA.split(Pattern.quote("^"))[6];
             String IFSCCode=   DSR_All_DATA.split(Pattern.quote("^"))[7];
@@ -2380,11 +2522,12 @@ if(Totalfiles.length>0) {
             String UPIID=   DSR_All_DATA.split(Pattern.quote("^"))[9];
 
 
-
             userNodeIdGlobal  =   DSR_All_DATA.split(Pattern.quote("^"))[10];
             userNodetypeGlobal=   DSR_All_DATA.split(Pattern.quote("^"))[11];
             SelfieNameURL=   DSR_All_DATA.split(Pattern.quote("^"))[12];
             String EmailIDString=   DSR_All_DATA.split(Pattern.quote("^"))[13];
+            String aadhaarNo = DSR_All_DATA.split(Pattern.quote("^"))[14];
+
             if(!Name.equals("0")){
                 ed_Name.setText(Name);
                 ed_Name.setEnabled(false);
@@ -2427,10 +2570,9 @@ if(Totalfiles.length>0) {
 
             }
 
-
-
-
-
+            if(!aadhaarNo.equals("0")){
+                edAadhaarNo.setText(aadhaarNo);
+            }
 
         }
         transparentOverlay.setVisibility(View.GONE);
@@ -2629,5 +2771,13 @@ if(Totalfiles.length>0) {
         } catch (Throwable t) {
             // Do nothing
         }
+    }
+    public String getDateInMonthTextFormat()
+    {
+        long  syncTIMESTAMP = System.currentTimeMillis();
+        Date dateobj = new Date(syncTIMESTAMP);
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        String curTime = df.format(dateobj);
+        return curTime;
     }
 }

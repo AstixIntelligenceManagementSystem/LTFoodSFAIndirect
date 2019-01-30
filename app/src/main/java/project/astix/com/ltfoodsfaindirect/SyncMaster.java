@@ -153,10 +153,15 @@ public class SyncMaster extends Activity
 
 						dialog.dismiss();
 						// finishing activity & stepping back
-
-						Intent submitStoreIntent = new Intent(SyncMaster.this, LauncherActivity.class);
-						startActivity(submitStoreIntent);
-						finish();
+						if(whereTo.contentEquals("DayStart"))
+						{
+							finish();
+						}
+						else {
+							Intent submitStoreIntent = new Intent(SyncMaster.this, LauncherActivity.class);
+							startActivity(submitStoreIntent);
+							finish();
+						}
 						//SyncMaster.this.finish();
 					}
 				});
@@ -177,9 +182,15 @@ public class SyncMaster extends Activity
 
 
 						dialog.dismiss();
-						Intent submitStoreIntent = new Intent(SyncMaster.this, LauncherActivity.class);
-						startActivity(submitStoreIntent);
-						finish();
+						if(whereTo.contentEquals("DayStart"))
+						{
+							finish();
+						}
+						else {
+							Intent submitStoreIntent = new Intent(SyncMaster.this, LauncherActivity.class);
+							startActivity(submitStoreIntent);
+							finish();
+						}
 
 
 					}
@@ -1019,6 +1030,11 @@ public class SyncMaster extends Activity
 				else if(StoreSelection.flgChangeRouteOrDayEnd==3)
 				{
 					 pDialogGetStores.setMessage("Submitting Quotation Details...");
+				}
+				else if(DayStartActivity.flgDaySartWorking==1)
+				{
+					pDialogGetStores.setMessage(getResources().getString(R.string.submittingDayStart));
+
 				}
 				else if(StoreSelection.flgChangeRouteOrDayEnd==4)
 				{
@@ -1981,6 +1997,11 @@ public class SyncMaster extends Activity
 				{
 					 pDialogGetStores.setMessage("Submitting Quotation Details...");
 				}
+				else if(DayStartActivity.flgDaySartWorking==1)
+				{
+					pDialogGetStores.setMessage(getResources().getString(R.string.submittingDayStart));
+
+				}
 				else if(StoreSelection.flgChangeRouteOrDayEnd==4)
 				{
 					pDialogGetStores.setMessage("Submitting Added Store Information...");
@@ -2213,6 +2234,10 @@ public class SyncMaster extends Activity
 								{
 			            			showSyncError();
 								}
+							else if(whereTo.contentEquals("DayStart"))
+							{
+								showSyncError();
+							}
 			            		else
 			            		{
 
@@ -2310,6 +2335,31 @@ public class SyncMaster extends Activity
 									}
 
 
+
+								}
+								else if(whereTo.contentEquals("DayStart"))
+								{
+
+									if(CommonInfo.DayStartClick==2)
+									{
+										CommonInfo.DayStartClick=0;
+										SharedPreferences sPrefAttandance;
+										sPrefAttandance=getSharedPreferences(CommonInfo.AttandancePreference, MODE_PRIVATE);
+										SharedPreferences.Editor editor=sPrefAttandance.edit();
+										editor.clear();
+										editor.commit();
+										finishAffinity();
+									}
+									else {
+										Intent i = new Intent(SyncMaster.this, SalesValueTarget.class);
+										i.putExtra("IntentFrom", 0);
+										startActivity(i);
+										finish();
+									}
+					/*Intent intent=new Intent(SyncMaster.this,DSR_Registration.class);
+					intent.putExtra("IntentFrom", "SPLASH");
+					startActivity(intent);
+					finish();;*/
 
 								}
 			            		else

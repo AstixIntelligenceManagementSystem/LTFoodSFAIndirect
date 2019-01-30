@@ -328,7 +328,6 @@ String ButtonClick="";
         sharedPrefReport = getSharedPreferences("Report", MODE_PRIVATE);
         sharedPrefForRegistration=getSharedPreferences("RegistrationValidation", MODE_PRIVATE);
 
-
         TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         imei = tManager.getDeviceId();
 

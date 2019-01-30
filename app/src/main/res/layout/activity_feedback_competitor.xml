@@ -1,48 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_special_remarks"
     android:layout_width="match_parent"
-    android:background="@android:color/transparent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
         android:id="@+id/ll_header"
-    android:background="@drawable/custom_header_color">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_header_color">
 
-    <ImageView
-        android:id="@+id/img_back"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:src="@drawable/ic_back"/>
-
-
-    <TextView
-        android:id="@+id/bardd"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:text="Competitor"
-        android:textStyle="bold"
-        android:textColor="#ffffff"
-        android:typeface="normal"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:layout_weight="1.5"
-        />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="3dp"
-        android:visibility="invisible"
-        android:src="@drawable/ic_back"/>
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_back" />
 
 
+        <TextView
+            android:id="@+id/bardd"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:gravity="center"
+            android:text="Competitor"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:typeface="normal" />
 
-</LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_back"
+            android:visibility="invisible" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_checkbox"
@@ -50,74 +47,91 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_header"
         android:orientation="horizontal">
+
         <CheckBox
             android:id="@+id/chkBox_Rtailer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Retailer has disallowed checking competitor"/>
+            android:text="Retailer has disallowed checking competitor" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/llnewhead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_below="@+id/ll_checkbox"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:padding="3dp"
-        android:id="@+id/llnewhead"
-        android:layout_below="@+id/ll_checkbox">
+        android:orientation="vertical"
+        android:padding="3dp">
 
         <TextView
             android:id="@+id/head"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Competitors Fighting for Account"
-            android:textStyle="bold"
-            android:textColor="#000"
-            android:typeface="normal"
-            android:gravity="center"
-            android:textSize="18sp"
             android:layout_weight="1.5"
-            android:visibility="gone"
-            />
+            android:gravity="center"
+            android:text="Competitors Fighting for Account"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:typeface="normal"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_above="@+id/keyboardviewNum"
+        android:layout_height="match_parent"
         android:layout_below="@+id/llnewhead"
-        android:layout_above="@+id/btn_save"
-        android:background="@drawable/shadow_deep_orng"
-        android:id="@+id/linearLayout">
+        android:orientation="vertical">
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shadow_deep_orng">
 
-            <LinearLayout
-                android:id="@+id/ll_parent"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/linearLayout"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical"
-                android:padding="3dp">
+                android:layout_height="match_parent">
 
-            </LinearLayout>
-        </ScrollView>
+                <LinearLayout
+                    android:id="@+id/ll_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/linearLayout"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="vertical"
+                    android:padding="3dp">
 
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/keyboardviewNum"
+            android:layout_margin="5dp"
+            android:background="@drawable/custom_button"
+            android:gravity="center"
+            android:text="Done"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="14sp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_save"
-        android:layout_margin="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Done"
-        android:gravity="center"
-        android:textColor="#fff"
-        android:textSize="14sp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/custom_button"
-        android:textAllCaps="false" />
 
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboardviewNum"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone" />
 </RelativeLayout>

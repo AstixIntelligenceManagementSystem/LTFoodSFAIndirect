@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AlertDialog;
+import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -25,8 +26,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,8 +49,41 @@ public class BaseActivity extends Activity
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
+    public String getDateAndTimeInSecond()
+    {
+        long  syncTIMESTAMP = System.currentTimeMillis();
+        Date dateobj = new Date(syncTIMESTAMP);
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
+        String curTime = df.format(dateobj);
+        return curTime;
+    }
+    public String getIMEI()
+    {
+        String imei=null;
+        try
+        {
+            TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            imei = tManager.getDeviceId();
+
+            //  imei="354010084603910";
+           // imei="865404034791887";   //Developement Imei
 
 
+        }
+        catch(SecurityException e)
+        {
+
+        }
+        if(CommonInfo.imei.trim().equals(null) || CommonInfo.imei.trim().equals(""))
+        {
+            CommonInfo.imei=imei;
+        }
+        else
+        {
+            imei=CommonInfo.imei.trim();
+        }
+        return imei;
+    }
    public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         if(keyCode==KeyEvent.KEYCODE_BACK)

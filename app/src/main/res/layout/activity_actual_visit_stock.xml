@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:layout_height="match_parent">
 
 
     <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="47dp"
-        android:background="@drawable/custom_header_color"
-        android:orientation="horizontal"
         android:layout_alignParentTop="true"
-        android:id="@+id/header"
-        >
+        android:background="@drawable/custom_header_color"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/img_back_Btn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.30"
-            android:visibility="visible"
-            android:src="@drawable/back_button_image" />
+            android:src="@drawable/back_button_image"
+            android:visibility="visible" />
+
         <ImageView
             android:id="@+id/img_side_popUp"
             android:layout_width="wrap_content"
@@ -31,8 +28,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="0dp"
-            android:visibility="gone"
-            android:src="@drawable/ic_action" />
+            android:src="@drawable/ic_action"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/bardd"
@@ -56,128 +53,128 @@
 
 
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shadow_with_5dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/keyboardviewNum"
+        android:layout_below="@id/header"
         android:orientation="vertical"
-        android:layout_below="@id/header">
-        <RelativeLayout
-            android:id="@+id/ll_ctgry"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:visibility="visible"
+        android:weightSum="3">
 
-            android:background="#cc6a12"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/txt_ctgry"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/CategoryName"
-                android:gravity="center_vertical"
-                android:textSize="14sp"
-                android:visibility="gone"
-                android:textColor="#FFFFFF"/>
-
-           <!-- <TextView
-                android:id="@+id/img_ctgry"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="6dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/spinner_bckground"
-                android:layout_toRightOf="@+id/txt_ctgry"
-                android:text="All"
-                android:visibility="gone"
-                android:gravity="center_vertical"
-                android:layout_alignParentTop="true"
-                />-->
-
-            <EditText
-                android:id="@+id/ed_search"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-
-                android:layout_toLeftOf="@+id/ll_go"
-
-                android:background="@drawable/edit_text_bg"
-                android:drawableLeft="@drawable/ic_action_search"
-                android:layout_alignParentLeft="true"
-                android:hint="Search"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:visibility="visible" />
-            <LinearLayout
-                android:id="@+id/ll_go"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_alignParentRight="true"
-                android:visibility="visible">
-                <ImageView
-                    android:id="@+id/btn_go"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@drawable/ic_maps_beenhere"/>
-
-
-
-                <LinearLayout
-
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    >
-                     <ImageView
-                         android:id="@+id/img_ctgry"
-                         android:layout_width="40dp"
-                         android:layout_height="40dp"
-                         android:src="@drawable/category_order" />
-
-
-                </LinearLayout>
-            </LinearLayout>-->
-        </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/ll_CompanyPrdHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ll_forTableHeaderName"
-            android:visibility="visible"
-            android:layout_marginTop="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginRight="1dp"
-            android:layout_below="@+id/ll_ctgry"
+            android:background="@drawable/shadow_with_5dp"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:id="@+id/ll_ctgry"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#cc6a12"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingTop="2dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="2dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txt_ctgry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/CategoryName"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <!-- <TextView
+                     android:id="@+id/img_ctgry"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:layout_margin="6dp"
+                     android:layout_alignParentRight="true"
+                     android:background="@drawable/spinner_bckground"
+                     android:layout_toRightOf="@+id/txt_ctgry"
+                     android:text="All"
+                     android:visibility="gone"
+                     android:gravity="center_vertical"
+                     android:layout_alignParentTop="true"
+                     />-->
+
+                <EditText
+                    android:id="@+id/ed_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/ll_go"
+                    android:background="@drawable/edit_text_bg"
+                    android:drawableLeft="@drawable/ic_action_search"
+                    android:hint="Search"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/ll_go"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/btn_go"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_maps_beenhere" />
+
+
+                    <LinearLayout
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_ctgry"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/category_order" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/ll_forTableHeaderName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_ctgry"
+                android:background="@drawable/layout_top_rounded_corner"
                 android:orientation="horizontal"
+                android:visibility="visible">
 
-                >
                 <TextView
                     android:id="@+id/texPrdNamw"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:paddingBottom="4dp"
                     android:paddingLeft="6dp"
-                    android:paddingRight="6dp"
                     android:paddingTop="4dp"
+                    android:paddingRight="6dp"
+                    android:paddingBottom="4dp"
                     android:text="@string/txtProductName"
-                    android:background="@drawable/actual_visit_row_header"
                     android:textColor="#fff"
                     android:textSize="10dp" />
 
@@ -185,49 +182,263 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="1dp"
                     android:layout_weight=".4"
-                    android:padding="1dp"
                     android:gravity="center"
+                    android:padding="1dp"
+                    android:text="@string/Stock"
                     android:textColor="#fff"
                     android:textSize="11sp"
-                    android:background="@drawable/actual_visit_row_header"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginRight="1dp"
-                    android:textStyle="bold"
-                    android:text="@string/Stock" />
+                    android:layout_weight=".2"
+                    android:gravity="center"
+                    android:padding="1dp"
+                    android:text="@string/Unit"
+                    android:textColor="#fff"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
             </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/default_products_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <!--  <ScrollView
+                  android:id="@+id/scroll_view"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_above="@+id/ll_CompanyPrdHeaderCompetitor"
+                  android:layout_below="@+id/ll_forTableHeaderName"
+                  android:layout_weight="2"
+                  android:visibility="visible">
+
+                  <LinearLayout
+                      android:id="@+id/lLayout_main"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="1dp"
+                      android:orientation="vertical">
+
+
+                  </LinearLayout>
+              </ScrollView>-->
+
         </LinearLayout>
 
-        <ScrollView
+        <View
+            android:id="@+id/divider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:id="@+id/scroll_view"
+            android:layout_height="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:id="@+id/ll_CompleteSelfOtherProductSection"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="3"
-            android:layout_below="@+id/ll_forTableHeaderName"
-            android:layout_above="@+id/btnNext"
-            >
+            android:background="@drawable/shadow_blue8"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/ll_ctgrySelfOtherProducts"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/layout_top_rounded_corner"
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:paddingTop="5dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="2dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/txt_ctgrySelfOtherProducts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/CategoryName"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <!-- <TextView
+                     android:id="@+id/img_ctgry"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:layout_margin="6dp"
+                     android:layout_alignParentRight="true"
+                     android:background="@drawable/spinner_bckground"
+                     android:layout_toRightOf="@+id/txt_ctgry"
+                     android:text="All"
+                     android:visibility="gone"
+                     android:gravity="center_vertical"
+                     android:layout_alignParentTop="true"
+                     />-->
+
+                <EditText
+                    android:id="@+id/ed_searchSelfOtherProducts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_toLeftOf="@+id/ll_goSelfOtherProduct"
+                    android:background="@drawable/edit_text_bg"
+                    android:drawableLeft="@drawable/ic_action_search"
+                    android:hint="Search Products"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/ll_goSelfOtherProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/btn_goSelfOtherProduct"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_maps_beenhere" />
+
+
+                    <LinearLayout
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_ctgrySelfOtherProducts"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/category_order" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/ll_forTableHeaderNameSelfOtherProducts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_ctgry"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="1dp"
                 android:orientation="vertical"
-                android:layout_marginTop="1dp"
-                android:id="@+id/lLayout_main">
+                android:visibility="visible">
 
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
 
+                    >
+
+                    <TextView
+                        android:id="@+id/texPrdNameSelfOtherProducts"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/actual_visit_row_header"
+                        android:gravity="center"
+                        android:paddingLeft="6dp"
+                        android:paddingTop="4dp"
+                        android:paddingRight="6dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/txtProductName"
+                        android:textColor="#fff"
+                        android:textSize="10dp" />
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight=".4"
+                        android:background="@drawable/actual_visit_row_header"
+                        android:gravity="center"
+                        android:padding="1dp"
+                        android:text="@string/Stock"
+                        android:textColor="#fff"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight=".2"
+                        android:background="@drawable/actual_visit_row_header"
+                        android:gravity="center"
+                        android:padding="1dp"
+                        android:text="@string/Unit"
+                        android:textColor="#fff"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
-        </ScrollView>
+
+            <!--  <ScrollView
+                  android:id="@+id/scroll_viewSelfOtherProducts"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/ll_forTableHeaderNameSelfOtherProducts"
+                  android:layout_weight="3"
+                  android:visibility="visible"
+                  >
+
+                  <LinearLayout
+                      android:id="@+id/ll_SelfOtherProducts"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginTop="1dp"
+                      android:orientation="vertical">
+
+
+                  </LinearLayout>
+              </ScrollView>-->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/filtered_products_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_button"
+            android:text="@string/lastvisitdetails_next"
+            android:textColor="#ffffff" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnNext"
-        android:layout_width="match_parent"
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboardviewNum"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/lastvisitdetails_next"
         android:layout_alignParentBottom="true"
-        android:textColor="#ffffff"
-        android:background="@drawable/custom_button"
-        />
-        </RelativeLayout>
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone" />
+</RelativeLayout>

@@ -1,18 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    >
+    android:focusableInTouchMode="true">
+
     <RelativeLayout
-        android:layout_height="48dp"
+        android:id="@+id/rtv_hdr"
         android:layout_width="fill_parent"
+        android:layout_height="48dp"
         android:background="@drawable/custom_header"
-        android:paddingLeft="0dp"
 
 
-
-        android:id="@+id/rtv_hdr">
+        android:paddingLeft="0dp">
 
         <ImageView
             android:id="@+id/btn_bck"
@@ -21,30 +19,32 @@
             android:src="@drawable/ic_back"
 
             />
+
         <ImageView
             android:id="@+id/menu"
             android:layout_width="wrap_content"
-            android:layout_toRightOf="@id/btn_bck"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/btn_bck"
             android:src="@drawable/menu_icon"
 
-           />
+            />
+
         <TextView
             android:id="@+id/order_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:layout_toRightOf="@+id/backbutton"
-            android:paddingLeft="10dp"
             android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/backbutton"
             android:gravity="center_horizontal|left"
-            android:shadowRadius="7"
-            android:shadowDy="4"
-            android:shadowDx="4"
-            android:textStyle="bold"
+            android:paddingLeft="10dp"
             android:shadowColor="#80FFFFFF"
+            android:shadowDx="4"
+            android:shadowDy="4"
+            android:shadowRadius="7"
+            android:text="Order Detail"
+            android:textColor="#FFFFFF"
             android:textSize="18sp"
-            android:text="Order Detail"/>
+            android:textStyle="bold" />
 
 
         <ImageView
@@ -55,7 +55,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/order_detail"
             android:src="@drawable/execution_order"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
 
         <ImageView
@@ -66,49 +66,51 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/txt_execution_Details"
             android:src="@drawable/return_order"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/ll_ctgry"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
         android:layout_below="@+id/rtv_hdr"
-
         android:background="#9E9E9E"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingTop="2dp"
+
+        android:paddingRight="16dp"
+        android:paddingBottom="2dp">
 
         <EditText
             android:id="@+id/ed_search"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:hint="Search"
-            android:layout_toLeftOf="@+id/ll_go"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:drawableLeft="@drawable/ic_action_search"
-            android:background="@drawable/edit_text_bg"
-            android:textSize="14sp"
             android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@+id/ll_go"
+            android:background="@drawable/edit_text_bg"
+            android:drawableLeft="@drawable/ic_action_search"
             android:gravity="center_vertical"
-            android:textColor="#000000"/>
+            android:hint="Search"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
         <LinearLayout
             android:id="@+id/ll_go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:gravity="center">
+
             <ImageView
                 android:id="@+id/btn_go"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
 
-                android:src="@drawable/ic_maps_beenhere"/>
-
+                android:src="@drawable/ic_maps_beenhere" />
 
 
             <LinearLayout
@@ -117,29 +119,32 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
 
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <ImageView
                     android:id="@+id/img_ctgry"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:src="@drawable/category_order" />
+
                 <ImageView
                     android:id="@+id/videoPlay"
                     android:layout_width="40dp"
-android:visibility="gone"
                     android:layout_height="40dp"
-                    android:src="@drawable/videoplay" />
+                    android:src="@drawable/videoplay"
+                    android:visibility="gone" />
+
                 <ImageView
                     android:id="@+id/DocPlay"
                     android:layout_width="40dp"
-android:visibility="gone"
                     android:layout_height="40dp"
-                    android:src="@drawable/docplay" />
+                    android:src="@drawable/docplay"
+                    android:visibility="gone" />
 
 
             </LinearLayout>
-            -->    </LinearLayout>
+            -->
+        </LinearLayout>
     </RelativeLayout>
 
 
@@ -147,94 +152,86 @@ android:visibility="gone"
         android:id="@+id/ll_schm_applcbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="1dp"
-        android:paddingBottom="1dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:gravity="center"
         android:layout_below="@+id/ll_ctgry"
         android:background="#ffffff"
+        android:gravity="center"
         android:orientation="horizontal"
-        >
+        android:paddingLeft="16dp"
+        android:paddingTop="1dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="1dp">
 
         <TextView
             android:id="@+id/textView1_scheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Scheme Applicable"
-            android:textSize="12sp"
-            android:textColor="#000000"/>
+            android:textColor="#000000"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/txtVw_schemeApld"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="16dp"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
             android:layout_toRightOf="@+id/textView1_scheme"
             android:gravity="center|right"
             android:text=""
             android:textSize="14sp" />
 
 
-
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/ll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/ll_view"
-
         android:layout_below="@+id/ll_schm_applcbl"
-        >
+
+        android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#000000"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="1dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginTop="1dp"
             android:layout_marginRight="5dp"
-            />
+            android:layout_marginBottom="1dp"
+            android:background="#000000" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_radioBtns"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
+        android:layout_below="@+id/ll_view"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="1dp"
-        android:id="@+id/ll_radioBtns"
         android:orientation="horizontal"
-        android:visibility="visible"
-        android:layout_below="@+id/ll_view"
-        >
-
+        android:paddingTop="5dp"
+        android:paddingBottom="0dp"
+        android:visibility="gone">
 
 
         <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:id="@+id/rbInPcs"
-            android:textColor="#e22121"
-            android:text="In Pcs"
-            android:textSize="14sp"
-            />
-
-        <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:text="In Pcs"
+            android:textColor="#e22121"
+            android:textSize="14sp" />
+
+        <RadioButton
             android:id="@+id/rbInKg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
             android:text="In Kg"
             android:textColor="#0288D1"
-            android:layout_marginLeft="20dp"
-            android:textSize="14sp"
-            />
-
+            android:textSize="14sp" />
 
 
     </LinearLayout>
@@ -242,9 +239,9 @@ android:visibility="gone"
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/ll_header"
         android:layout_above="@+id/ll_buttonsNew"
+        android:layout_below="@+id/ll_header"
+        android:orientation="vertical"
         android:weightSum="1">
 
         <ScrollView
@@ -253,8 +250,7 @@ android:visibility="gone"
             android:layout_marginTop="1dp"
             android:layout_weight="0.95"
             android:clipToPadding="false"
-            android:scrollbarStyle="outsideOverlay"
-            >
+            android:scrollbarStyle="outsideOverlay">
 
             <LinearLayout
                 android:id="@+id/ll_prdct_detal"
@@ -268,7 +264,8 @@ android:visibility="gone"
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="#D42625"/>
+            android:background="#D42625" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -282,106 +279,111 @@ android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:shrinkColumns="*"
-                android:stretchColumns="*"
-                >
+                android:stretchColumns="*">
 
 
                 <TableRow
                     android:id="@+id/tableRow1"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="#f1f1f1"
                     android:gravity="center_vertical"
                     android:visibility="gone"
                     android:weightSum="8">
+
                     <TextView
                         android:id="@+id/txt_detalis"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Order Total"
                         android:layout_weight="4"
+                        android:paddingLeft="16dp"
                         android:paddingTop="1dp"
                         android:paddingBottom="1dp"
 
-                        android:textSize="14sp"
-                        android:textStyle="bold"
+                        android:text="Order Total"
                         android:textColor="#201359"
-                        android:paddingLeft="16dp" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/txt_cr_amnt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Cr.Amt."
                         android:layout_weight="1"
+                        android:gravity="center"
 
+                        android:padding="1dp"
+                        android:text="Cr.Amt."
                         android:textColor="#201359"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:padding="1dp"
-                        android:gravity="center"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
+
                     <TextView
                         android:id="@+id/txt_cr_adj"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Cr.Adj."
                         android:layout_weight="1"
+                        android:gravity="center"
 
+                        android:padding="1dp"
+                        android:text="Cr.Adj."
+                        android:textColor="#201359"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="#201359"
-                        android:padding="1dp"
-                        android:gravity="center"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
+
                     <TextView
                         android:id="@+id/txt_cr_bal"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Cr.Bal."
                         android:layout_weight="1"
+                        android:gravity="center"
 
+                        android:padding="1dp"
+                        android:text="Cr.Bal."
+                        android:textColor="#201359"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="#201359"
-                        android:padding="1dp"
-                        android:gravity="center"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/txt_RefreshOdrTot"
                         android:layout_width="0dp"
 
                         android:layout_height="wrap_content"
-                        android:text="Update Total"
-                        android:background="@drawable/custom_button"
                         android:layout_weight="3"
-                        android:paddingRight="10dp"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:textColor="#ffffff"
-                        android:padding="1dp"
+                        android:background="@drawable/custom_button"
                         android:gravity="center"
-                        />
+                        android:padding="1dp"
+                        android:paddingRight="10dp"
+                        android:text="Update Total"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                 </TableRow>
             </TableLayout>
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 android:scrollbarStyle="outsideOverlay">
+
                 <LinearLayout
                     android:id="@+id/ll_scheme_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
 
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_buttonsNew"
         android:layout_width="match_parent"
@@ -395,96 +397,97 @@ android:visibility="gone"
             android:id="@+id/ll_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:weightSum="3"
-
             android:background="#f1f1f1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+
+            android:paddingBottom="5dp"
+            android:weightSum="3">
 
             <Button
                 android:id="@+id/btn_Cancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
+                android:background="@drawable/custom_button"
                 android:gravity="center"
-                android:textColor="#ffffff"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
                 android:text="Cancel"
+                android:textColor="#ffffff"
                 android:textSize="14sp"
-                android:visibility="gone"
-                android:background="@drawable/custom_button"/>
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_save"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:text="Save"
-                android:textSize="14sp"
                 android:layout_marginLeft="2dp"
-                android:background="@drawable/custom_button"/>
+                android:layout_weight="0.7"
+                android:background="@drawable/custom_button"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
+                android:text="Save"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btn_saveExit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:layout_marginLeft="2dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button"
                 android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
 
+                android:paddingBottom="5dp"
                 android:text="Save &amp; Exit"
-                android:textSize="14sp"
                 android:textColor="#ffffff"
-                android:background="@drawable/custom_button"/>
+                android:textSize="14sp" />
+
             <Button
                 android:id="@+id/btn_sbmt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.9"
-                android:paddingLeft="10dp"
                 android:layout_marginLeft="2dp"
-                android:paddingRight="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
+                android:layout_weight="0.9"
+                android:background="@drawable/custom_button"
                 android:gravity="center"
-                android:textColor="#ffffff"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
                 android:text="Submit"
+                android:textColor="#ffffff"
                 android:textSize="14sp"
-                android:visibility="gone"
-                android:background="@drawable/custom_button"/>
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_orderReview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.3"
-                android:paddingLeft="10dp"
                 android:layout_marginLeft="2dp"
-                android:paddingRight="10dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
                 android:layout_marginBottom="5dp"
+                android:layout_weight="1.3"
+                android:background="@drawable/custom_button"
                 android:gravity="center"
-                android:textColor="#ffffff"
+                android:paddingLeft="10dp"
+                android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
                 android:text="Order Review"
-                android:textSize="14sp"
-                android:background="@drawable/custom_button"/>
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
         </LinearLayout>
 
 
@@ -526,19 +529,18 @@ android:visibility="gone"
         android:id="@+id/ll_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:layout_below="@+id/ll_radioBtns"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="2dp"
         android:orientation="vertical"
-        android:layout_below="@+id/ll_radioBtns"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -552,13 +554,13 @@ android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Stock"
+                    android:background="@drawable/edit_text_bg"
                     android:gravity="center"
+                    android:padding="1dp"
+                    android:text="Stock"
+                    android:textColor="#201359"
                     android:textSize="10sp"
                     android:textStyle="bold"
-                    android:textColor="#201359"
-                    android:padding="1dp"
-                    android:background="@drawable/edit_text_bg"
 
                     />
 
@@ -567,14 +569,14 @@ android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="LOD/Qty"
-                    android:gravity="center"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:textColor="#201359"
-                    android:padding="1dp"
-
                     android:background="@drawable/edit_text_bg"
+                    android:gravity="center"
+                    android:padding="1dp"
+                    android:text="LOD/Qty"
+                    android:textColor="#201359"
+                    android:textSize="10sp"
+
+                    android:textStyle="bold"
 
                     />
 
@@ -583,26 +585,25 @@ android:visibility="gone"
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="PCS"
+                        android:background="@drawable/txtview_bg_pcs"
                         android:gravity="center"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="#e22121"
                         android:paddingLeft="3dp"
                         android:paddingRight="3dp"
-                        android:background="@drawable/txtview_bg_pcs"
+                        android:text="PCS"
+                        android:textColor="#e22121"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
 
                         />
 
@@ -611,12 +612,12 @@ android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="KG"
+                        android:background="@drawable/txtview_bg_kg"
                         android:gravity="center"
+                        android:text="KG"
+                        android:textColor="#0288D1"
                         android:textSize="12sp"
                         android:textStyle="bold"
-                        android:textColor="#0288D1"
-                        android:background="@drawable/txtview_bg_kg"
 
                         />
 
@@ -626,120 +627,121 @@ android:visibility="gone"
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_weight="2"
-                    >
+                    android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
                         android:background="@drawable/txtview_bg_pcs"
+                        android:orientation="horizontal"
 
 
                         >
 
                         <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Ord"
-                            android:gravity="center"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:textColor="#e22121"
                             android:id="@+id/textView6"
-                            android:paddingTop="1dp"
-                            android:layout_marginTop="6dp"
-                            />
-
-                  <LinearLayout
-                      android:layout_width="0dp"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical"
-                      android:layout_weight="1"
-
-                      >
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Rate"
-                            android:gravity="center"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:textColor="#201359"
-                            android:layout_marginTop="1dp"
-
-                            />
-
-
-                      <TextView
-                          android:layout_width="match_parent"
-                          android:layout_height="wrap_content"
-                          android:layout_weight="1"
-                          android:text="Aft. TAX"
-                          android:gravity="center"
-                          android:textSize="9sp"
-                          android:textStyle="bold"
-                          android:textColor="#e22121"/>
-
-                  </LinearLayout>
-                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="GST"
-                            android:gravity="center"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:textColor="#e22121"
                             android:layout_marginTop="6dp"
-                            />
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:paddingTop="1dp"
+                            android:text="Ord"
+                            android:textColor="#e22121"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_weight="1"
+                            android:orientation="vertical"
 
                             >
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
                                 android:layout_weight="1"
-                                android:text="Rate"
                                 android:gravity="center"
+                                android:text="Rate"
+                                android:textColor="#201359"
                                 android:textSize="10sp"
                                 android:textStyle="bold"
-                                android:textColor="#201359"
-                                android:layout_marginTop="1dp"
 
                                 />
 
 
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Aft. TAX"
+                                android:textColor="#e22121"
+                                android:textSize="9sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="GST"
+                            android:textColor="#e22121"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+
+                            >
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Rate"
+                                android:textColor="#201359"
+                                android:textSize="10sp"
+                                android:textStyle="bold"
+
+                                />
+
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Bef. TAX"
                                 android:gravity="center"
+                                android:text="Bef. TAX"
+                                android:textColor="#e22121"
                                 android:textSize="9sp"
-                                android:textStyle="bold"
-                                android:textColor="#e22121"/>
+                                android:textStyle="bold" />
 
                         </LinearLayout>
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Free Qty"
+                            android:background="@drawable/edit_text_bg_gst"
                             android:gravity="center"
+                            android:paddingBottom="14dp"
+                            android:text="Free Qty"
+                            android:textColor="#201359"
                             android:textSize="10sp"
                             android:textStyle="bold"
-                            android:textColor="#201359"
-                            android:paddingBottom="14dp"
-                            android:background="@drawable/edit_text_bg_gst"
 
                             />
 
@@ -747,15 +749,14 @@ android:visibility="gone"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:text="Line Value"
+                            android:background="@drawable/edit_text_bg_gst_white"
                             android:gravity="center"
+                            android:text="Line Value"
+                            android:textColor="#201359"
                             android:textSize="10sp"
                             android:textStyle="bold"
-                            android:textColor="#201359"
-                            android:background="@drawable/edit_text_bg_gst_white"
 
                             />
-
 
 
                     </LinearLayout>
@@ -763,9 +764,9 @@ android:visibility="gone"
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-
                         android:background="@drawable/txtview_bg_kg"
+
+                        android:orientation="horizontal"
 
                         >
 
@@ -773,76 +774,73 @@ android:visibility="gone"
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:text="Ord"
-                            android:gravity="center"
+                            android:textColor="#0288D1"
                             android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:layout_marginTop="6dp"
-                            android:textColor="#0288D1"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:text="Aft. TAX"
-                            android:gravity="center"
-                            android:textSize="9sp"
-                            android:textStyle="bold"
                             android:textColor="#0288D1"
-                            android:layout_marginTop="6dp"
-                            />
+                            android:textSize="9sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:text="GST"
-                            android:gravity="center"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
                             android:textColor="#0288D1"
-                            android:layout_marginTop="6dp"
-                            />
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
                             android:layout_weight="1"
+                            android:gravity="center"
                             android:text="Bef. TAX"
-                            android:gravity="center"
-                            android:textSize="9sp"
-                            android:textStyle="bold"
                             android:textColor="#0288D1"
-                            android:layout_marginTop="6dp"
-                            />
+                            android:textSize="9sp"
+                            android:textStyle="bold" />
 
 
                         <TextView
+                            android:id="@+id/textView"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Discount"
-                            android:gravity="center"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
-                            android:textColor="#201359"
-                            android:paddingBottom="14dp"
                             android:background="@drawable/edit_text_bg_gst"
+                            android:gravity="center"
+                            android:paddingBottom="14dp"
+                            android:text="Discount"
+                            android:textColor="#201359"
+                            android:textSize="10sp"
 
-                            android:id="@+id/textView" />
+                            android:textStyle="bold" />
 
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:background="@drawable/edit_text_bg_gst_white_bottom"
                             android:gravity="center"
+                            android:paddingBottom="15dp"
+                            android:textColor="#201359"
                             android:textSize="10sp"
                             android:textStyle="bold"
-                            android:textColor="#201359"
-                            android:paddingBottom="15dp"
-                            android:background="@drawable/edit_text_bg_gst_white_bottom"
 
                             />
 
@@ -852,6 +850,7 @@ android:visibility="gone"
                 </LinearLayout>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
@@ -863,12 +862,12 @@ android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Free Qty"
+                    android:background="@drawable/edit_text_bg"
                     android:gravity="center"
+                    android:text="Free Qty"
+                    android:textColor="#201359"
                     android:textSize="10sp"
                     android:textStyle="bold"
-                    android:textColor="#201359"
-                    android:background="@drawable/edit_text_bg"
 
                     />
 
@@ -877,21 +876,22 @@ android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Discount"
+                    android:background="@drawable/edit_text_bg"
                     android:gravity="center"
+                    android:text="Discount"
+                    android:textColor="#201359"
                     android:textSize="10sp"
                     android:textStyle="bold"
-                    android:textColor="#201359"
-                    android:background="@drawable/edit_text_bg"
 
                     />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:background="@drawable/edit_text_bg"
+                android:orientation="vertical"
 
                 >
 
@@ -899,23 +899,23 @@ android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Line Value"
                     android:gravity="center"
+                    android:text="Line Value"
+                    android:textColor="#201359"
                     android:textSize="10sp"
-                    android:textStyle="bold"
-                    android:textColor="#201359"/>
+                    android:textStyle="bold" />
 
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text=""
-                    android:visibility="gone"
                     android:gravity="center"
+                    android:text=""
+                    android:textColor="#201359"
                     android:textSize="10sp"
                     android:textStyle="bold"
-                    android:textColor="#201359"/>
+                    android:visibility="gone" />
 
             </LinearLayout>
         </LinearLayout>

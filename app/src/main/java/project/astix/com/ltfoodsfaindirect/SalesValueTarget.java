@@ -4,6 +4,7 @@ package project.astix.com.ltfoodsfaindirect;
 
         import android.app.Activity;
         import android.content.Intent;
+        import android.content.SharedPreferences;
         import android.os.Bundle;
         import android.text.Html;
         import android.text.TextUtils;
@@ -21,6 +22,7 @@ public class SalesValueTarget extends Activity {
     TextView txt_stv;
     ImageView imgVw_next,imgVw_back;
     String imei,pickerDate,userDate;
+    SharedPreferences sPrefAttandance;
 
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
@@ -45,7 +47,19 @@ public class SalesValueTarget extends Activity {
 
         return super.onKeyDown(keyCode, event);
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(CommonInfo.DayStartClick==2)
+        {
+            SharedPreferences.Editor editor1=sPrefAttandance.edit();
+            editor1.clear();
+            editor1.commit();
+            CommonInfo.DayStartClick=0;
+            finish();
 
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +67,7 @@ public class SalesValueTarget extends Activity {
         txt_stv=(TextView) findViewById(R.id.txt_stv);
         imgVw_next=(ImageView) findViewById(R.id.imgVw_next);
         imgVw_back=(ImageView) findViewById(R.id.imgVw_back);
+        sPrefAttandance=getSharedPreferences(CommonInfo.AttandancePreference, MODE_PRIVATE);
         Intent intent=getIntent();
         int intentFrom= intent.getIntExtra("IntentFrom", 0);
         if(intentFrom==1)
@@ -71,6 +86,7 @@ public class SalesValueTarget extends Activity {
             if(intentFrom==0)
             {
                 Intent i=new Intent(SalesValueTarget.this,IncentiveActivity.class);
+                i.putExtra("IntentFrom", "SPLASH");
                 startActivity(i);
                 finish();
             }
@@ -86,6 +102,7 @@ public class SalesValueTarget extends Activity {
                 public void onClick(View v) {
 
                     Intent i=new Intent(SalesValueTarget.this,IncentiveActivity.class);
+                    i.putExtra("IntentFrom", "SPLASH");
                     startActivity(i);
                     finish();
 

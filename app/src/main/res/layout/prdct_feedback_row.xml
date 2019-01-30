@@ -1,38 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@drawable/custom_border"
     android:layout_width="match_parent"
-    android:padding="1dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_border"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="1dp">
 
-    android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/img_prdct"
-        android:adjustViewBounds="true"
-        android:src="@drawable/kohinoor_basmati_rice"
         android:layout_width="wrap_content"
+        android:layout_height="75dp"
         android:layout_gravity="center"
-        android:layout_height="75dp" />
+        android:adjustViewBounds="true"
+        android:src="@drawable/kohinoor_basmati_rice" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#807295A6">
 
     </View>
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="5dp">
 
 
         <CheckBox
             android:id="@+id/tv_prdctName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="#000000"
             android:textSize="10sp"
+            android:visibility="gone" />
 
+        <EditText
+            android:id="@+id/et_Compi_Stock"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/et_boundary"
+            android:gravity="center"
+            android:inputType="number"
+            android:maxLength="4"
+            android:padding="1dp"
+            android:text=""
+            android:hint="Qty."
+            android:textSize="11sp" />
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="1dp"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:padding="1dp"
+            android:text="Abhinav"
+            android:textSize="11sp" />
+
     </LinearLayout>
 </LinearLayout>
