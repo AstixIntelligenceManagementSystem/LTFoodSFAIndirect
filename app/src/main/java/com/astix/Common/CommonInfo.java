@@ -38,6 +38,7 @@ public class CommonInfo {
 
 		public static int AnyVisit = 0;
 
+
 		public static int DATABASE_VERSIONID = 98;      // put this field value based on value in table on the server
 		public static String AppVersionID = "1.25";   // put this field value based on value in table on the server
 		public static int Application_TypeID = 2; //1=Parag Store Mapping,2=Parag SFA Indirect,3=Parag SFA Direct
