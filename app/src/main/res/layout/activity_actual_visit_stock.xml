@@ -164,20 +164,19 @@
                 android:orientation="horizontal"
                 android:visibility="visible">
 
+
                 <TextView
                     android:id="@+id/texPrdNamw"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:paddingLeft="6dp"
                     android:paddingTop="4dp"
                     android:paddingRight="6dp"
                     android:paddingBottom="4dp"
-                    android:text="@string/txtProductName"
+                    android:text="@string/section_1_product_name"
                     android:textColor="#fff"
                     android:textSize="10dp" />
-
 
                 <TextView
                     android:layout_width="0dp"
@@ -359,14 +358,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/actual_visit_row_header"
-                        android:gravity="center"
                         android:paddingLeft="6dp"
                         android:paddingTop="4dp"
                         android:paddingRight="6dp"
                         android:paddingBottom="4dp"
-                        android:text="@string/txtProductName"
+                        android:text="@string/section_2_product_name"
                         android:textColor="#fff"
                         android:textSize="10dp" />
+
 
 
                     <TextView

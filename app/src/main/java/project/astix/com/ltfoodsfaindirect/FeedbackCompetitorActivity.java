@@ -167,7 +167,34 @@ public class FeedbackCompetitorActivity extends BaseActivity implements CheckedU
             public void onClick(View v) {
                 if (isRetailerAllowedToDo) {
                     dbengine.updateCmpttrRetailerAllowed(StoreID, 1);
-                    AlertDialog.Builder alert = new AlertDialog.Builder(FeedbackCompetitorActivity.this);
+
+                    dbengine.deletetblFeedbackCompetitrData(StoreID);
+                    dbengine.open();
+                    if (hmapSavedCompetitrData != null && hmapSavedCompetitrData.size() > 0) {
+                        Log.d(TAG, "hmapSavedCompetitrData :" + hmapSavedCompetitrData.toString());
+                        for (Map.Entry<String, String> entry : hmapSavedCompetitrData.entrySet()) {
+
+                            String prdctDesc = entry.getKey().split(Pattern.quote("~"))[0];
+                            String compttrDesc = entry.getKey().split(Pattern.quote("~"))[1];
+                            String catId = entry.getKey().split(Pattern.quote("~"))[2];
+                            String prdctID = prdctDesc.split(Pattern.quote("^"))[0];
+                            String prdctName = prdctDesc.split(Pattern.quote("^"))[1];
+                            String compttrId = compttrDesc.split(Pattern.quote("^"))[0];
+                            String compttrName = compttrDesc.split(Pattern.quote("^"))[1];
+                            String quantity = entry.getValue().split(Pattern.quote("^"))[1];
+                            int flgAvilable = Integer.parseInt(entry.getValue().split(Pattern.quote("^"))[0]);
+                            dbengine.savetblFeedbackCompetitr(StoreID, compttrId, compttrName, catId, prdctID, prdctName, flgAvilable, "1", quantity);//1 here is Sstat
+
+                        }
+
+                    }
+                    dbengine.close();
+
+                    // VideoPageOpenOrProductOrderPageOpen();
+
+                    intentToPicSctn2();
+
+                   /* AlertDialog.Builder alert = new AlertDialog.Builder(FeedbackCompetitorActivity.this);
                     alert.setTitle("Alert");
                     alert.setMessage("Do you want to save changes?");
 
@@ -211,7 +238,7 @@ public class FeedbackCompetitorActivity extends BaseActivity implements CheckedU
                     });
 
                     AlertDialog dialog = alert.create();
-                    dialog.show();
+                    dialog.show();*/
                 } else {
                     dbengine.updateCmpttrRetailerAllowed(StoreID, 0);
                     intentToPicSctn2();
@@ -222,7 +249,7 @@ public class FeedbackCompetitorActivity extends BaseActivity implements CheckedU
     }
 
     public void intentToPicSctn2() {
-        if ((isStockAvlbl == 1) && (dbengine.getStockRetailerAllowed(StoreID) == 1)) {
+        if ((isStockAvlbl == 1 && (dbengine.getStockRetailerAllowed(StoreID) == 1)) ) {//
             Intent nxtP4 = new Intent(FeedbackCompetitorActivity.this, PicClkdAfterStock.class);
             nxtP4.putExtra("storeID", StoreID);
             nxtP4.putExtra("SN", SN);
@@ -338,7 +365,7 @@ public class FeedbackCompetitorActivity extends BaseActivity implements CheckedU
             @Override
             public void onClick(View v) {
 
-                if ((isStockAvlbl == 1) && (dbengine.getStockRetailerAllowed(StoreID) == 1)) {
+              //  if ((isStockAvlbl == 1)) {// && (dbengine.getStockRetailerAllowed(StoreID) == 1)
                     Intent intent = new Intent(FeedbackCompetitorActivity.this, ActualVisitStock.class);
                     intent.putExtra("storeID", StoreID);
                     intent.putExtra("imei", imei);
@@ -350,7 +377,7 @@ public class FeedbackCompetitorActivity extends BaseActivity implements CheckedU
 
                     startActivity(intent);
                     finish();
-                } else if ((isStockAvlbl == 1) && (dbengine.getStockRetailerAllowed(StoreID) == 0)) {
+              /*  } else if ((isStockAvlbl == 1) && (dbengine.getStockRetailerAllowed(StoreID) == 0)) {
                     Intent nxtP4 = new Intent(FeedbackCompetitorActivity.this, PicClkBfrStock.class);
                     nxtP4.putExtra("storeID", StoreID);
                     nxtP4.putExtra("SN", SN);
@@ -376,7 +403,7 @@ public class FeedbackCompetitorActivity extends BaseActivity implements CheckedU
                     startActivity(ready4GetLoc);
                     finish();
 
-                }
+                }*/
 
 
             }

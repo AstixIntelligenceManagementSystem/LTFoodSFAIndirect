@@ -4,7 +4,7 @@
     <!-- <string name="app_name">GTFieldOperations Stagging</string>-->
      <!--<string name="app_name">GTFieldOperations Test</string>-->
     <!--  <string name="app_name">GTFieldOperations Dev</string>-->
-    ,
+
   <!--  <string name="app_name">GTFieldOperations Test Release</string>-->
 
     <string name="AlertDialogHeaderErrorMsg">Error</string>
@@ -575,5 +575,7 @@
     <string name="ConfirmOrderType">Confirm Telephonic Order</string>
     <string name="AlertTelephonic">This is the telephonic order and the store visit will not count, kindly confirm to proceed</string>
 
+    <string name="section_2_product_name">Section 2 \t\t\t\t Product Name</string>
+    <string name="section_1_product_name">Section 1 \t\t\t\t Product Name</string>
 
 </resources>

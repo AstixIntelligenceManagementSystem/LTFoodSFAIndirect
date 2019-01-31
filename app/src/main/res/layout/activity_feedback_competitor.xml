@@ -15,7 +15,7 @@
             android:id="@+id/img_back"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/back_button_image" />
 
 
         <TextView
@@ -46,7 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_header"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <CheckBox
             android:id="@+id/chkBox_Rtailer"
@@ -118,7 +119,7 @@
             android:layout_margin="5dp"
             android:background="@drawable/custom_button"
             android:gravity="center"
-            android:text="Done"
+            android:text="Next"
             android:textAllCaps="false"
             android:textColor="#fff"
             android:textSize="14sp" />

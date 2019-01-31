@@ -63,7 +63,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="0.20"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_back" />
+                    android:src="@drawable/back_button_image" />
 
                 <TextView   android:id="@+id/bardd"
                     android:layout_width="0dp"

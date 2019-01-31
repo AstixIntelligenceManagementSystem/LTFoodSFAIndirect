@@ -3312,13 +3312,13 @@ catch (Exception e){
                     System.out.println("bywww = "+mm);
                     if(mm==1)
                     {
-
-                        newservice = newservice.getallStores(getApplicationContext(), fDate, imei, rID);
+                        newservice = newservice.getProductListLastVisitStockOrOrderMstr(getApplicationContext(), fDate, imei, rID);
                         if(newservice.flagExecutedServiceSuccesfully!=1)
                         {
                             serviceException=true;
                             break;
                         }
+
                     }
                     if(mm==2)
                     {
@@ -3615,7 +3615,9 @@ catch (Exception e){
                     if(mm==40)
                     {
 
-                        newservice = newservice.getProductListLastVisitStockOrOrderMstr(getApplicationContext(), fDate, imei, rID);
+
+
+                        newservice = newservice.getallStores(getApplicationContext(), fDate, imei, rID);
                         if(newservice.flagExecutedServiceSuccesfully!=1)
                         {
                             serviceException=true;
@@ -3690,7 +3692,7 @@ catch (Exception e){
                 try
                 {
                     //but_GetStore.setEnabled(true);
-                    dbengine.deletetblStoreList();
+                   // dbengine.deletetblStoreList();
                     showAlertException("Error.....","Error while Retrieving Data!\n Please Retry");
                 }
                 catch(Exception e)

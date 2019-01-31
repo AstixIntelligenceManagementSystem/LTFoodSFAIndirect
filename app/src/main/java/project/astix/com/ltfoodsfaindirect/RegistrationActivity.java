@@ -86,6 +86,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 public class RegistrationActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+    public int flgUserAuthenticatedAndRegistered=0;
     SharedPreferences sPrefAttandance;
     View viewStoreLocDetail;
     LinearLayout ll_ImageToSet;
@@ -1430,120 +1431,132 @@ if(Totalfiles.length>0) {
     }
     public boolean validate()
     {
-       // String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+        //String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                 + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
         String mail=ed_EmailID.getText().toString().trim();
+        boolean flgValidate=true;
         if(ed_Name.getText().toString().trim().equals("") )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Enter Name", Toast.LENGTH_SHORT).show();
-            return false;
+            flgValidate= false;
         }
         else if(ed_ContactNo.getText().toString().trim().equals("") ||  (ed_ContactNo.getText().toString().length()<10))
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Enter Valid Contact No.", Toast.LENGTH_SHORT).show();
-            return false;
+            flgValidate= false;
         }
-        else if(!(ed_EmailID.getText().toString().trim().equals("")) && (!mail.matches(emailPattern)) )
+
+        else if(edAadhaarNo.getText().toString().trim().equals("") ||  (edAadhaarNo.getText().toString().length()!=12))
+        {
+            //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
+            Toast.makeText(getApplicationContext(), "Please Enter Valid Aadhaar No.", Toast.LENGTH_SHORT).show();
+            flgValidate= false;
+        }
+
+        //ed_aadhaar_no
+        //AadhaarNumber
+        else if((!ed_EmailID.getText().toString().trim().equals("")) && (!mail.matches(emailPattern) ))
         {
 
             Toast.makeText(getApplicationContext(), "Email ID is not valid", Toast.LENGTH_SHORT).show();
 
 
-            return false;
+            flgValidate= false;
         }
         else if(Text_Dob.getText().toString().trim().equals("Select Date")  )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Select DOB", Toast.LENGTH_SHORT).show();
-            return false;
+            flgValidate= false;
         }
-       else if(ed_AccNo.getText().toString().trim().equals("") || ed_AccNo.getText().toString().trim().length()<9 || ed_AccNo.getText().toString().trim().length()>18  )
+        else if(ed_AccNo.getText().toString().trim().equals("") || ed_AccNo.getText().toString().trim().length()<9 || ed_AccNo.getText().toString().trim().length()>18  )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Enter Proper Account No.", Toast.LENGTH_SHORT).show();
-            return false;
+            flgValidate= false;
         }
         else if(spinner_Bank.getText().toString().trim().equals("Select")  )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Select Bank", Toast.LENGTH_SHORT).show();
-            return false;
+            flgValidate= false;
         }
         else if(spinner_Bank.getText().toString().trim().equals("")  )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Select Bank", Toast.LENGTH_SHORT).show();
-            return false;
+            flgValidate= false;
         }
         else if(!hashmapBank.containsKey(spinner_Bank.getText().toString().trim())){
             Toast.makeText(getApplicationContext(), "Please Select Proper Bank", Toast.LENGTH_SHORT).show();
             spinner_Bank.setText("");
-            return false;
+            flgValidate= false;
         }
         else  if(ed_ifsc.getText().toString().trim().equals("")  )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Enter IFSC Code", Toast.LENGTH_SHORT).show();
-            return false;
+            flgValidate= false;
         }
         else  if(ed_ifsc.getText().toString().trim().length()!=11  )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Enter Proper IFSC Code", Toast.LENGTH_SHORT).show();
-            return false;
+            flgValidate= false;
         }
 
         else if(!(rb_yes.isChecked())  && !(rb_NO.isChecked()) )
-            {
-                //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
-                Toast.makeText(getApplicationContext(), "Please select UPI ID Available", Toast.LENGTH_SHORT).show();
-                return false;
-            }
+        {
+            //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
+            Toast.makeText(getApplicationContext(), "Please select UPI ID Available", Toast.LENGTH_SHORT).show();
+            flgValidate= false;
+        }
         else if(ed_UPIID.getText().toString().trim().equals("")  && (ed_UPIID.getVisibility()==View.VISIBLE) )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Enter UPI ID", Toast.LENGTH_SHORT).show();
-            return false;
+            flgValidate= false;
         }
         else if(!ed_UPIID.getText().toString().trim().contains("@") && (ed_UPIID.getVisibility()==View.VISIBLE))
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
             Toast.makeText(getApplicationContext(), "Please Enter Proper UPI ID", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        else if(edAadhaarNo.getText().toString().trim().length() != 12)
-        {
-            //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
-            Toast.makeText(getApplicationContext(), "Please Enter Proper Aadhaar Number", Toast.LENGTH_SHORT).show();
-            return false;
+            flgValidate= false;
         }
         else  if(ll_ImageToSet==null )
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
-            Toast.makeText(getApplicationContext(), "Please Take Selfie", Toast.LENGTH_SHORT).show();
-            return false;
+            if(flgUserAuthenticatedAndRegistered==0) {
+                Toast.makeText(getApplicationContext(), "Please Take Selfie", Toast.LENGTH_SHORT).show();
+                flgValidate= false;
+            }
         }
-       else  if(ll_ImageToSet!=null && ll_ImageToSet.getChildCount()==0)
+        else  if(ll_ImageToSet!=null && ll_ImageToSet.getChildCount()==0)
         {
             //showAlertForEveryOne(getResources().getString(R.string.txtValidateUpdatePhoto));
-            Toast.makeText(getApplicationContext(), "Please Take Selfie", Toast.LENGTH_SHORT).show();
-            return false;
+            if(flgUserAuthenticatedAndRegistered==0) {
+                Toast.makeText(getApplicationContext(), "Please Take Selfie", Toast.LENGTH_SHORT).show();
+                flgValidate= false;
+            }
         }
 
-         else  if(!signOrNot)
+        else  if(!signOrNot)
         {
-           // showAlertForEveryOne(getResources().getString(R.string.txtValidateSignature));
-            Toast.makeText(getApplicationContext(), "Please do Signature", Toast.LENGTH_SHORT).show();
-            return false;
+            // showAlertForEveryOne(getResources().getString(R.string.txtValidateSignature));
+            if(flgUserAuthenticatedAndRegistered==0) {
+                Toast.makeText(getApplicationContext(), "Please do Signature", Toast.LENGTH_SHORT).show();
+                flgValidate= false;
+            }
         }
 
         else{
-            return true;
+            flgValidate= true;
         }
-
+        return flgValidate;
     }
 
     private class FullSyncDataNow extends AsyncTask<Void, Void, Void>
@@ -1834,7 +1847,7 @@ if(Totalfiles.length>0) {
     }
     public void getDataFromDataBase()
     {
-
+        flgUserAuthenticatedAndRegistered=dbengine.FetchflgUserAuthenticatedAndRegistered();
         PersonNameAndFlgRegistered=  dbengine.fnGetPersonNameAndFlgRegistered();
         hashmapBank = dbengine.fnGettblBankMaster();
 
@@ -2145,7 +2158,10 @@ if(Totalfiles.length>0) {
                     dbengine.open();
                     serverDateForSPref=	dbengine.fnGetServerDate();
                     dbengine.close();
-                    SharedPreferences sPref;
+
+                   /* FullSyncDataNow task = new FullSyncDataNow(RegistrationActivity.this);
+                    task.execute();*/
+                  /*  SharedPreferences sPref;
 
                     sPref=getSharedPreferences(CommonInfo.Preference, MODE_PRIVATE);
 
@@ -2153,10 +2169,7 @@ if(Totalfiles.length>0) {
                     SharedPreferences.Editor editor=sPref.edit();
                     editor.clear();
                     editor.commit();
-                    sPref.edit().putString("DatePref", serverDateForSPref).commit();
-                   /* FullSyncDataNow task = new FullSyncDataNow(RegistrationActivity.this);
-                    task.execute();*/
-
+                    sPref.edit().putString("DatePref", serverDateForSPref).commit();*/
                     if(FROM.equals("DAYEND"))
                     {
                         Intent trans2storeList = new Intent(RegistrationActivity.this, StoreSelection.class);
@@ -2168,13 +2181,7 @@ if(Totalfiles.length>0) {
                         finish();
                     }
                     else if(FROM.equals("AllButtonActivity")){
-                       /* Intent trans2storeList = new Intent(RegistrationActivity.this, AllButtonActivity.class);
-                        trans2storeList.putExtra("imei", imei);
-                        trans2storeList.putExtra("userDate", userDate);
-                        trans2storeList.putExtra("pickerDate", pickerDate);
 
-                        startActivity(trans2storeList);
-                        finish();*/
                         FullSyncDataNow task = new FullSyncDataNow(RegistrationActivity.this);
                         task.execute();
                     }
@@ -2183,7 +2190,6 @@ if(Totalfiles.length>0) {
                         if(!sPrefAttandance.contains("AttandancePref"))
                         {
                             callDayStartActivity();
-
                         }
                         else{
                             Intent i=new Intent(RegistrationActivity.this,SalesValueTarget.class);
@@ -2191,10 +2197,6 @@ if(Totalfiles.length>0) {
                             startActivity(i);
                             finish();
                         }
-          /* Intent i=new Intent(DSR_Registration.this,SalesValueTarget.class);
-           i.putExtra("IntentFrom", 0);
-           startActivity(i);
-           finish();*/
                     }
 
                     //-------*******************************************************

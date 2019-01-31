@@ -259,7 +259,8 @@ public class ActualVisitStock extends Activity implements CategoryCommunicator, 
                     passIntentToProductOrderFilter();
                 } else {
                     //showAlertForEveryOne("It's compulsory to fill atleast one stock as you have mentioned Ltfoods Stock available.");
-                    showAlertForEveryOne("It's compulsory to fill  stock as you have mentioned Ltfoods Stock available.");
+                    //showAlertForEveryOne("It's compulsory to fill stocks as you have mentioned Ltfoods Stock available.");
+                    showAlertForEveryOne("It's compulsory to fill stocks of the Section 1.");
                 }
             }
         });

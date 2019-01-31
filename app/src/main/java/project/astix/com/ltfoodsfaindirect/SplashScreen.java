@@ -106,7 +106,8 @@ public class SplashScreen extends AppCompatActivity
 
        // imei="865166033749030";
 
-     // imei="354010084603910";
+     //imei="354010084603910";
+       // imei="352672074232463";
         CommonInfo.imei = imei;
         sPrefAttandance=getSharedPreferences(CommonInfo.AttandancePreference, MODE_PRIVATE);
         sPref=getSharedPreferences(CommonInfo.Preference, MODE_PRIVATE);

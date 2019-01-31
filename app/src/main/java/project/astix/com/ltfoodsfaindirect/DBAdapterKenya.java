@@ -28402,7 +28402,27 @@ public class DBAdapterKenya {
         }
 
     }
+    public int FetchflgUserAuthenticatedAndRegistered() {
+        int SnamecolumnIndex1 = 0;
+        int flgUserAuthenticatedAndRegistered = 0;
+        open();
+        Cursor cursor = db.rawQuery("SELECT ifnull(flgUserAuthenticated,0) AS flgUserAuthenticated,ifnull(FlgRegistered,0) AS FlgRegistered from tblUserAuthenticationMstr", null);
+        try {
+            if (cursor.getCount()>0) {
+                if (cursor.moveToFirst()) {
+                    if(Integer.parseInt((String) cursor.getString(0).toString())==1 && Integer.parseInt((String) cursor.getString(1).toString())==1)
+                        flgUserAuthenticatedAndRegistered = 1;
+                }
+            }
+            return flgUserAuthenticatedAndRegistered;
+        } finally {
+            if(cursor!=null) {
+                cursor.close();
+            }
+            close();
+        }
 
+    }
 }
 
 

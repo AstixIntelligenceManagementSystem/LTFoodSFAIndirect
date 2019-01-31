@@ -61,7 +61,7 @@
             android:id="@+id/chkBox_Rtailer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Retailer has disallowed store check"/>
+            android:text="Retailer has disallowed Picture Click"/>
     </LinearLayout>
     <Button
         android:id="@+id/btn_camera"

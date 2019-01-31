@@ -250,13 +250,7 @@
                     android:layout_weight="1"
                     android:background="#BDBDBD" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_weight="1"
-                    android:background="#BDBDBD" />
+
 
             </LinearLayout>
 
@@ -306,46 +300,8 @@
                     android:layout_marginTop="8dp"
                     android:background="#BDBDBD" />
 
-                <LinearLayout
-                    android:id="@+id/ll_noVisit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="6dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/backgrnd_novisit" />
 
-                    <TextView
-                        android:id="@+id/noVisit_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:text="@string/NoVisit"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold">
-
-                    </TextView>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#BDBDBD" />
 
 
                 <LinearLayout
@@ -382,7 +338,44 @@
                     </TextView>
 
                 </LinearLayout>
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#E0E0E0" />
+                <LinearLayout
+                    android:id="@+id/ll_DayEnd"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/backgrnd_dayend" />
+
+                    <TextView
+                        android:id="@+id/DayEnd_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/DayEnd"
+
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold">
+
+                    </TextView>
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -407,9 +400,11 @@
                     android:background="#BDBDBD" />
 
             </LinearLayout>
+
+
             <LinearLayout
-                android:id="@+id/ll_DayEnd"
-                android:layout_width="match_parent"
+                android:id="@+id/ll_noVisit"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="12dp"
@@ -417,21 +412,23 @@
                 android:layout_marginTop="30dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
+                    android:id="@+id/imageView"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/backgrnd_dayend" />
+                    android:background="@drawable/backgrnd_novisit" />
 
                 <TextView
-                    android:id="@+id/DayEnd_tv"
+                    android:id="@+id/noVisit_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/DayEnd"
-
+                    android:paddingTop="5dp"
+                    android:text="@string/NoVisit"
                     android:textColor="#000000"
                     android:textSize="16sp"
                     android:textStyle="bold">
@@ -439,8 +436,6 @@
                 </TextView>
 
             </LinearLayout>
-
-
         </LinearLayout>
 
     </ScrollView>

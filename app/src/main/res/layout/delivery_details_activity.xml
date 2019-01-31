@@ -41,7 +41,7 @@
             android:layout_height="25dp"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="6dp"
-            android:src="@drawable/ic_back"/>
+            android:src="@drawable/back_button_image"/>
 
         <TextView
             android:id="@+id/txtVw_name"
