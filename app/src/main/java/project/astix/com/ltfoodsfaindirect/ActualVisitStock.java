@@ -105,12 +105,12 @@ public class ActualVisitStock extends Activity implements CategoryCommunicator, 
     public void initializeallViews() {
         divider = findViewById(R.id.divider);
         defaultProductRV = (RecyclerView) findViewById(R.id.default_products_recycler_view);
-        RecyclerView.LayoutManager layoutManagerForDefaultRV = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManagerForDefaultRV = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         defaultProductRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         defaultProductRV.setLayoutManager(layoutManagerForDefaultRV);
 
         filteredProductRV = (RecyclerView) findViewById(R.id.filtered_products_recycler_view);
-        RecyclerView.LayoutManager layoutManagerForFilteredRV = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager layoutManagerForFilteredRV = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         filteredProductRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         filteredProductRV.setLayoutManager(layoutManagerForFilteredRV);
 

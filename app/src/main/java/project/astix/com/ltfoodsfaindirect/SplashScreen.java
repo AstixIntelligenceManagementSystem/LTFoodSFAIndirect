@@ -92,7 +92,7 @@ public class SplashScreen extends AppCompatActivity
         imei = tManager.getDeviceId();
 
 
-     // imei="866741034767667";  // live user
+     imei="358461090460595";  // live user
 
        // imei="866741034767675";
        // imei="866343034574597";
@@ -107,7 +107,7 @@ public class SplashScreen extends AppCompatActivity
        // imei="865166033749030";
 
      //imei="354010084603910";
-       // imei="352672074232463";
+//        imei="352801088236109";
         CommonInfo.imei = imei;
         sPrefAttandance=getSharedPreferences(CommonInfo.AttandancePreference, MODE_PRIVATE);
         sPref=getSharedPreferences(CommonInfo.Preference, MODE_PRIVATE);

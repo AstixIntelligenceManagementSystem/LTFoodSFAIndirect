@@ -206,6 +206,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/default_products_recycler_view"
                 android:layout_width="match_parent"
+                android:scrollbars="vertical"
+                android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
+                android:fadeScrollbars="false"
                 android:layout_height="wrap_content" />
 
             <!--  <ScrollView
@@ -419,6 +422,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/filtered_products_recycler_view"
                 android:layout_width="match_parent"
+                android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
+                android:fadeScrollbars="false"
+                android:scrollbars="vertical"
                 android:layout_height="match_parent" />
         </LinearLayout>
 
